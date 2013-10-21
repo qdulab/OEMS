@@ -18,11 +18,7 @@
 					</button>
 					<a class='navbar-brand' href='#'>实验报告在线提交系统</a>
 				</div>
-				{% if user.is_authenticated %}
-					{% include "logout.html" %}
-				{% else %}
-					{% include "login_form.html" %}
-				{% endif %}
+				{% include "login_form.html" %}
 			</div>
 
 		</div>
