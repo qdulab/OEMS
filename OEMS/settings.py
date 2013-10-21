@@ -105,6 +105,11 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'teachers.backends.TeacherBackend'
+)
+
 ROOT_URLCONF = 'OEMS.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -129,6 +134,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'south',
+    'teachers',
 )
 
 # A sample logging configuration. The only tangible logging
