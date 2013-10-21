@@ -6,7 +6,7 @@
 		<title>{% block title %}在线实验报告管理系统 {% endblock %}</title>
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/bootstrap.css'/>
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/two_columns.css'/>
-		<script type='text/javascript' src='http://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.0.min.js'></script>
+		<script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.js'></script>
 	</head>
 	<body class='{% block body_class %} {% endblock %}' style='padding: 70px'>
 		<div class='navbar navbar-inverse navbar-fixed-top'>
@@ -19,8 +19,8 @@
 					</button>
 					<a class='navbar-brand' href='#'>实验报告在线提交系统</a>
 				</div>
+				{% include "login_form.html" %}
 			</div>
-
 		</div>
 		{% block body %}
 		{% endblock %}
