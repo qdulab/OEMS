@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
-from teachers.models import Teacher
 from django.utils.translation import ugettext_lazy as _
+
+from teacher.models import Teacher
 
 class LessonCategory(models.Model):
 	name = models.CharField(max_length=60, null=False, blank=False)
