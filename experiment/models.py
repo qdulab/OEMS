@@ -33,15 +33,12 @@ class Lesson(models.Model):
 
 
 class Experiment(models.Model):
-    name = models.CharField(null = False, blank = False, max_length = 128)
-    create_at = models.DateTimeField(auto_now_add = True)
-    subject = models.CharField(null = False, blank = False, max_length = 128)
-    content = models.TextField(null = False, blank = True)
+    name = models.CharField(null=False, blank=False, max_length=128)
+    create_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(null=False, blank=True)
     lesson = models.ForeignKey(Lesson)
-    status = models.BooleanField(blank = False)
-    deadline = models.DateTimeField(blank = True, null = True)
-    remark = models.TextField(null = True, blank = False)
-
+    deadline = models.DateTimeField(blank=True, null=True)
+    weight = models.IntegerField(null=False, blank=True)
     class Meta:
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiment')
