@@ -1,8 +1,9 @@
 from django.contrib.auth.models import check_password
 
-from teachers.models import Teacher
+from teacher.models import Teacher
 
 class TeacherBackend(object):
+    """ Teacher Model Auth Backend """
 
     def authenticate(self, username=None, password=None):
         try:
