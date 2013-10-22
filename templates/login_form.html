@@ -1,15 +1,16 @@
 {% if user.is_authenticated %}
 <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="#">{{user.name}}</a></li>
+    <li class="active"><a href="#">{{ username }}</a></li>
     <li><a href="#">登出</a></li>
 </ul>
 {% else %}
-    <form class="navbar-form navbar-right" action='login' methon='post'>
+    <!-- 登陆成功后跳转到本页, POST关键字有username及password -->
+    <form class="navbar-form navbar-right" action='' methon='POST'>
 	    <div class="form-group">
-		    <input type="text" placeholder="帐号" class="form-control">
+		    <input type="text" name="username" placeholder="帐号" class="form-control">
         </div>
 	    <div class="form-group">
-    	    <input type="password" placeholder="密码" class="form-control">
+    	    <input type="password" name="password" placeholder="密码" class="form-control">
 	    </div>
 	    <button type="submit" class="btn btn-success">登录</button> 
     </form>
