@@ -107,7 +107,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'teachers.backends.TeacherBackend'
+    'teacher.backends.TeacherBackend'
 )
 
 ROOT_URLCONF = 'OEMS.urls'
