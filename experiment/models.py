@@ -38,10 +38,12 @@ class Experiment(models.Model):
     content = models.TextField(null=False, blank=True)
     lesson = models.ForeignKey(Lesson)
     deadline = models.DateTimeField(blank=True, null=True)
-    weight = models.IntegerField(null=False, blank=True)
+    remark = models.TextField(null=False, blank=True)
+    
+    
     class Meta:
         verbose_name = _('Experiment')
-        verbose_name_plural = _('Experiment')
+        verbose_name_plural = _('Experiments')
 
     def __unicode__(self):
         return u"Experiment: " % self.name

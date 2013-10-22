@@ -1,2 +1,8 @@
-{% extends '../two_columns.html' %}
-
+{% extends "two_columns.html" %}
+{% block title %}查看实验{% endblock %}
+{% block substance_left %}
+{% include "side_bar.html" %}
+{% endblock %}
+{% block substance_right %}
+{% include "experiment/_experimentlist.html" %}
+{% endblock %}
