@@ -6,6 +6,7 @@
 {% block substance_right %}
 <div class='form-group' id='form_container'>
     <form class='form-horizontal' role='form' method='post' id='create_lesson_form'>
+        {% csrf_token %}
         <div class='form-group' id='input_lesson_name'>
             <label for='lesson_name' class='col-sm-2 control-label'>课程名称</label>
             <div class='col-sm-4'>
