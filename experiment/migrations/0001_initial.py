@@ -37,6 +37,20 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['lesson_id', 'user_id'])
 
+        # Adding model 'Experiment'
+        db.create_table(u'experiment_experiment', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=128)),
+            ('create_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('subject', self.gf('django.db.models.fields.CharField')(max_length=128)),
+            ('content', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('lesson', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['experiment.Lesson'])),
+            ('status', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('deadline', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('remark', self.gf('django.db.models.fields.TextField')(null=True)),
+        ))
+        db.send_create_signal(u'experiment', ['Experiment'])
+
 
     def backwards(self, orm):
         # Deleting model 'LessonCategory'
@@ -47,6 +61,9 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field students on 'Lesson'
         db.delete_table(db.shorten_name(u'experiment_lesson_students'))
+
+        # Deleting model 'Experiment'
+        db.delete_table(u'experiment_experiment')
 
 
     models = {
@@ -85,6 +102,18 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'experiment.experiment': {
+            'Meta': {'object_name': 'Experiment'},
+            'content': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'create_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'deadline': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'lesson': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['experiment.Lesson']"}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'remark': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'status': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'subject': ('django.db.models.fields.CharField', [], {'max_length': '128'})
         },
         u'experiment.lesson': {
             'Meta': {'object_name': 'Lesson'},
