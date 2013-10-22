@@ -17,7 +17,7 @@ class LessonCategory(models.Model):
 
 class Lesson(models.Model):
     category = models.ForeignKey(LessonCategory)
-    name = models.CharField(null=True, blank=False, max_length=64)
+    name = models.CharField(null=False, blank=False, max_length=64)
     teacher = models.ForeignKey(Teacher)
     status = models.BooleanField(blank=False)
     info = models.TextField(null=True, blank=True)
