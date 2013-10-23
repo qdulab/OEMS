@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from experiment.views import display_experiment, create_experiment, two_columns
+
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
