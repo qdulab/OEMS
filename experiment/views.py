@@ -4,14 +4,16 @@ from teacher.utils import is_teacher
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
 
+#@login_required()
+#@is_teacher(redirect_url='')
 def create_lesson_category(request):
     if request.method == 'POST':
-        data = request.POST
-        new_lesson_category = LessonCategory(name=data['lesson_category'])
-        new_lesson_category.save()
+        lesson_category = request.POST.get('lesson_category', None)
+        LessonCategory.objects.create(name=lesson_category)
         return render(request, 'experiment/create_succeed.html', {})
     else:
-        return render(request, 'experiment/create_lesson_category.html', {})
+        category = LessonCategory.objects.all()
+        return render(request, 'experiment/test.html', {'lesson_category': category})
 
 
 def display_experiment(request):

@@ -12,7 +12,7 @@ class LessonCategory(models.Model):
         verbose_name_plural = _('Lesson Categories')
 
     def __unicode__(self):
-        return u"Lesson Category:" % self.name
+        return u"Lesson Category: %s Created_at: %s" % (self.name, self.created_at)
 
 
 class Lesson(models.Model):
