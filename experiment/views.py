@@ -1,7 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from teacher.utils import is_teacher
 from experiment.models import Experiment
-<<<<<<< HEAD
 from experiment.models import LessonCategory, Lesson
 
 def create_lesson_category(request):
@@ -12,9 +12,7 @@ def create_lesson_category(request):
         return render(request, 'experiment/create_succeed.html', {})
     else:
         return render(request, 'experiment/create_lesson_category.html', {})
-=======
-from django.contrib.auth.decorators import login_required
->>>>>>> a3b80c4b755495e3163f1ca094cb69383fe5213a
+
 
 def display_experiment(request):
     experiment_list = Experiment.objects.all()
