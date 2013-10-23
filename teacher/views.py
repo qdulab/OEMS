@@ -6,14 +6,14 @@ from teacher.models import Teacher
 
 def teacher_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
     	teacher = authenticate(username=username, password=password)
-        if teacher is not None and teacher.is_active and isinstance(teacher,Teacher):
+        if teacher is not None and teacher.is_active and isinstance(teacher, Teacher):
             login(request, teacher)
-            return render(request,'teacher/dashboard.html', {'username':username})
+            return render(request, 'teacher/dashboard.html', {'username':username})
     else:
-        return render(request,'teacher/index.html')
+        return render(request, 'teacher/index.html')
 
 #TODO  add:(login_url='/teacher/login')
 @login_required()
