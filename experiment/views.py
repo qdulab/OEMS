@@ -13,7 +13,7 @@ def create_lesson_category(request):
         return render(request, 'experiment/create_succeed.html', {})
     else:
         category = LessonCategory.objects.all()
-        return render(request, 'experiment/test.html', {'lesson_category': category})
+        return render(request, 'experiment/create_lesson_category.html', {'lesson_category': category})
 
 
 def display_experiment(request):
