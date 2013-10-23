@@ -10,12 +10,20 @@ def is_teacher(function, redirect_url=''):
                   will return a HttpResponse which body is "hehe"
     """
     def wrap(request, *args, **kwargs):
-        if isinstance(request.user, Teacher):
+        try:
+            user = request.user
+        except AttributeError:
+            if redirect_url:
+                return redirect(redirect_url)
+            return HttpResponse('hehe')
+
+        if isinstance(user, Teacher):
             return function(request, *args, **kwargs)
         else:
             if redirect_url:
                 return redirect(redirect_url)
             return HttpResponse('hehe')
+
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
     return wrap
