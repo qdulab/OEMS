@@ -1,17 +1,18 @@
 {% if user.is_authenticated %}
+<!-- 登陆成功后跳转到本页, POST关键字有username及password -->
 <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="#">{{ username }}</a></li>
-    <li><a href="#">登出</a></li>
+    <li class="active"><a href="">{{ username }}</a></li> <!-- {% url 'my' %} -->
+    <li><a href="">登出</a></li>                          <!-- {% url 'logout' %} -->
 </ul>
 {% else %}
-    <!-- 登陆成功后跳转到本页, POST关键字有username及password -->
-    <form class="navbar-form navbar-right" action='' methon='POST'>
+    <form class="navbar-form navbar-right" action="login" method="POST">   <!-- need change -->
 	    <div class="form-group">
 		    <input type="text" name="username" placeholder="帐号" class="form-control">
         </div>
 	    <div class="form-group">
     	    <input type="password" name="password" placeholder="密码" class="form-control">
 	    </div>
-	    <button type="submit" class="btn btn-success">登录</button> 
+        <button type="submit" class="btn btn-success">登录</button>  
+        <a href="/resign" class="btn btn-success" role="button">注册</a>  <!-- need change --> 
     </form>
 {% endif %}
