@@ -17,5 +17,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^display-experiment/$', display_experiment, name="display_experiment_list"),
     url(r'^create_lesson_category/$', 'experiment.views.create_lesson_category', name='create_lesson_category'),
+    url(r'^create_lesson/$', 'experiment.views.create_lesson', name='create_lesson'),
     url(r'^create_experiment/$', create_experiment, name="create_experiment")
 )

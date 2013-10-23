@@ -29,7 +29,7 @@ class Lesson(models.Model):
         verbose_name_plural = _('Lessons')
 
     def __unicode__(self):
-        return u"Lesson: " % self.name
+        return u"Lesson: %s" % self.name
 
 
 class Experiment(models.Model):
