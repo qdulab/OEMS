@@ -5,7 +5,8 @@
     <li><a href="">登出</a></li>                          <!-- {% url 'logout' %} -->
 </ul>
 {% else %}
-    <form class="navbar-form navbar-right" action="login" method="POST">   <!-- need change -->
+    <form  class="navbar-form navbar-right" action="" method="POST">   <!-- need change -->
+        {% csrf_token %}
 	    <div class="form-group">
 		    <input type="text" name="username" placeholder="帐号" class="form-control">
         </div>
