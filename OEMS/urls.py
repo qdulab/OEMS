@@ -14,9 +14,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^index/$', 'experiment.views.index', name="index"), 
-    url(r'^display-experiment/$','experiment.views.display_experiment', name="display_experiment_list"),
-    url(r'^create_lesson_category/$', 'experiment.views.create_lesson_category', name='create_lesson_category'),
-    url(r'^create_experiment/$', 'experiment.views.create_experiment', name="create_experiment"),
-    url(r'^create_lesson/$', 'experiment.views.create_lesson', name='create_lesson'),
+    url(r'^teacher/$', 'teacher.views.teacher_login', name='teacher_index'),
+    url(r'^teacher/dashboard/$', 'teacher.views.teacher_login', name='teacher_dashboard'),
+    url(r'^teacher/logout/$', 'teacher.views.teacher_logout', name='teacher_logout'),
 )
