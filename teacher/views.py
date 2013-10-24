@@ -11,8 +11,7 @@ def teacher_login(request):
     	teacher = authenticate(username=username, password=password)
         if teacher is not None and isinstance(teacher, Teacher):
             login(request, teacher)
-            return render(request, 'teacher/dashboard.html',
-                          {'username':username})
+            return render(request, 'teacher/dashboard.html')
     return render(request, 'teacher/index.html')
 
 #TODO  add:(login_url='/teacher/login')
