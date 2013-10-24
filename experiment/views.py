@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
+
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
 from teacher.models import Teacher
 
-
-def index(request):
-    return render(request, '../templates/two_columns.html')
 
 #@login_required()
 #@is_teacher(redirect_url='')
