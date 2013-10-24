@@ -1,18 +1,16 @@
 from django.shortcuts import render, redirect
+
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
 from teacher.models import Teacher
 
-
-def index(request):
-    return render(request, '../templates/two_columns.html')
 
 #@login_required()
 #@is_teacher(redirect_url='')
 def create_lesson_category(request):
     """
     OMES teacher's permission,
-    use the information of request.POST to create a lesson category, 
+    use the information of request.POST to create a lesson category,
     put the information into LessonCategory table of database
     """
     if request.method == 'POST':
@@ -31,7 +29,7 @@ def create_lesson_category(request):
 def create_lesson(request):
     """
     OMES teacher's permission,
-    use the information of request.POST to create a lesson, 
+    use the information of request.POST to create a lesson,
     put the information into LessonCategory table of database
     """
     if request.method == 'POST':
