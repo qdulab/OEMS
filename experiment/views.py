@@ -29,7 +29,7 @@ def create_lesson(request):
             category = LessonCategory.objects.get(name=lesson_category)
             lesson_info = request.POST.get('lesson_info')
             teacher_name = request.user.get_username()
-            teacher = Teacher.objects.get(name=teacher_name)
+            teacher = Teacher.objects.get(username=teacher_name)
             Lesson.objects.create(name=lesson_name, category=category,
                                   teacher=teacher, info=lesson_info,
                                   status=True)
