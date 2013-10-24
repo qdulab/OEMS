@@ -35,23 +35,24 @@ def create_lesson(request):
                      {'lesson_categories': lesson_categories})
 
 
+#@login_required()
+#@is_teacher('index')
 def display_experiment(request):
     experiment_list = Experiment.objects.all()
-    return render(request, '../templates/experiment/display_experiments.html',
-                  {experiment_list: experiment_list})
+    return render(request, 'experiment/display_experiments.html',
+                  {'experiment_list': experiment_list})
 
 #@login_required()
 #@is_teacher('index')
 def create_experiment(request):
     if request.method == 'POST' :
-        experiment_name = request.POST.get("experiment_name")
-        experiment_content = request.POST.get("experiment_content")
-        experiment_deadline = request.POST.get("deadline")
-        experiment_remark = request.POST.get("remark")
-        experiment_weight = request.POST.get("weight")
-        experiment_lesson = Lesson.objects.get(id=1)
-        experiment = Experiment(name=experiment_name, content=experiment_content, deadline=experiment_deadline, remark=experiment_remark,  lesson=experiment_lesson)
+        name = request.POST.get("experiment_name", None)
+        content = request.POST.get("experiment_content", None)
+        deadline = request.POST.get("deadline", None)
+        remark = request.POST.get("remark", None)
+#        weight = request.POST.get("weight", None)
+        experiment = Experiment(name=name, content=content, deadline=deadline, remark=remark,  lesson=experiment_lesson)
         experiment.save()
-        return render(request, '../templates/experiment/create_experiment_success.html')
+        return render(request, 'experiment/create_experiment_success.html')
     else:
-        return render(request, '../templates/experiment/create_experiment.html')
+        return render(request, 'experiment/create_experiment.html')

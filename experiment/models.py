@@ -46,5 +46,5 @@ class Experiment(models.Model):
         verbose_name_plural = _('Experiments')
 
     def __unicode__(self):
-        return u"Experiment: " % self.name
+        return u"Experiment: %s" % self.name
 	

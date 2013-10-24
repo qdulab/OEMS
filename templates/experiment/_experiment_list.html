@@ -3,15 +3,13 @@
     <thead class="align-center">
         <th class="align-center">实验名称</th>
         <th class="align-center">截止时间</th>
-        <th class="align-center">提交人数</th>
     </thead>
     <tbody class="align-center">
         {% for experiment in experiment_list %}
         <tr>
-            <td>{{experiment.name}}</td>
+            <td><a href="#">{{experiment.name}}</a></td>
             <td>{{experiment.deadline}}</td>
-            <td>{{experiment.submit_count}}</td>
-        </tr>
+         </tr>
         {% endfor %}
     </tbody>
     {% else %}
