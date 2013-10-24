@@ -4,6 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 from teacher.models import Teacher
 
 class LessonCategory(models.Model):
+    """
+    OMES LessonCategory have attributes name and created_at
+    """
     name = models.CharField(max_length=60, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -12,10 +15,15 @@ class LessonCategory(models.Model):
         verbose_name_plural = _('Lesson Categories')
 
     def __unicode__(self):
-        return u"Lesson Category: %s Created_at: %s" % (self.name, self.created_at)
+        return u"Lesson Category: %s Created_at: %s" % (self.name,
+                                                        self.created_at)
 
 
 class Lesson(models.Model):
+    """
+    OMES Lesson, have attributes name, category, teacher,
+    status, info, students, create_at
+    """
     category = models.ForeignKey(LessonCategory)
     name = models.CharField(null=False, blank=False, max_length=64)
     teacher = models.ForeignKey(Teacher)
