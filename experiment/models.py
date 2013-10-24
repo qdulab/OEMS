@@ -7,7 +7,8 @@ class LessonCategory(models.Model):
     """
     OMES LessonCategory have attributes name and created_at
     """
-    name = models.CharField(max_length=60, null=False, blank=False)
+    name = models.CharField(max_length=60, null=False, blank=False,
+                            unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
