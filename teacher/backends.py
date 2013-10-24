@@ -12,7 +12,7 @@ class TeacherBackend(object):
         """
         try:
             teacher = Teacher.objects.get(username=username)
-        except Teacher.DoesNotExist:
+        except Teacher.DoesNotExcept:
             return None
         if check_password(password, teacher.password):
             return teacher
@@ -22,5 +22,5 @@ class TeacherBackend(object):
         """ Get Teacher instance by pk, teacher_id is pk"""
         try:
             return Teacher.objects.get(pk=teacher_id)
-        except Teacher.DoesNotExist:
+        except Teacher.DoesNotExcept:
             return None

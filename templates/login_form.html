@@ -1,6 +1,6 @@
 {% if user.is_authenticated %}
 <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="#">{{ username }}</a></li>
+    <li class="active"><a href="#">{{user.name}}</a></li>
     <li><a href="#">登出</a></li>
 </ul>
 {% else %}

@@ -1,13 +1,22 @@
-# Create your views here.
 from django.shortcuts import render
-from teacher.utils import is_teacher
-from experiment.models import Experiment, Lesson
-from django.contrib.auth.decorators import login_required
-import datetime
+from experiment.models import Experiment
+from experiment.models import LessonCategory, Lesson
 
 
 def index(request):
     return render(request, '../templates/two_columns.html')
+
+#@login_required()
+#@is_teacher(redirect_url='')
+def create_lesson_category(request):
+    if request.method == 'POST':
+        lesson_category = request.POST.get('lesson_category', None)
+        LessonCategory.objects.create(name=lesson_category)
+        return render(request, 'experiment/create_succeed.html', {})
+    else:
+        category = LessonCategory.objects.all()
+        return render(request, 'experiment/create_lesson_category.html', {'lesson_category': category})
+
 
 def display_experiment(request):
     experiment_list = Experiment.objects.all()

@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from experiment.views import display_experiment, create_experiment, index
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -15,7 +14,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^index/$', index, name="index"), 
-    url(r'^display-experiment/$', display_experiment, name="display_experiment_list"),
-    url(r'^create_experiment/$', create_experiment, name="create_experiment")
+    url(r'^index/$', 'experiment.views.index', name="index"), 
+    url(r'^display-experiment/$','experiment.views.display_experiment', name="display_experiment_list"),
+    url(r'^create_lesson_category/$', 'experiment.views.create_lesson_category', name='create_lesson_category'),
+    url(r'^create_experiment/$', 'experiment.views.create_experiment', name="create_experiment"),
 )
