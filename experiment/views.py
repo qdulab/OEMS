@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
 from teacher.models import Teacher
+from teacher.utils import is_teacher
 
 
-#@login_required()
-#@is_teacher(redirect_url='')
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def create_lesson_category(request):
     if request.method == 'POST':
         lesson_category = request.POST.get('lesson_category', None)
@@ -19,8 +21,8 @@ def create_lesson_category(request):
         return render(request, 'experiment/create_lesson_category.html', {})
 
 
-#@login_required()
-#@is_teacher(redirect_url='')
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def create_lesson(request):
     if request.method == 'POST':
         lesson_name = request.POST.get('lesson_name')
