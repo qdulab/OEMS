@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 
 from teacher.models import Teacher
 
+
 def is_teacher(redirect_url=''):
     """This is a view decorator, to valid if teacher has login
        login: call function as normal
