@@ -8,23 +8,23 @@
     {% csrf_token %}
     <div class="form-group">
         <label for="experiment_name">实验名称</label>
-        <input type="text" maxlength="30" id="experiment_name" placeholder="请输入您想创建的实验名称" class="form-control" name="experiment_name">
+        <input type="text" maxlength="30" id="experiment_name" placeholder="请输入您想创建的实验名称" class="form-control" name="experiment_name" required="required">
     </div>
     <div class="form-group">
         <label for="experiment_content">实验内容</label>
-        <input type="password" class="form-control" id="experiment_content" placeholder="请输入实验的内容简介" name = "experiment_content">
+        <input type="text" class="form-control" id="experiment_content" placeholder="请输入实验的内容简介" name = "experiment_content" required="required">
     </div>
     <div class="form-group">
         <label for="deadline">截止时间</label>
-        <input type="date" class="form-control" id="deadline" placeholder="作业截止时间" name="deadline">
+        <input type="date" class="form-control" id="deadline" placeholder="作业截止时间" name="deadline" required="required">
     </div>
     <div class="form-group">
         <label for="remark">备注</label>
-        <input type="textarea" class="form-control" id="remark" placeholder="请在这里添加备注" name="remark">
+        <input type="textarea" class="form-control" id="remark" placeholder="请在这里添加备注" name="remark" >
     </div>
     <div class="form-group">
         <label for="weight">权重</label>
-        <input type="textarea" class="form-control" id="weight" placeholder="设定本次实验所占比重" name="weight">
+        <input type="textarea" class="form-control" id="weight" placeholder="设定本次实验所占比重" name="weight" required="required">
     </div>
     <!--
     <div class="checkbox">

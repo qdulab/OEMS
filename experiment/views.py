@@ -49,8 +49,9 @@ def create_experiment(request):
         experiment_deadline = request.POST.get("deadline")
         experiment_remark = request.POST.get("remark")
         experiment_weight = request.POST.get("weight")
-        experiment_lesson = Lesson.objects.filter(id=request.POST.get("lesson_id"))
-        experiment = Experiment(name=experiment_name, content=experiment_content, deadline=experiment_deadline, remark=experiment_remark, weight=experiment_weight, lesson=experiment_lesson)
+        experiment_lesson = Lesson.objects.get(id=1)
+        experiment = Experiment(name=experiment_name, content=experiment_content, deadline=experiment_deadline, remark=experiment_remark,  lesson=experiment_lesson)
         experiment.save()
+        return render(request, '../templates/experiment/create_experiment_success.html')
     else:
         return render(request, '../templates/experiment/create_experiment.html')
