@@ -10,11 +10,6 @@ def index(request):
 #@login_required()
 #@is_teacher(redirect_url='')
 def create_lesson_category(request):
-    """
-    OMES teacher's permission,
-    use the information of request.POST to create a lesson category, 
-    put the information into LessonCategory table of database
-    """
     if request.method == 'POST':
         lesson_category = request.POST.get('lesson_category', None)
         if lesson_category:
@@ -29,11 +24,6 @@ def create_lesson_category(request):
 #@login_required()
 #@is_teacher(redirect_url='')
 def create_lesson(request):
-    """
-    OMES teacher's permission,
-    use the information of request.POST to create a lesson, 
-    put the information into LessonCategory table of database
-    """
     if request.method == 'POST':
         lesson_name = request.POST.get('lesson_name')
         if lesson_name:
