@@ -8,7 +8,7 @@
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/two_columns.css'/>
 		<script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.js'></script>
 	</head>
-	<body style='padding: 70px'>
+	<body class='{% block body_class %} {% endblock %}' style='padding: 70px'>
 		{% block body %}
 		{% endblock %}
 	</body>
