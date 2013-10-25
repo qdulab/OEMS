@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="container bs-docs-container">
+    <div class='navbar navbar-inverse navbar-fixed-top'>
+        {% block nav_bar %} {% endblock %}
+    </div>
 	<div class="row">
 		<div class="col-md-3">{% block substance_left %}{% endblock %}</div>
 		<div class="col-md-9">{% block substance_right %}{% endblock %}</div>
