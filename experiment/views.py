@@ -28,8 +28,11 @@ def create_lesson(request):
         lesson_name = request.POST.get('lesson_name')
         if lesson_name:
             lesson_category = request.POST.get('lesson_category', None)
-            category = LessonCategory.objects.get(name=lesson_category)
-            lesson_info = request.POST.get('lesson_info')
+            try:
+                category = LessonCategory.objects.get(name=lesson_category)
+            except LessonCategory.DoesNotExist:
+                pass
+            lesson_info = request.POST.get('lesson_info', None)
             teacher_name = request.user.get_username()
             teacher = Teacher.objects.get(username=teacher_name)
             Lesson.objects.create(name=lesson_name, category=category,
