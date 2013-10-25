@@ -10,13 +10,10 @@ from teacher.utils import is_teacher
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson_category(request):
-    if request.method == 'POST':
-        lesson_category = request.POST.get('lesson_category', None)
-        if lesson_category:
-            LessonCategory.objects.create(name=lesson_category)
-            return render(request, 'experiment/create_succeed.html', {})
-        else:
-            return redirect('create_lesson_category')
+    lesson_category = request.POST.get('lesson_category', None)
+    if lesson_category:
+        LessonCategory.objects.create(name=lesson_category)
+        return render(request, 'experiment/create_succeed.html', {})
     else:
         return render(request, 'experiment/create_lesson_category.html', {})
 
@@ -24,23 +21,19 @@ def create_lesson_category(request):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson(request):
-    if request.method == 'POST':
-        lesson_name = request.POST.get('lesson_name')
-        if lesson_name:
-            lesson_category = request.POST.get('lesson_category', None)
-            try:
-                category = LessonCategory.objects.get(name=lesson_category)
-            except LessonCategory.DoesNotExist:
-                pass
-            lesson_info = request.POST.get('lesson_info', None)
-            teacher_name = request.user.get_username()
-            teacher = Teacher.objects.get(username=teacher_name)
-            Lesson.objects.create(name=lesson_name, category=category,
-                                  teacher=teacher, info=lesson_info,
-                                  status=True)
-            return render(request, 'experiment/create_succeed.html', {})
-        else:
-            return redirect('create_lesson')
+    lesson_name = request.POST.get('lesson_name', None)
+    if lesson_name:
+        lesson_category = request.POST.get('lesson_category', None)
+        try:
+            category = LessonCategory.objects.get(name=lesson_category)
+        except LessonCategory.DoesNotExist:
+            pass
+        lesson_info = request.POST.get('lesson_info', None)
+        teacher = request.user
+        Lesson.objects.create(name=lesson_name, category=category,
+                              teacher=teacher, info=lesson_info,
+                              status=True)
+        return render(request, 'experiment/create_succeed.html', {})
     else:
         lesson_categories = LessonCategory.objects.all().values('name')
         return render(request, 'experiment/create_lesson.html',
