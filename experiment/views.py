@@ -37,27 +37,43 @@ def create_lesson(request):
     else:
         lesson_categories = LessonCategory.objects.all().values('name')
         return render(request, 'experiment/create_lesson.html',
-                     {'lesson_categories': lesson_categories})
+                      {'lesson_categories': lesson_categories})
 
 
-#@login_required()
-#@is_teacher('index')
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def display_experiment(request):
-    experiment_list = Experiment.objects.all()
+    experiment_list = Experiment.objects.all().values(
+        name=request.user.username())
     return render(request, 'experiment/display_experiments.html',
                   {'experiment_list': experiment_list})
 
-#@login_required()
-#@is_teacher('index')
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def create_experiment(request):
-    if request.method == 'POST' :
-        name = request.POST.get("experiment_name", None)
+    name = request.POST.get('experiment_name', None)
+    username = request.user.username
+    teacher = Teacher.objects.get(username=username)
+    lesson_ls = Lesson.objects.filter(teacher=teacher)
+    if name:
         content = request.POST.get("experiment_content", None)
         deadline = request.POST.get("deadline", None)
         remark = request.POST.get("remark", None)
 #        weight = request.POST.get("weight", None)
-        experiment = Experiment(name=name, content=content, deadline=deadline, remark=remark,  lesson=experiment_lesson)
+        lesson_id = request.POST.get("lesson_id", None)
+        try:
+            lesson_object = Lesson.objects.get(id=lesson_id)
+        except Lesson.DoesNotExist:
+             return render(request, 'experiment/create_lesson.html')
+        experiment = Experiment(
+            name=name,
+            content=content,
+            deadline=deadline,
+            remark=remark,
+            lesson=lesson_object)
         experiment.save()
         return render(request, 'experiment/create_experiment_success.html')
+
     else:
-        return render(request, 'experiment/create_experiment.html')
+        return render(request, 'experiment/create_experiment.html',  {"lesson_list": lesson_ls})
