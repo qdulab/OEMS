@@ -65,7 +65,7 @@ def create_experiment(request):
         try:
             lesson_object = Lesson.objects.get(id=lesson_id)
         except Lesson.DoesNotExist:
-             return render(request, 'experiment/create_lesson.html')
+             return render(request, 'experiment/base.html')
         experiment = Experiment(
             name=name,
             content=content,
@@ -74,6 +74,5 @@ def create_experiment(request):
             lesson=lesson_object)
         experiment.save()
         return render(request, 'experiment/create_experiment_success.html')
-
     else:
         return render(request, 'experiment/create_experiment.html',  {"lesson_list": lesson_ls})
