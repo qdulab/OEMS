@@ -1,16 +1,13 @@
-{% extends 'two_columns.html'%}
+{% extends 'teacher/dashboard.html'%}
 
-{% block substance_left %}
-{% include 'side_bar.html' %}
-{% endblock %}
-{% block substance_right %}
+{% block right %}
 <form role="form" action="" method="POST">
     {% csrf_token %}
     <div class="form-group">
         <label for="lesson_select">
             请选择实验所属科目
         </label>
-        <select id="lesson_id" class="form-control">
+        <select id="lesson_select" name="lesson_id" class="form-control">
             {% for lesson in lesson_list %}
             <option value="{{ lesson.id }}">{{ lesson.name }}</option>
             {% endfor %}
