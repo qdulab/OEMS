@@ -7,8 +7,8 @@ from teacher.models import Teacher
 from teacher.utils import is_teacher
 
 
-def create_succeed(request):
-    return render(request, 'teacher/create_succeed.html', {})
+def created_success(request):
+    return render(request, 'teacher/created_success.html', {})
 
 #@login_required(login_url='teacher')
 #@is_teacher(redirect_url='')
@@ -16,7 +16,7 @@ def create_lesson_category(request):
     lesson_category = request.POST.get('lesson_category', None)
     if lesson_category:
         LessonCategory.objects.create(name=lesson_category)
-        return redirect('create_succeed')
+        return redirect('created_success')
     else:
         return render(request, 'teacher/create_lesson_category.html', {})
 
