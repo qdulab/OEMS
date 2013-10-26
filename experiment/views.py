@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.http import Http404
 
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
@@ -45,10 +46,13 @@ def create_lesson(request):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def display_experiment(request):
-#    username = request.user.username
-#    teacher = Teacher.objects.get(username=username)
-    experiment_list = Experiment.objects.all()
+def display_experiment(request, lesson_id):
+    teacher = request.user
+    try:
+        lesson = Lesson.objects.get(id=lesson_id, teacher=teacher)
+    except Lesson.DoesNotExist:
+        raise Http404
+    experiment_list = Experiment.objects.filter(lesson=lesson)
     return render(request, 'teacher/display_experiments.html',
                   {'experiment_list': experiment_list})
 
@@ -56,8 +60,8 @@ def display_experiment(request):
 #@login_required(login_url='teacher')
 #@is_teacher(redirect_url='')
 def display_lessons(request):
-    #teacher = Teacher.objects.get(username=requset.user.get('usertname',None), None)
-    lesson_list = Lesson.objects.all()
+    teacher = request.user
+    lesson_list = Lesson.objects.filter(teacher=teacher)
     return render(request, 'teacher/display_lessons.html',
                   {'lesson_list': lesson_list})
 

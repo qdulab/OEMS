@@ -9,7 +9,7 @@
     <tbody class="align-center">
         {% for lesson in lesson_list %}
         <tr>
-            <td><a href="#">{{lesson.name}}</a></td>
+            <td><a href="{% url 'display_experiment' lesson.id %}">{{lesson.name}}</a></td>
             <td>{{lesson.status}}</td>
             <td>{{lesson.info}}</td>
             <td>{{lesson.create_at}}</td>
