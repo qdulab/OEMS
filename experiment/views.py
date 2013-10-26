@@ -63,8 +63,10 @@ def create_experiment(request):
 #        weight = request.POST.get("weight", None)
         lesson_id = request.POST.get("lesson_id", None)
         try:
-            lesson_object = Lesson.objects.get(id=lesson_id)
+            lesson_object = Lesson.objects.get(id=int(lesson_id))
         except Lesson.DoesNotExist:
+            return render(request, 'experiment/base.html')
+        except ValueError:
             return render(request, 'experiment/base.html')
         experiment = Experiment(name=name, content=content, deadline=deadline,
                                 remark=remark, lesson=lesson_object)
