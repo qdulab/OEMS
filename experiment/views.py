@@ -44,7 +44,7 @@ def create_lesson(request):
 @is_teacher(redirect_url='')
 def display_experiment(request):
     experiment_list = Experiment.objects.all().values(
-        name=request.user.username())
+        name=request.user.username)
     return render(request, 'experiment/display_experiments.html',
                   {'experiment_list': experiment_list})
 
@@ -65,14 +65,12 @@ def create_experiment(request):
         try:
             lesson_object = Lesson.objects.get(id=lesson_id)
         except Lesson.DoesNotExist:
-             return render(request, 'experiment/base.html')
-        experiment = Experiment(
-            name=name,
-            content=content,
-            deadline=deadline,
-            remark=remark,
-            lesson=lesson_object)
+            return render(request, 'experiment/base.html')
+        experiment = Experiment(name=name, content=content, deadline=deadline,
+                                remark=remark, lesson=lesson_object)
         experiment.save()
         return render(request, 'experiment/create_experiment_success.html')
     else:
-        return render(request, 'experiment/create_experiment.html',  {"lesson_list": lesson_ls})
+        return (render(request,'experiment/create_experiment.html',
+                {"lesson_list": lesson_ls}))
+
