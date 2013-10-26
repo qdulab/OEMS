@@ -14,10 +14,12 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^account/login/$', 'teacher.views.teacher_login', name='teacher'),
-    url(r'^teacher/$', 'teacher.views.teacher_login', name='teacher_index'),
-    url(r'^teacher/dashboard/$', 'teacher.views.teacher_login', name='teacher_dashboard'),
-    url(r'^teacher/logout/$', 'teacher.views.teacher_logout', name='teacher_logout'),
+
+    url(r'^teacher/$', 'teacher.views.index', name='teacher_index'),
+    url(r'^teacher/dashboard/$', 'teacher.views.dashboard', name='teacher_dashboard'),
+    url(r'^teacher/signin/$', 'teacher.views.sign_in', name='teacher_signin'),
+    url(r'^teacher/signout/$', 'teacher.views.sign_out', name='teacher_signout'),
+
     url(r'^teacher/display-experiment/$','experiment.views.display_experiment', name="display_experiment_list"),
     url(r'^teacher/create_lesson_category/$', 'experiment.views.create_lesson_category', name='create_lesson_category'),
     url(r'^teacher/create_experiment/$', 'experiment.views.create_experiment', name="create_experiment"),

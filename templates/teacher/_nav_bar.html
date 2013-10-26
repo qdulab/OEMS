@@ -1,4 +1,4 @@
-<div class='navbar navbar-inverse navbar-fixed-top'>
+<div class='navbar navbar-inverse'>
     <div class='container'>
 	    <div class='navbar-header'>
 		    <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
@@ -13,7 +13,7 @@
         <!-- 登陆成功后跳转到本页, POST关键字有username及password -->
         <ul class="nav nav-pills pull-right">
             <li class="active"><a href="">{{ user.get_username }}</a></li>
-            <li><a href="{% url 'teacher_logout' %}">登出</a></li>
+            <li><a href="{% url 'teacher_signout' %}">登出</a></li>
         </ul>
         {% endif %}
 
