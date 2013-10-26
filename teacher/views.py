@@ -13,7 +13,10 @@ def dashboard(request):
 
 
 def index(request):
+    if hasattr(request, 'user') and isinstance(request.user, Teacher):
+        return redirect('teacher_dashboard')
     return render(request, 'teacher/index.html')
+
 
 def sign_in(request):
     if request.method == 'POST':
