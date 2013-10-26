@@ -7,19 +7,22 @@ from teacher.models import Teacher
 from teacher.utils import is_teacher
 
 
-@login_required(login_url='teacher')
-@is_teacher(redirect_url='')
+def create_succeed(request):
+    return render(request, 'teacher/create_succeed.html', {})
+
+#@login_required(login_url='teacher')
+#@is_teacher(redirect_url='')
 def create_lesson_category(request):
     lesson_category = request.POST.get('lesson_category', None)
     if lesson_category:
         LessonCategory.objects.create(name=lesson_category)
-        return render(request, 'experiment/create_succeed.html', {})
+        return redirect('create_succeed')
     else:
-        return render(request, 'experiment/create_lesson_category.html', {})
+        return render(request, 'teacher/create_lesson_category.html', {})
 
 
-@login_required(login_url='teacher')
-@is_teacher(redirect_url='')
+#@login_required(login_url='teacher')
+#@is_teacher(redirect_url='')
 def create_lesson(request):
     lesson_name = request.POST.get('lesson_name', None)
     if lesson_name:
@@ -33,10 +36,10 @@ def create_lesson(request):
         Lesson.objects.create(name=lesson_name, category=category,
                               teacher=teacher, info=lesson_info,
                               status=True)
-        return render(request, 'experiment/create_succeed.html', {})
+        return redirect('create_succeed')
     else:
         lesson_categories = LessonCategory.objects.all().values('name')
-        return render(request, 'experiment/create_lesson.html',
+        return render(request, 'teacher/create_lesson.html',
                       {'lesson_categories': lesson_categories})
 
 
@@ -65,7 +68,7 @@ def create_experiment(request):
         try:
             lesson_object = Lesson.objects.get(id=lesson_id)
         except Lesson.DoesNotExist:
-             return render(request, 'experiment/base.html')
+            return render(request, 'experiment/base.html')
         experiment = Experiment(
             name=name,
             content=content,
