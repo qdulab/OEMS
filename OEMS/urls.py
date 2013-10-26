@@ -25,4 +25,5 @@ urlpatterns = patterns('',
     url(r'^teacher/create_lesson_category/$', 'experiment.views.create_lesson_category', name='create_lesson_category'),
     url(r'^teacher/create_experiment/$', 'experiment.views.create_experiment', name="create_experiment"),
     url(r'^teacher/create_lesson/$', 'experiment.views.create_lesson', name='create_lesson'),
+    url(r'^teacher/display_lessons/$','experiment.views.display_lessons', name="display_lessons"),
 )
