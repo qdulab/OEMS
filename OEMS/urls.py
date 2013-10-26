@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     url(r'^teacher/signout/$', 'teacher.views.sign_out', name='teacher_signout'),
 
     url(r'^create_succeed/$', 'experiment.views.create_succeed', name='create_succeed'),
-    url(r'^teacher/display-experiment/$','experiment.views.display_experiment', name="display_experiment_list"),
+    url(r'^teacher/display_experiment/$','experiment.views.display_experiment', name="display_experiment_list"),
     url(r'^teacher/create_lesson_category/$', 'experiment.views.create_lesson_category', name='create_lesson_category'),
     url(r'^teacher/create_experiment/$', 'experiment.views.create_experiment', name="create_experiment"),
     url(r'^teacher/create_lesson/$', 'experiment.views.create_lesson', name='create_lesson'),
