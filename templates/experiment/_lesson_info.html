@@ -1,0 +1,30 @@
+<div class="page-header">
+    <h1>{{ lesson.name }}<small>{{ lesson_category_name }}</small></h1>
+</div>
+<table class="table table-bordered">
+    <tr>
+        <td>课程名</td>
+        <td colspan="2">{{ lesson.name }}</td>
+        <td colspan="2">所属课程</td>
+        <td>{{ lesson_category_name }}</td>
+    </tr>
+    <tr>
+        <td>教师</td>
+        <td colspan="2">{{ lesson_teacher }}</td>
+        <td colspan="2">开课时间</td>
+        <td>{{ lesson.create_at }}2012年11月11日</td>
+    </tr>
+    <tr>
+        <td style="white-space: nowrap">课程状态</td>
+        <td>{{ lesson.status }}正常上课</td>
+        <td>总学生数</td>
+        <td>{{ lesson_student_number }}100</td>
+        <td>作业提交数</td>
+        <td>{{ lesson_submit_number }}100</td>
+     </tr>
+     <tr>
+         <td>备注</td>
+         <td colspan="5">{{ lesson.info }}</td>
+     </tr>
+</table>
+
