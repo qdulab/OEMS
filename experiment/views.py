@@ -53,7 +53,7 @@ def display_experiment(request, lesson_id):
     except Lesson.DoesNotExist:
         raise Http404
     experiment_list = Experiment.objects.filter(lesson=lesson)
-    return render(request, 'experiment/display_experiments.html',
+    return render(request, 'teacher/display_experiments.html',
                   {'experiment_list': experiment_list})
 
 
@@ -88,8 +88,8 @@ def create_experiment(request):
         experiment = Experiment(name=name, content=content, deadline=deadline,
                                 remark=remark, lesson=lesson_object)
         experiment.save()
-        return render(request, 'experiment/create_experiment_success.html')
+        return render(request, 'teacher/create_experiment_success.html')
     else:
-        return render(request,'experiment/create_experiment.html',
+        return render(request,'teacher/create_experiment.html',
                       {"lesson_list": lesson_ls})
 
