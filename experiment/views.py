@@ -53,7 +53,7 @@ def display_experiment(request, lesson_id):
     except Lesson.DoesNotExist:
         raise Http404
     experiment_list = Experiment.objects.filter(lesson=lesson)
-    return render(request, 'teacher/display_experiments.html',
+    return render(request, 'teacher/display_experiment.html',
                   {'experiment_list': experiment_list})
 
 
@@ -62,7 +62,7 @@ def display_experiment(request, lesson_id):
 def display_lessons(request):
     teacher = request.user
     lesson_list = Lesson.objects.filter(teacher=teacher)
-    return render(request, 'teacher/display_lessons.html',
+    return render(request, 'teacher/display_lesson.html',
                   {'lesson_list': lesson_list})
 
 
@@ -72,7 +72,7 @@ def create_experiment(request):
     name = request.POST.get('experiment_name', None)
     username = request.user.username
     teacher = Teacher.objects.get(username=username)
-    lesson_ls = Lesson.objects.filter(teacher=teacher)
+    lesson_list = Lesson.objects.filter(teacher=teacher)
     if name:
         content = request.POST.get("experiment_content", None)
         deadline = request.POST.get("deadline", None)
@@ -80,16 +80,16 @@ def create_experiment(request):
 #        weight = request.POST.get("weight", None)
         lesson_id = request.POST.get("lesson_id", None)
         try:
-            lesson_object = Lesson.objects.get(id=lesson_id)
+            lesson = Lesson.objects.get(id=lesson_id)
         except Lesson.DoesNotExist:
             return render(request, "teacher/base.html")
         except ValueError:
             return render(request, "teacher/dashboard.html")
         experiment = Experiment(name=name, content=content, deadline=deadline,
-                                remark=remark, lesson=lesson_object)
+                                remark=remark, lesson=lesson)
         experiment.save()
         return render(request, 'teacher/create_experiment_success.html')
     else:
         return render(request,'teacher/create_experiment.html',
-                      {"lesson_list": lesson_ls})
+                      {"lesson_list": lesson_list})
 
