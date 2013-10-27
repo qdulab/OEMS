@@ -11,8 +11,8 @@ from teacher.utils import is_teacher
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
 
-#@login_required(login_url='teacher')
-#@is_teacher(redirect_url='')
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def create_lesson_category(request):
     lesson_category = request.POST.get('lesson_category', None)
     if lesson_category:
@@ -22,8 +22,8 @@ def create_lesson_category(request):
         return render(request, 'teacher/create_lesson_category.html', {})
 
 
-#@login_required(login_url='teacher')
-#@is_teacher(redirect_url='')
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def create_lesson(request):
     lesson_name = request.POST.get('lesson_name', None)
     if lesson_name:
@@ -57,12 +57,12 @@ def display_experiment(request, lesson_id):
                   {'experiment_list': experiment_list})
 
 
-#@login_required(login_url='teacher')
-#@is_teacher(redirect_url='')
-def display_lessons(request):
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def lesson_list(request):
     teacher = request.user
     lesson_list = Lesson.objects.filter(teacher=teacher)
-    return render(request, 'teacher/display_lesson.html',
+    return render(request, 'teacher/lesson_list.html',
                   {'lesson_list': lesson_list})
 
 
