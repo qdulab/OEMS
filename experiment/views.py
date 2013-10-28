@@ -84,6 +84,7 @@ def experiment_information(request, experiment_id):
                    'experiment_id': experiment_id
                   })
 
+
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def lesson_list(request):
