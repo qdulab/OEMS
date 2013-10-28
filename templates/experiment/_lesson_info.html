@@ -1,5 +1,12 @@
 <div class="page-header">
-    <h1>{{ lesson.name }}<small>{{ lesson_category_name }}</small></h1>
+    <div class="row">
+        <div class="col-md-10">
+            <h1>{{ lesson.name }}<small>{{ lesson.category.name }}</small></h1>
+        </div>
+        <div class="col-md-2">
+            <a href= "{% url 'create_experiment' %}"><button type="button" class="btn btn-primary btn-lg">创建实验</button></a>
+        </div>
+    </div>
 </div>
 <table class="table table-bordered">
     <tr>
@@ -21,10 +28,10 @@
         <td>{{ lesson.students.count }}</td>
         <td>实验总数</td>
         <td>{{ experiment_list.count }}</td>
-     </tr>
-     <tr>
-         <td>备注</td>
-         <td colspan="5">{{ lesson.info }}</td>
-     </tr>
+    </tr>
+    <tr>
+        <td>备注</td>
+        <td colspan="5">{{ lesson.info }}</td>
+    </tr>
 </table>
 

@@ -4,7 +4,8 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Examples:
     # url(r'^$', 'OEMS.views.home', name='home'),
     # url(r'^OEMS/', include('OEMS.foo.urls')),
@@ -23,7 +24,7 @@ urlpatterns = patterns('',
     url(r'^teacher/experiment/created_success/$',
          'experiment.views.created_success', name='created_success'),
     url(r'^teacher/lesson/(?P<lesson_id>\d+)/$',
-        'experiment.views.lesson_information', name="experiment_info"),
+        'experiment.views.lesson_information', name="lesson_info"),
     url(r'^teacher/create_lesson_category/$',
         'experiment.views.create_lesson_category',
         name='create_lesson_category'),
@@ -33,4 +34,7 @@ urlpatterns = patterns('',
         name='create_lesson'),
     url(r'^teacher/lesson_list/$','experiment.views.lesson_list',
         name="teacher_lesson_list"),
+    url(r'^teacher/experiment/create_success/$',
+        'experiment.views.create_experiment_success',
+        name='create_experiment_success'),
 )

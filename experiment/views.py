@@ -12,6 +12,13 @@ def created_success(request):
     return render(request, 'teacher/created_success.html', {})
 
 
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def create_experiment_success(request):
+    return render(request, 'teacher/create_experiment_success.html', {})
+
+
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson_category(request):
@@ -54,7 +61,7 @@ def lesson_information(request, lesson_id):
     except Lesson.DoesNotExist:
         raise Http404
     experiment_list = Experiment.objects.filter(lesson=lesson)
-    return render(request, 'teacher/display_experiment.html',
+    return render(request, 'teacher/experiment_information.html',
                   {'experiment_list': experiment_list,
                    'lesson': lesson,
                   })
@@ -86,12 +93,10 @@ def create_experiment(request):
             lesson = Lesson.objects.get(id=lesson_id)
         except Lesson.DoesNotExist:
             return render(request, "teacher/base.html")
-        except ValueError:
-            return render(request, "teacher/dashboard.html")
         experiment = Experiment(name=name, content=content, deadline=deadline,
                                 remark=remark, lesson=lesson)
         experiment.save()
-        return render(request, 'teacher/create_experiment_success.html')
+        return redirect('create_experiment_success')
     else:
         return render(request, 'teacher/create_experiment.html',
                       {"lesson_list": lesson_list})
