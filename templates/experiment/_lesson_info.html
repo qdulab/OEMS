@@ -4,7 +4,7 @@
             <h1>{{ lesson.name }}<small>{{ lesson.category.name }}</small></h1>
         </div>
         <div class="col-md-2">
-            <a href= "{% url 'create_experiment' %}"><button type="button" class="btn btn-primary btn-lg">创建实验</button></a>
+            <a href= "{% url 'create_experiment' lesson_id %}"><button type="button" class="btn btn-primary btn-lg">创建实验</button></a>
         </div>
     </div>
 </div>

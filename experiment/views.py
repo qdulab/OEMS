@@ -64,6 +64,7 @@ def lesson_information(request, lesson_id):
     return render(request, 'teacher/experiment_information.html',
                   {'experiment_list': experiment_list,
                    'lesson': lesson,
+                   'lesson_id': lesson_id
                   })
 
 
@@ -78,7 +79,7 @@ def lesson_list(request):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def create_experiment(request):
+def create_experiment(request, lesson_ide):
     name = request.POST.get('experiment_name', None)
     username = request.user.username
     teacher = Teacher.objects.get(username=username)
@@ -99,4 +100,4 @@ def create_experiment(request):
         return redirect('create_experiment_success')
     else:
         return render(request, 'teacher/create_experiment.html',
-                      {"lesson_list": lesson_list})
+                      {"lesson_list": lesson_list, "lesson_id": lesson_ide})
