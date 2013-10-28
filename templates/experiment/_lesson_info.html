@@ -5,22 +5,22 @@
     <tr>
         <td>课程名</td>
         <td colspan="2">{{ lesson.name }}</td>
-        <td colspan="2">所属课程</td>
-        <td>{{ lesson_category_name }}</td>
+        <td colspan="2">所属科目</td>
+        <td>{{ lesson.category.name }}</td>
     </tr>
     <tr>
         <td>教师</td>
-        <td colspan="2">{{ lesson_teacher }}</td>
+        <td colspan="2">{{ lesson.teacher.username }}</td>
         <td colspan="2">开课时间</td>
-        <td>{{ lesson.create_at }}2012年11月11日</td>
+        <td>{{ lesson.create_at }}</td>
     </tr>
     <tr>
         <td style="white-space: nowrap">课程状态</td>
-        <td>{{ lesson.status }}正常上课</td>
-        <td>总学生数</td>
-        <td>{{ lesson_student_number }}100</td>
-        <td>作业提交数</td>
-        <td>{{ lesson_submit_number }}100</td>
+        <td>{{ lesson.status }}</td>
+        <td>学生总数</td>
+        <td>{{ lesson.students.count }}</td>
+        <td>实验总数</td>
+        <td>{{ experiment_list.count }}</td>
      </tr>
      <tr>
          <td>备注</td>

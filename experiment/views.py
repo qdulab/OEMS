@@ -11,6 +11,7 @@ from teacher.utils import is_teacher
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
 
+
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson_category(request):
@@ -46,7 +47,7 @@ def create_lesson(request):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def display_experiment(request, lesson_id):
+def lesson_information(request, lesson_id):
     teacher = request.user
     try:
         lesson = Lesson.objects.get(id=lesson_id, teacher=teacher)
@@ -54,7 +55,9 @@ def display_experiment(request, lesson_id):
         raise Http404
     experiment_list = Experiment.objects.filter(lesson=lesson)
     return render(request, 'teacher/display_experiment.html',
-                  {'experiment_list': experiment_list})
+                  {'experiment_list': experiment_list,
+                   'lesson': lesson,
+                  })
 
 
 @login_required(login_url='teacher')
@@ -90,6 +93,5 @@ def create_experiment(request):
         experiment.save()
         return render(request, 'teacher/create_experiment_success.html')
     else:
-        return render(request,'teacher/create_experiment.html',
+        return render(request, 'teacher/create_experiment.html',
                       {"lesson_list": lesson_list})
-
