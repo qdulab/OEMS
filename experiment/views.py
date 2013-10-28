@@ -79,7 +79,7 @@ def lesson_list(request):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def create_experiment(request, lesson_ide):
+def create_experiment(request, lesson_id):
     name = request.POST.get('experiment_name', None)
     username = request.user.username
     teacher = Teacher.objects.get(username=username)
@@ -89,15 +89,14 @@ def create_experiment(request, lesson_ide):
         deadline = request.POST.get("deadline", None)
         remark = request.POST.get("remark", None)
 #        weight = request.POST.get("weight", None)
-        lesson_id = request.POST.get("lesson_id", None)
         try:
-            lesson = Lesson.objects.get(id=lesson_id)
+            lesson = Lesson.objects.get(id=lesson_id, teacher=teacher)
         except Lesson.DoesNotExist:
-            return render(request, "teacher/base.html")
+            return render(request, "base.html")
         experiment = Experiment(name=name, content=content, deadline=deadline,
                                 remark=remark, lesson=lesson)
         experiment.save()
         return redirect('create_experiment_success')
     else:
         return render(request, 'teacher/create_experiment.html',
-                      {"lesson_list": lesson_list, "lesson_id": lesson_ide})
+                      {"lesson_list": lesson_list})

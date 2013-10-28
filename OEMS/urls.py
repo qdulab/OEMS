@@ -28,7 +28,7 @@ urlpatterns = patterns(
     url(r'^teacher/create_lesson_category/$',
         'experiment.views.create_lesson_category',
         name='create_lesson_category'),
-    url(r'^teacher/create_experiment/(?P<lesson_ide>\d+)/$', 'experiment.views.create_experiment',
+    url(r'^teacher/create_experiment/(?P<lesson_id>\d+)/$', 'experiment.views.create_experiment',
         name="create_experiment"),
     url(r'^teacher/create_lesson/$', 'experiment.views.create_lesson',
         name='create_lesson'),
