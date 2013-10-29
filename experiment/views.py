@@ -4,6 +4,7 @@ from django.http import Http404
 
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
+from experiment.forms import LessonCategoryForm
 from teacher.models import Teacher
 from teacher.utils import is_teacher
 
@@ -22,12 +23,13 @@ def create_experiment_success(request):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson_category(request):
-    lesson_category = request.POST.get('lesson_category', None)
-    if lesson_category:
-        LessonCategory.objects.create(name=lesson_category)
+    if request.method == 'POST':
+        form = LessonCategoryForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            LessonCategory.objects.create(name=cd['lesson_category'])
         return redirect('created_success')
-    else:
-        return render(request, 'teacher/create_lesson_category.html', {})
+    return render(request, 'teacher/create_lesson_category.html',)
 
 
 @login_required(login_url='teacher')
