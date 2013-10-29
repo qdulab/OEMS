@@ -2,7 +2,7 @@ from django import forms
 
 
 class LessonCategoryForm(forms.Form):
-    lesson_category = forms.CharField(max_length=60)
+    name = forms.CharField(max_length=60)
 
 
 class ExperimentForm(forms.Form):

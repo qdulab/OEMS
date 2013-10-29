@@ -26,7 +26,7 @@ def create_lesson_category(request):
         form = LessonCategoryForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            LessonCategory.objects.create(name=cd['lesson_category'])
+            LessonCategory.objects.create(name=cd['name'])
         return redirect('created_success')
     return render(request, 'teacher/create_lesson_category.html',)
 
