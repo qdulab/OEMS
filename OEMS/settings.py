@@ -73,6 +73,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), '../static'),
     os.path.join(os.path.dirname(__file__), '../media'),
 )
 
@@ -104,6 +105,11 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'teacher.backends.TeacherBackend'
+)
+
 ROOT_URLCONF = 'OEMS.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -128,6 +134,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'south',
+    'teacher',
+    'experiment',
 )
 
 # A sample logging configuration. The only tangible logging
