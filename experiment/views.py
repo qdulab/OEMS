@@ -78,12 +78,15 @@ def experiment_information(request, experiment_id):
         experiment = Experiment.objects.get(id=experiment_id)
     except Experiment.DoesNotExist:
         raise Http404
-    student_list = {}
-    return render(request, 'teacher/experiment_information.html',
-                  {'student_list': student_list,
-                   'experiment': experiment,
-                   'experiment_id': experiment_id
-                  })
+    if experiment.lesson.teacher == request.user:
+        student_list = {}
+        return render(request, 'teacher/experiment_information.html',
+                      {'student_list': student_list,
+                       'experiment': experiment,
+                       'experiment_id': experiment_id
+                      })
+    else:
+        raise Http404
 
 
 @login_required(login_url='teacher')
