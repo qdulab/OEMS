@@ -1,28 +1,21 @@
-<!doctype html>
+{% extends "base.html" %}
 
-<html>
-	<head>
-		<meta charset='utf-8'>
-		<title>{% block title %}在线实验报告管理系统 {% endblock %}</title>
-		<link rel='stylesheet' href='{{ STATIC_URL }}css/bootstrap.css'/>
-		<link rel='stylesheet' href='{{ STATIC_URL }}css/two_columns.css'/>
-		<script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.js'></script>
-	</head>
-	<body class='{% block body_class %} {% endblock %}' style='padding: 70px'>
-		<div class='navbar navbar-inverse navbar-fixed-top'>
-			<div class='container'>
-				<div class='navbar-header'>
-					<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-						<span class='icon-bar'></span>
-						<span class='icon-bar'></span>
-						<span class='icon-bar'></span>
-					</button>
-					<a class='navbar-brand' href='#'>实验报告在线提交系统</a>
-				</div>
-				{% include "teacher_form.html" %}
-			</div>
-		</div>
-		{% block body %}
-		{% endblock %}
-	</body>
-</html>
+{% block body %}
+
+{% include "teacher/_nav_bar.html" %}
+
+<div id="login_form" class="container col-md-offset-4 col-md-4">
+    <form role="form" action="{% url 'teacher_signin' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">用户名</label>
+                <input type="text" class="form-control" name="username" placeholder="请输入用户名">
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+                <input type="password" class="form-control" name="password" placeholder="请输入密码">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

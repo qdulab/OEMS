@@ -1,0 +1,9 @@
+{% extends "teacher/dashboard.html" %}
+
+
+{% block title %}查看实验详情{% endblock %}
+
+{% block right %}
+{% include "experiment/_experiment_info.html"%}
+{% include "experiment/_student_list.html" %}
+{% endblock %}

@@ -1,9 +1,7 @@
-{% extends 'two_columns.html'%}
+{% extends 'teacher/dashboard.html'%}
 
-{% block substance_left %}
-{% include 'side_bar.html' %}
-{% endblock %}
-{% block substance_right %}
+
+{% block right %}
 <form role="form" action="" method="POST">
     {% csrf_token %}
     <div class="form-group">
@@ -12,7 +10,7 @@
     </div>
     <div class="form-group">
         <label for="experiment_content">实验内容</label>
-        <input type="text" class="form-control" id="experiment_content" placeholder="请输入实验的内容简介" name = "experiment_content" required="required">
+        <input type="text" class="form-control" id="experiment_content" placeholder="请输入实验的内容简介" name="experiment_content" required="required">
     </div>
     <div class="form-group">
         <label for="deadline">截止时间</label>

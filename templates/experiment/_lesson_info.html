@@ -1,0 +1,37 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>{{ lesson.name }}<small>{{ lesson.category.name }}</small></h1>
+        </div>
+        <div class="col-md-2">
+            <a href= "{% url 'create_experiment' lesson_id %}"><button type="button" class="btn btn-primary btn-lg">创建实验</button></a>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered">
+    <tr>
+        <td>课程名</td>
+        <td colspan="2">{{ lesson.name }}</td>
+        <td colspan="2">所属科目</td>
+        <td>{{ lesson.category.name }}</td>
+    </tr>
+    <tr>
+        <td>教师</td>
+        <td colspan="2">{{ lesson.teacher.username }}</td>
+        <td colspan="2">开课时间</td>
+        <td>{{ lesson.create_at }}</td>
+    </tr>
+    <tr>
+        <td style="white-space: nowrap">课程状态</td>
+        <td>{{ lesson.status }}</td>
+        <td>学生总数</td>
+        <td>{{ lesson.students.count }}</td>
+        <td>实验总数</td>
+        <td>{{ experiment_list.count }}</td>
+    </tr>
+    <tr>
+        <td>备注</td>
+        <td colspan="5">{{ lesson.info }}</td>
+    </tr>
+</table>
+

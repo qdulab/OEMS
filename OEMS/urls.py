@@ -4,7 +4,8 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Examples:
     # url(r'^$', 'OEMS.views.home', name='home'),
     # url(r'^OEMS/', include('OEMS.foo.urls')),
@@ -14,12 +15,29 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^teacher/$', 'teacher.views.teacher_login', name='teacher_index'),
-    url(r'^teacher/dashboard/$', 'teacher.views.teacher_login', name='teacher_dashboard'),
-    url(r'^teacher/logout/$', 'teacher.views.teacher_logout', name='teacher_logout'),
-    url(r'^index/$', 'experiment.views.index', name="index"),
-    url(r'^teacher/display-experiment/$','experiment.views.display_experiment', name="display_experiment_list"),
-    url(r'^teacher/create_lesson_category/$', 'experiment.views.create_lesson_category', name='create_lesson_category'),
-    url(r'^teacher/create_experiment/$', 'experiment.views.create_experiment', name="create_experiment"),
-    url(r'^teacher/create_lesson/$', 'experiment.views.create_lesson', name='create_lesson'),
+
+    url(r'^teacher/$', 'teacher.views.index', name='teacher_index'),
+    url(r'^teacher/dashboard/$', 'teacher.views.dashboard', name='teacher_dashboard'),
+    url(r'^teacher/signin/$', 'teacher.views.sign_in', name='teacher_signin'),
+    url(r'^teacher/signout/$', 'teacher.views.sign_out', name='teacher_signout'),
+
+    url(r'^teacher/experiment/created_success/$',
+         'experiment.views.created_success', name='created_success'),
+    url(r'^teacher/lesson/(?P<lesson_id>\d+)/$',
+        'experiment.views.lesson_information', name="lesson_info"),
+    url(r'^teacher/experiment/(?P<experiment_id>\d+)/$',
+        'experiment.views.experiment_information', name="experiment_info"),
+    url(r'^teacher/create_lesson_category/$',
+        'experiment.views.create_lesson_category',
+        name='create_lesson_category'),
+    url(r'^teacher/create_experiment/(?P<lesson_id>\d+)/$',
+        'experiment.views.create_experiment',
+        name="create_experiment"),
+    url(r'^teacher/create_lesson/$', 'experiment.views.create_lesson',
+        name='create_lesson'),
+    url(r'^teacher/lesson_list/$','experiment.views.lesson_list',
+        name="teacher_lesson_list"),
+    url(r'^teacher/experiment/create_success/$',
+        'experiment.views.create_experiment_success',
+        name='create_experiment_success'),
 )
