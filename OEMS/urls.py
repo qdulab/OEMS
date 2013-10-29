@@ -40,4 +40,10 @@ urlpatterns = patterns(
     url(r'^teacher/experiment/create_success/$',
         'experiment.views.create_experiment_success',
         name='create_experiment_success'),
+    url(r'^teacher/experiment/delete/(?P<experiment_id>\d+)/$',
+        'experiment.views.delete_experiment',
+        name='delete_experiment'),
+    url(r'^teacher/delete_success/$',
+        'experiment.views.delete_success', 
+        name='delete_success'),
 )

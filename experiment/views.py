@@ -55,6 +55,26 @@ def create_lesson(request):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
+def delete_experiment(request, experiment_id):
+    try:
+        experiment = Experiment.objects.get(id=experiment_id)
+    except Experiment.DoesNotExist:
+        raise Http404
+    if experiment.lesson.teacher == request.user:
+        experiment.delete()
+        return redirect('delete_success')
+    else:
+        return Http404
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def delete_success(request):
+    return render(request, 'teacher/delete_success.html', {})
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def lesson_information(request, lesson_id):
     teacher = request.user
     try:
@@ -73,8 +93,6 @@ def lesson_information(request, lesson_id):
 @is_teacher(redirect_url='')
 def experiment_information(request, experiment_id):
     try:
-        ###to do:is there any better way to limit a teacher to check other teacher`s experiment?
-        ###In my opinion :experiment_id -> lssson -> teacher -> ifequal teacher request.user
         experiment = Experiment.objects.get(id=experiment_id)
     except Experiment.DoesNotExist:
         raise Http404

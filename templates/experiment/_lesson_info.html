@@ -1,10 +1,16 @@
 <div class="page-header">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-6">
             <h1>{{ lesson.name }}<small>{{ lesson.category.name }}</small></h1>
         </div>
         <div class="col-md-2">
             <a href= "{% url 'create_experiment' lesson_id %}"><button type="button" class="btn btn-primary btn-lg">创建实验</button></a>
+        </div>
+        <div class="col-md-2">
+            <a href= ><button type="button" class="btn btn-info btn-lg">编辑课程</button></a>
+        </div>
+        <div class="col-md-2">
+            <a href= ><button type="button" class="btn btn-danger btn-lg">删除课程</button></a>
         </div>
     </div>
 </div>
