@@ -10,7 +10,7 @@
             <a href= ><button type="button" class="btn btn-info btn-lg">编辑课程</button></a>
         </div>
         <div class="col-md-2">
-            <a href= ><button type="button" class="btn btn-danger btn-lg">删除课程</button></a>
+            <a href= "{% url 'delete_lesson' lesson.id %}" ><button type="button" class="btn btn-danger btn-lg">删除课程</button></a>
         </div>
     </div>
 </div>
