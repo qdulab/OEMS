@@ -4,14 +4,13 @@ from django.http import Http404
 
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
-from experiment.forms import LessonCategoryForm
+from experiment.forms import LessonCategoryForm, ExperimentForm
 from teacher.models import Teacher
 from teacher.utils import is_teacher
 
 
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
-
 
 
 @login_required(login_url='teacher')
@@ -99,23 +98,24 @@ def lesson_list(request):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_experiment(request, lesson_id):
-    name = request.POST.get('experiment_name', None)
-    username = request.user.username
-    teacher = Teacher.objects.get(username=username)
-    lesson_list = Lesson.objects.filter(teacher=teacher)
-    if name:
-        content = request.POST.get("experiment_content", None)
-        deadline = request.POST.get("deadline", None)
-        remark = request.POST.get("remark", None)
-#        weight = request.POST.get("weight", None)
-        try:
-            lesson = Lesson.objects.get(id=lesson_id, teacher=teacher)
-        except Lesson.DoesNotExist:
-            return render(request, "base.html")
-        experiment = Experiment(name=name, content=content, deadline=deadline,
-                                remark=remark, lesson=lesson)
-        experiment.save()
-        return redirect('create_experiment_success')
+    lesson_list = Lesson.objects.filter(teacher=request.user)
+    if request.method == 'POST':
+        form = ExperimentForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            content = form.cleaned_data['content']
+            deadline = form.cleaned_data['deadline']
+            info = form.cleaned_data['information']
+            try:
+                lesson = Lesson.objects.get(id=lesson_id, teacher=request.user)
+            except Lesson.DoesNotExist:
+                return render(request, "base.html")
+            experiment = Experiment(name=name, content=content, deadline=deadline,
+                                remark=info, lesson=lesson)
+            experiment.save()
+            return redirect('create_experiment_success')
+        else:
+            render(request, "base.html")
     else:
         return render(request, 'teacher/create_experiment.html',
                       {"lesson_list": lesson_list})
