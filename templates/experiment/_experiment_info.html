@@ -1,16 +1,3 @@
-<div class="page-header">
-    <div class="row">
-        <div class="col-md-8">
-            <h1>{{ experiment.name }}<small>{{ experiment.lesson.name }}</small></h1>
-        </div>
-        <div class="col-md-2">
-            <a href=""><button type="button" class="btn btn-info btn-lg">编辑实验</button></a>
-        </div>
-        <div class="col-md-2">
-            <a href="{% url 'delete_experiment' experiment.id%} "><button type="button" class="btn btn-danger btn-lg">删除实验</button></a>
-        </div>
-    </div>
-</div>
 <table class="table table-bordered">
     <tr>
         <td style="white-space: nowrap">实验名称</td>
