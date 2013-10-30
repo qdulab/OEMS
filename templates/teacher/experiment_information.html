@@ -9,10 +9,10 @@
         <h1>{{ experiment.name }}<small>{{ experiment.lesson.name }}</small></h1>
     </div>
     <div class="col-md-2">
-        <a href="{% url 'experiment_modify' experiment.id%}"><button type="button" class="btn btn-info btn-lg">编辑实验</button></a>
+        <a href="{% url 'experiment_modify' experiment.id %}"><button type="button" class="btn btn-info btn-lg">编辑实验</button></a>
     </div>
     <div class="col-md-2">
-        <a href="{% url 'delete_experiment' experiment.id%} "><button type="button" class="btn btn-danger btn-lg">删除实验</button></a>
+        <a href="{% url 'delete_experiment' experiment.id %} "><button type="button" class="btn btn-danger btn-lg">删除实验</button></a>
     </div>
 </div>
 {% include "experiment/_experiment_info.html"%}

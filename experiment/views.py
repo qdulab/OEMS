@@ -4,7 +4,7 @@ from django.http import Http404
 
 from experiment.models import Experiment
 from experiment.models import LessonCategory, Lesson
-from experiment.forms import LessonCategoryForm, ExperimentForm
+from experiment.forms import ExperimentForm, LessonCategoryForm
 from teacher.models import Teacher
 from teacher.utils import is_teacher
 
@@ -69,10 +69,11 @@ def create_experiment(request, lesson_id):
                 lesson = Lesson.objects.get(id=lesson_id, teacher=request.user)
             except Lesson.DoesNotExist:
                 return render(request, "base.html")
-            experiment = Experiment(name=name, content=content, deadline=deadline,
-                                remark=info, lesson=lesson)
+            experiment = Experiment(
+                name=name, content=content, deadline=deadline,
+                remark=info, lesson=lesson)
             experiment.save()
-            return redirect('create_experiment_success', lesson_id = lesson_id)
+            return redirect('create_experiment_success', lesson_id=lesson_id)
         else:
             render(request, "base.html")
     else:
@@ -122,38 +123,36 @@ def experiment_information(request, experiment_id):
         return render(request, 'teacher/experiment_information.html',
                       {'student_list': student_list,
                        'experiment': experiment,
-                       'experiment_id': experiment_id
-                      })
+                       'experiment_id': experiment.id
+                       })
     else:
         raise Http404
-
 
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def experiment_modify(request, experiment_id):
     try:
-        experiment = Experiment.objects.get(id=experiment_id)
+        experiment = Experiment.objects.get(
+            id=experiment_id,
+            lesson__teacher=request.user)
     except Experiment.DoesNotExist:
         raise Http404
-    if experiment.lesson.teacher == request.user:
-        if request.method == 'POST':
-            form = ExperimentForm(request.POST)
-            if form.is_valid():
-                experiment.name = form.cleaned_data['name']
-                experiment.content = form.cleaned_data['content']
-                experiment.deadline = form.cleaned_data['deadline']
-                experiment.information = form.cleaned_data['information']
-                experiment.save()
-                return redirect('created_success')
-            else:
-                raise Http404
+    if request.method == 'POST':
+        form = ExperimentForm(request.POST)
+        if form.is_valid():
+            experiment.name = form.cleaned_data['name']
+            experiment.content = form.cleaned_data['content']
+            experiment.deadline = form.cleaned_data['deadline']
+            experiment.information = form.cleaned_data['information']
+            experiment.save()
+            return redirect('created_success')
         else:
-            return render(request,
-                          'teacher/experiment_modify.html',
-                          {'experiment': experiment})
+            raise Http404
     else:
-        raise Http404
+        return render(request,
+                      'teacher/experiment_modify.html',
+                      {'experiment': experiment})
 
 
 @login_required(login_url='teacher')
@@ -169,16 +168,22 @@ def lesson_information(request, lesson_id):
                   {'experiment_list': experiment_list,
                    'lesson': lesson,
                    'lesson_id': lesson_id
-                  })
+                   })
 
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def lesson_list(request, category_id):
-    lesson_list = Lesson.objects.filter(teacher=request.user, category=category_id)
+    lesson_list = Lesson.objects.filter(
+        teacher=request.user,
+        category=category_id)
+    try:
+        category = LessonCategory.objects.get(id=category_id)
+    except LessonCategory.DoesNotExist:
+        raise Http404
     return render(request, 'teacher/lesson_list.html',
                   {'lesson_list': lesson_list,
-                   'category': LessonCategory.objects.get(id=category_id)})
+                   'category': category})
 
 
 @login_required(login_url='teacher')

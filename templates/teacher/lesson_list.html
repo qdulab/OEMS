@@ -8,7 +8,7 @@
     <a href="{% url 'create_lesson' %}" style="text-decoration: none">
         <button type="button" class="btn btn-primary btn-lg">创建课程</button>
     </a>
-    <small>{{category.name}}</small>
+    <small>{{ category.name }}</small>
 </h1>
 {% include "teacher/_lesson_list.html" %}
 {% endblock %}
