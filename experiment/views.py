@@ -174,17 +174,7 @@ def lesson_information(request, lesson_id):
 def lesson_list(request):
     lesson_list = Lesson.objects.filter(
         teacher=request.user)
-  #  try:
-  #      category = LessonCategory.objects.get(id=category_id)
-  #  except LessonCategory.DoesNotExist:
-  #      raise Http404
     return render(request, 'teacher/lesson_list.html',
                   {'lesson_list': lesson_list})
 
 
-@login_required(login_url='teacher')
-@is_teacher(redirect_url='')
-def lesson_category_list(request):
-    category_list = LessonCategory.objects.all()
-    return render(request, 'teacher/lesson_category_list.html',
-                  {'category_list': category_list})
