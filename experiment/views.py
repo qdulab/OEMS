@@ -2,10 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import Http404
 
-from experiment.models import Experiment
-from experiment.models import LessonCategory, Lesson
+from experiment.models import Experiment, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
-from teacher.models import Teacher
 from teacher.utils import is_teacher
 
 
@@ -26,8 +24,7 @@ def create_lesson_category(request):
     if request.method == 'POST':
         form = LessonCategoryForm(request.POST)
         if form.is_valid():
-            cd = form.cleaned_data
-            LessonCategory.objects.create(name=cd['name'])
+            LessonCategory.objects.create(name=form.cleaned_data['name'])
         return redirect('created_success')
     return render(request, 'teacher/create_lesson_category.html',)
 

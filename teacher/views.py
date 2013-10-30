@@ -23,11 +23,11 @@ def sign_in(request):
     if request.method == 'POST':
         form = TeacherForm(request.POST)
         if form.is_valid():
-            cd = form.cleaned_data
-            teacher = authenticate(username=cd['username'], password=cd['password'])
+            teacher = authenticate(username=form.cleaned_data['username'],
+                                   password=form.cleaned_data['password'])
             if teacher is not None and isinstance(teacher, Teacher):
                 login(request, teacher)
-            return redirect('teacher_dashboard')
+                return redirect('teacher_dashboard')
     return redirect('teacher_index')
 
 #TODO  add:(login_url='/teacher/login')
