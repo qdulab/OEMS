@@ -7,7 +7,7 @@ from experiment.models import LessonCategory, Lesson
 from experiment.forms import LessonCategoryForm, ExperimentForm
 from teacher.models import Teacher
 from teacher.utils import is_teacher
-
+from experiment.forms import LessonForm
 
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
@@ -34,23 +34,24 @@ def create_lesson_category(request):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson(request):
-    lesson_name = request.POST.get('lesson_name', None)
-    if lesson_name:
-        lesson_category = request.POST.get('lesson_category', None)
-        try:
-            category = LessonCategory.objects.get(name=lesson_category)
-        except LessonCategory.DoesNotExist:
-            pass
-        lesson_info = request.POST.get('lesson_info', None)
-        teacher = request.user
-        Lesson.objects.create(name=lesson_name, category=category,
-                              teacher=teacher, info=lesson_info,
-                              status=True)
-        return redirect('created_success')
+    if request.method == 'POST':
+        lesson_form = LessonForm(data=request.POST)
+        if lesson_form.is_valid():
+            lesson = lesson_form.save(commit=False)
+            lesson.teacher = request.user
+            lesson.status = True
+            lesson.save()
+            return redirect('created_success')
+        else:
+            return render(request,
+                    'teacher/create_lesson.html',{'errors':
+                        lesson_form.errors})
     else:
-        lesson_categories = LessonCategory.objects.all().values('name')
+        lesson_form = LessonForm()
+        categories = LessonCategory.objects.all().values('name')
         return render(request, 'teacher/create_lesson.html',
-                      {'lesson_categories': lesson_categories})
+                      {'lesson_form': lesson_form,
+                       'categories': categories})
 
 
 @login_required(login_url='teacher')
