@@ -27,7 +27,7 @@ def sign_in(request):
                                    password=form.cleaned_data['password'])
             if teacher is not None and isinstance(teacher, Teacher):
                 login(request, teacher)
-            return redirect('teacher_dashboard')
+                return redirect('teacher_dashboard')
     return redirect('teacher_index')
 
 #TODO  add:(login_url='/teacher/login')
