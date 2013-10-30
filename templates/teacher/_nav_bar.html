@@ -10,9 +10,8 @@
         </div>
 
         {% if user.is_authenticated %}
-        <!-- 登陆成功后跳转到本页, POST关键字有username及password -->
-        <ul class="nav nav-pills pull-right">
-            <li class="active"><a href="">{{ user.get_username }}</a></li>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="">{{ user.get_username }}</a></li>
             <li><a href="{% url 'teacher_signout' %}">登出</a></li>
         </ul>
         {% endif %}
