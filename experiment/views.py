@@ -130,6 +130,33 @@ def experiment_information(request, experiment_id):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
+def experiment_modify(request, experiment_id):
+    try:
+        experiment = Experiment.objects.get(id=experiment_id)
+    except Experiment.DoesNotExist:
+        raise Http404
+    if experiment.lesson.teacher == request.user:
+        if request.method == 'POST':
+            form = ExperimentForm(request.POST)
+            if form.is_valid():
+                experiment.name = form.cleaned_data['name']
+                experiment.content = form.cleaned_data['content']
+                experiment.deadline = form.cleaned_data['deadline']
+                experiment.information = form.cleaned_data['information']
+                experiment.save()
+                return redirect('create_experiment_success')
+            else:
+                raise Http404
+        else:
+            return render(request,
+                          'teacher/experiment_modify.html',
+                          {'experiment': experiment})
+    else:
+        raise Http404
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def lesson_information(request, lesson_id):
     teacher = request.user
     try:

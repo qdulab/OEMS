@@ -51,5 +51,8 @@ urlpatterns = patterns(
         name='delete_success'),
     url(r'^teacher/lesson_category_list/$',
         'experiment.views.lesson_category_list', 
-        name="category_list")
+        name="category_list"),
+    url(r'^teacher/experiment/modify/(?P<experiment_id>\d+)/$',
+        'experiment.views.experiment_modify', 
+        name='experiment_modify'),
 )
