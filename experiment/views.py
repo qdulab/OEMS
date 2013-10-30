@@ -15,8 +15,9 @@ def created_success(request):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def create_experiment_success(request):
-    return render(request, 'teacher/create_experiment_success.html', {})
+def create_experiment_success(request, lesson_id):
+    return render(request, 'teacher/create_experiment_success.html',
+                  {'lesson_id': lesson_id})
 
 
 @login_required(login_url='teacher')
@@ -71,7 +72,7 @@ def create_experiment(request, lesson_id):
             experiment = Experiment(name=name, content=content, deadline=deadline,
                                 remark=info, lesson=lesson)
             experiment.save()
-            return redirect('create_experiment_success')
+            return redirect('create_experiment_success', lesson_id = lesson_id)
         else:
             render(request, "base.html")
     else:
@@ -144,7 +145,7 @@ def experiment_modify(request, experiment_id):
                 experiment.deadline = form.cleaned_data['deadline']
                 experiment.information = form.cleaned_data['information']
                 experiment.save()
-                return redirect('create_experiment_success')
+                return redirect('created_success')
             else:
                 raise Http404
         else:
