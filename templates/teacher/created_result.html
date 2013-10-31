@@ -1,0 +1,12 @@
+{% extends 'teacher/dashboard.html' %}
+
+{% block right %}
+<div class='form-group' id='form_container'>
+    {% if messages %}
+        {% for message in messages %}
+        <h1> {{ message }} </h1>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
+

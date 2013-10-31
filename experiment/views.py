@@ -1,14 +1,16 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import Http404
 
 from experiment.models import Experiment, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
-from teacher.utils import is_teacher
 from experiment.forms import LessonForm
+from teacher.utils import is_teacher
 
-def created_success(request):
-    return render(request, 'teacher/created_success.html', {})
+def created_result(request):
+    return render(request, 'teacher/created_result.html', {})
 
 
 @login_required(login_url='teacher')
@@ -25,8 +27,15 @@ def create_lesson_category(request):
         form = LessonCategoryForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            LessonCategory.objects.create(name=name)
-        return redirect('created_success')
+            try:
+                LessonCategory.objects.create(name=name)
+            except IntegrityError:
+                messages.add_message(request, messages.ERROR,
+                                     "Lesson Created failed!")
+            messages.add_message(request, messages.SUCCESS,
+                                 "Lesson Created Succeed!")
+                
+        return redirect('created_result')
     return render(request, 'teacher/create_lesson_category.html',)
 
 
@@ -34,23 +43,33 @@ def create_lesson_category(request):
 @is_teacher(redirect_url='')
 def create_lesson(request):
     if request.method == 'POST':
-        lesson_form = LessonForm(data=request.POST)
-        if lesson_form.is_valid():
-            lesson = lesson_form.save(commit=False)
-            lesson.teacher = request.user
-            lesson.status = True
-            lesson.save()
-            return redirect('created_success')
+        form = LessonForm(data=request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            category_name = form.cleaned_data['category']
+            info = form.cleaned_data['info']
+            try:
+                category = LessonCategory.objects.get(
+                    name=category_name)
+            except LessonCategory.DoesNotExist:
+                raise Http404
+            try:
+                lesson = Lesson.objects.create(category=category,
+                        name=name, info=info, status=True)
+            except IntegrityError:
+                messages.add_message(request, messages.ERROR,
+                                     "Lesson Created failed!")
+            messages.add_message(request, messages.SUCCESS,
+                                 "Lesson Created Succeed!")
+
+            return redirect('created_result')
         else:
             return render(request,
-                    'teacher/create_lesson.html',{'errors':
-                        lesson_form.errors})
+                    'teacher/create_lesson.html',{})
     else:
-        lesson_form = LessonForm()
         categories = LessonCategory.objects.all().values('name')
         return render(request, 'teacher/create_lesson.html',
-                      {'lesson_form': lesson_form,
-                       'categories': categories})
+                      {'categories': categories})
 
 
 @login_required(login_url='teacher')
