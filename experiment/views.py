@@ -1,6 +1,4 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import Http404
 
@@ -9,8 +7,8 @@ from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
 
-def created_result(request):
-    return render(request, 'teacher/created_result.html', {})
+def created_success(request):
+    return render(request, 'teacher/created_success.html', {})
 
 
 @login_required(login_url='teacher')
@@ -27,21 +25,15 @@ def create_lesson_category(request):
         form = LessonCategoryForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            try:
-                LessonCategory.objects.create(name=name)
-            except IntegrityError:
-                messages.add_message(request, messages.ERROR,
-                                     "Lesson Created failed!")
-            messages.add_message(request, messages.SUCCESS,
-                                 "Lesson Created Succeed!")
-                
-        return redirect('created_result')
+            LessonCategory.objects.create(name=name)
+        return redirect('created_success')
     return render(request, 'teacher/create_lesson_category.html',)
 
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson(request):
+    import pdb;pdb.set_trace()
     if request.method == 'POST':
         form = LessonForm(data=request.POST)
         if form.is_valid():
@@ -52,17 +44,14 @@ def create_lesson(request):
                 category = LessonCategory.objects.get(
                     name=category_name)
             except LessonCategory.DoesNotExist:
-                raise Http404
+                pass
             try:
                 lesson = Lesson.objects.create(category=category,
                         name=name, info=info, status=True)
             except IntegrityError:
-                messages.add_message(request, messages.ERROR,
-                                     "Lesson Created failed!")
-            messages.add_message(request, messages.SUCCESS,
-                                 "Lesson Created Succeed!")
+                pass
 
-            return redirect('created_result')
+            return redirect('created_success')
         else:
             return render(request,
                     'teacher/create_lesson.html',{})
