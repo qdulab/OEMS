@@ -1,0 +1,25 @@
+<form role="form" action="" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="name">实验名称</label>
+        <input type="text" maxlength="30" id="name" placeholder="请输入您想创建的实验名称" class="form-control" name="name" required="required" />
+    </div>
+    <div class="form-group">
+        <label for="content">实验内容</label>
+        <input type="text" class="form-control" id="content" placeholder="请输入实验的内容简介" name="content" />
+    </div>
+    <div class="form-group">
+        <label for="deadline">截止时间</label>
+        <input type="date" class="form-control" id="deadline" placeholder="年-月-日" name="deadline" />
+    </div>
+    <div class="form-group">
+        <label for="information">备注</label>
+        <input type="textarea" class="form-control" id="information" placeholder="请在这里添加备注" name="information" />
+    </div>
+    <div class="form-group">
+        <label for="weight">权重</label>
+        <input type="textarea" class="form-control" id="weight" placeholder="设定本次实验所占比重" name="weight" required="required" />
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg" name="submit">提交</button>
+    <button type="reset" class="btn btn-primary btn-lg" name="reset">重置</button>
+</form>

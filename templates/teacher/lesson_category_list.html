@@ -1,0 +1,12 @@
+{% extends "teacher/dashboard.html" %}
+
+
+{% block title %}科目列表{% endblock %}
+
+{% block right %}
+<h1>
+    <small>科目列表</small>
+    <a href="{% url 'create_lesson_category' %}" class="btn btn-primary pull-right" role="bottom">创建科目</a>
+</h1>
+{% include "experiment/_lesson_category_list.html" %}
+{% endblock %}

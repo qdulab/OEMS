@@ -4,26 +4,26 @@
 <div class="form-group" id="form_container">
     <form class="form-horizontal" role="form" method="post" id="create_lesson_form">
         {% csrf_token %}
-        <div class="form-group" id="input_lesson_name">
-            <label for="lesson_name" class="col-sm-2 control-label">课程名称</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="lesson_name" placeholder="请输入课程名称">
-            </div>
-        </div>
-        <div class="form-group" id="select_lesson_category">
-            <label for="select_lesson_category" class="col-sm-2 control-label">课程类别</label>
+        <div class="form-group" >
+            <label for="category" class="col-sm-2 control-label">课程类别</label>
             <div class="col-sm-3">
-                <select class="form-control" name="lesson_category" placeholder="请选择课程类别">
-                    {% for category in  lesson_categories  %}
-                        <option> {{ category.name }}</option>
+                <select class="form-control" id="category" name="category" placeholder="请选择课程类别">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}"> {{ category.name }}</option>
                     {% endfor %}
                 </select>
             </div>
         </div>
-        <div class="form-group" id="input_lesson_name">
-            <label for="lesson_info" class="col-sm-2 control-label">课程备注</label>
+        <div class="form-group" >
+            <label for="name" class="col-sm-2 control-label">课程名称</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="name" name="name" placeholder="请输入课程名称"/>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label for="info" class="col-sm-2 control-label">备注</label>
             <div class="col-sm-10">
-                <textarea class="form-control" name="lesson_info" placeholder="请输入课程相关备注"></textarea>
+                <textarea class="form-control" id="info" name="info" placeholder="请输入课程相关备注"></textarea>
             </div>
         </div>
         <div class="form-group" id="button">
@@ -39,5 +39,6 @@
         </div>
     </form>
 </div>
+
 {% endblock %}
 

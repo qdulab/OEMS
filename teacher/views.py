@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 
 from teacher.models import Teacher
 from teacher.utils import is_teacher
+from teacher.forms import TeacherForm
 
 
 @login_required()
@@ -20,12 +21,14 @@ def index(request):
 
 def sign_in(request):
     if request.method == 'POST':
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-    	teacher = authenticate(username=username, password=password)
-        if teacher is not None and isinstance(teacher, Teacher):
-            login(request, teacher)
-            return redirect('teacher_dashboard')
+        form = TeacherForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            teacher = authenticate(username=username, password=password)
+            if teacher is not None and isinstance(teacher, Teacher):
+                login(request, teacher)
+                return redirect('teacher_dashboard')
     return redirect('teacher_index')
 
 #TODO  add:(login_url='/teacher/login')

@@ -1,39 +1,22 @@
-<div class="page-header">
-    <div class="row">
-        <div class="col-md-10">
-            <h1>{{ experiment.name }}<small>{{ experiment.lesson.name }}</small></h1>
-        </div>
-        <div class="col-md-2">
-            <a href= ""><button type="button" class="btn btn-primary btn-lg">编辑</button></a>
-        </div>
-    </div>
-</div>
 <table class="table table-bordered">
     <tr>
-        <td>实验名称</td>
+        <td style="white-space: nowrap">实验名称</td>
         <td>{{ experiment.name }}</td>
+        <td>所属课程</td>
+        <td>{{ experiment.lesson.name }}
         <td>所属科目</td>
         <td>{{ experiment.lesson.category.name }}</td>
-        <td>所属课程</td>
-        <td>{{ experiment.name }}
     </tr>
     <tr>
         <td>教师</td>
-        <td colspan="2">{{ experiment.lesson.teacher.username }}</td>
-        <td colspan="2">创建时间</td>
+        <td colspan="1">{{ experiment.lesson.teacher.username }}</td>
+        <td colspan="1">创建时间</td>
         <td>{{ experiment.create_at }}</td>
-    </tr>
-    <tr>
-        <td style="white-space: nowrap">实验状态</td>
-        <td>{{ experiment.status }}</td>
-        <td>学生总数</td>
-        <td>{{ experiment.lesson.students.count }}</td>
         <td>作业提交总数</td>
-        <td>{{ submit_experiment_list.count }}</td>
-    </tr>
+        <td>{{ submit_experiment_list.count }}0 / {{ experiment.lesson.students.count }}</td>
     <tr>
         <td>备注</td>
-        <td colspan="5">{{ lesson.info }}</td>
+        <td colspan="5">{{ experiment.remark }}</td>
     </tr>
 </table>
 
