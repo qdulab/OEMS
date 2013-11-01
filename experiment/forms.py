@@ -4,9 +4,19 @@ from django.forms import widgets
 from models import LessonCategory
 
 class LessonForm(forms.ModelForm):
+
+    def save(self, teacher, **kwargs):
+        form = super(LessonForm, self).save(commit=False, **kwargs)
+        form.teacher = teacher
+        form.status = True
+        form.save()
+
+
     class Meta:
         model = Lesson
         fields = ('name', 'category', 'info')
+
+
 
 
 class LessonCategoryForm(forms.Form):

@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import Http404
 
@@ -33,30 +34,17 @@ def create_lesson_category(request):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def create_lesson(request):
-    import pdb;pdb.set_trace()
     if request.method == 'POST':
         form = LessonForm(data=request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            category_name = form.cleaned_data['category']
-            info = form.cleaned_data['info']
-            try:
-                category = LessonCategory.objects.get(
-                    name=category_name)
-            except LessonCategory.DoesNotExist:
-                pass
-            try:
-                lesson = Lesson.objects.create(category=category,
-                        name=name, info=info, status=True)
-            except IntegrityError:
-                pass
-
+            teacher = request.user
+            form.save(teacher=teacher)
             return redirect('created_success')
         else:
             return render(request,
                     'teacher/create_lesson.html',{})
     else:
-        categories = LessonCategory.objects.all().values('name')
+        categories = LessonCategory.objects.all()
         return render(request, 'teacher/create_lesson.html',
                       {'categories': categories})
 
