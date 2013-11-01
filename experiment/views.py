@@ -152,6 +152,14 @@ def experiment_modify(request, experiment_id):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
+def lesson_category_list(request):
+    category_list = LessonCategory.objects.all()
+    return render(request, 'teacher/lesson_category_list.html',
+                  {'category_list': category_list})
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def lesson_information(request, lesson_id):
     teacher = request.user
     try:
