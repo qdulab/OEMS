@@ -175,3 +175,15 @@ def lesson_list(request):
                   {'lesson_list': lesson_list})
 
 
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def update_lesson(request, lesson_id):
+#    import pdb; pdb.set_trace()
+    if request.method == 'POST':
+        pass
+    else:
+        categories = LessonCategory.objects.all()
+        lesson = Lesson.objects.get(id=lesson_id)
+        return render(request, 'teacher/update_lesson.html',
+                      {'categories': categories,
+                       'lesson': lesson})
