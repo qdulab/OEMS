@@ -9,7 +9,7 @@
         <tr>
             <td><a href="{% url 'teacher_lesson_list' category.id %}">{{ category.name }}</a></td>
             <td>{{ category.created_at }}</td>
-            <td style="text-align:right">()</td>
+            <td style="text-align:right">({{ category.lesson_set.count }})</td>
         </tr>
         {% endfor %}
     </tbody>
