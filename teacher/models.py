@@ -10,4 +10,3 @@ class Teacher(AbstractUser):
     class Meta:
         verbose_name = _('Teacher')
         verbose_name_plural = _('Teachers')
-

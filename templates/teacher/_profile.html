@@ -1,0 +1,5 @@
+<form action={url 'teacher_profile'} method="post">
+    {% csrf_token %}
+    {{form.as_ul}}
+    <input type="submit" value="更新表单" />
+</form>

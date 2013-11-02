@@ -8,6 +8,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+AUTH_PROFILE_MODULE = 'teacherprofile.TeacherProfile'
+
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -136,6 +138,7 @@ INSTALLED_APPS = (
     'south',
     'teacher',
     'experiment',
+    'teacherprofile',
 )
 
 # A sample logging configuration. The only tangible logging
