@@ -8,10 +8,10 @@ class TeacherProfile(models.Model):
     OEMS TeacherProfile, have address, mobile, QQ, blog
     """
     teacher = models.OneToOneField(Teacher)
-    address = models.CharField(max_length=100)
-    mobile = models.CharField(max_length=20)
-    QQ = models.CharField(max_length=20)
-    blog = models.URLField()
+    address = models.CharField(max_length=100, blank=True)
+    mobile = models.CharField(max_length=20, blank=True)
+    QQ = models.CharField(max_length=20, blank=True)
+    blog = models.URLField(blank=True)
 
     class Meta:
         verbose_name = ('TeacherProfile')
