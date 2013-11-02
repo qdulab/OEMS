@@ -5,11 +5,13 @@ from teacher.models import Teacher
 
 class TeacherProfile(models.Model):
     """
-    OEMS TeacherProfile, have address
+    OEMS TeacherProfile, have address, mobile, QQ, blog
     """
     teacher = models.OneToOneField(Teacher)
     address = models.CharField(max_length=100)
-    phone = models.CharField(max_length=20)
+    mobile = models.CharField(max_length=20)
+    QQ = models.CharField(max_length=20)
+    blog = models.URLField()
 
     class Meta:
         verbose_name = ('TeacherProfile')
@@ -18,4 +20,5 @@ class TeacherProfile(models.Model):
     def __unicode__(self):
         return u"Teacher: %s" % self.teacher
 
-Teacher.profile = property(lambda u:TeacherProfile.objects.get_or_create(teacher=u)[0] )
+
+Teacher.profile = property(lambda u:TeacherProfile.objects.get_or_create(teacher=u)[0])

@@ -7,10 +7,5 @@
 <h1>
     <small>教师信息</small>
 </h1>
-
-<form action="" method="post">
-    {% csrf_token %}
-    {{form.as_table}}
-    <input type="submit" value="提交修改" />
-</form>
+{% include "teacher/_profile.html" %}
 {% endblock %}

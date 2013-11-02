@@ -14,11 +14,15 @@ def teacher_profile(request):
         form = TeacherProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            args = {}
-            args['form'] = form
-            return render(request, 'teacher/profile.html', args)
+            return redirect("edit_success")
     else:
         form = TeacherProfileForm(instance=request.user.profile)
-        args = {}
-        args['form'] = form
-        return render(request, 'teacher/profile.html', args)
+    args = {}
+    args['form'] = form
+    return render(request, 'teacher/profile.html', args)
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def edit_success(request):
+    return render(request, 'teacher/edit_success.html', {})

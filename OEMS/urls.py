@@ -21,6 +21,7 @@ urlpatterns = patterns(
     url(r'^teacher/signin/$', 'teacher.views.sign_in', name='teacher_signin'),
     url(r'^teacher/signout/$', 'teacher.views.sign_out', name='teacher_signout'),
     url(r'^teacher/profile/$', 'teacherprofile.views.teacher_profile', name='teacher_profile'),
+    url(r'^teacher/edit_success/$', 'teacherprofile.views.edit_success', name='edit_success'),
     url(r'^teacher/created_success/$',
          'experiment.views.created_success', name='created_success'),
     url(r'^teacher/lesson/(?P<lesson_id>\d+)/$',
