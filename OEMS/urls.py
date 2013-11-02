@@ -20,7 +20,7 @@ urlpatterns = patterns(
     url(r'^teacher/dashboard/$', 'teacher.views.dashboard', name='teacher_dashboard'),
     url(r'^teacher/signin/$', 'teacher.views.sign_in', name='teacher_signin'),
     url(r'^teacher/signout/$', 'teacher.views.sign_out', name='teacher_signout'),
-
+    url(r'^teacher/profile/$', 'teacherprofile.views.teacher_profile', name='teacher_profile'),
     url(r'^teacher/created_success/$',
          'experiment.views.created_success', name='created_success'),
     url(r'^teacher/lesson/(?P<lesson_id>\d+)/$',
@@ -44,13 +44,13 @@ urlpatterns = patterns(
     url(r'^teacher/experiment/delete/(?P<experiment_id>\d+)/$',
         'experiment.views.delete_experiment',
         name='delete_experiment'),
-    url(r'^teacher/lesson/delete/(?P<lesson_id>\d+)/$', 
+    url(r'^teacher/lesson/delete/(?P<lesson_id>\d+)/$',
         'experiment.views.delete_lesson',
         name='delete_lesson'),
     url(r'^teacher/delete_success/$',
-        'experiment.views.delete_success', 
+        'experiment.views.delete_success',
         name='delete_success'),
     url(r'^teacher/experiment/modify/(?P<experiment_id>\d+)/$',
-        'experiment.views.experiment_modify', 
-        name='experiment_modify'),
+        'experiment.views.experiment_modify',
+        name='experiment_modify')
 )
