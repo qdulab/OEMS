@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import Http404
 
@@ -7,6 +6,7 @@ from experiment.models import Experiment, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
+
 
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
@@ -42,7 +42,7 @@ def create_lesson(request):
             return redirect('created_success')
         else:
             return render(request,
-                    'teacher/create_lesson.html',{})
+                          'teacher/create_lesson.html', {})
     else:
         categories = LessonCategory.objects.all()
         return render(request, 'teacher/create_lesson.html',
@@ -176,20 +176,21 @@ def lesson_information(request, lesson_id):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def lesson_list(request, category_id=-1):
-    if(category_id != -1):
-        lesson_list = Lesson.objects.filter(
-            teacher=request.user,
-            category=category_id)
-        try:
-            category = LessonCategory.objects.get(id=category_id)
-        except LessonCategory.DoesNotExist:
-            raise Http404
-        return render(request, 'teacher/lesson_list.html',
-                      {'lesson_list': lesson_list,
-                       'category': category})
-    else:
-        lesson_list = Lesson.objects.filter(teacher=request.user)
-        return render(request, 'teacher/lesson_list.html', {'lesson_list': lesson_list})
+def lesson_list(request, category_id):
+    try:
+        category = LessonCategory.objects.get(id=category_id)
+    except LessonCategory.DoesNotExist:
+        raise Http404
+    lesson_list = Lesson.objects.filter(teacher=request.user,
+                                        category=category)
+    return render(request, 'teacher/lesson_list.html',
+                  {'lesson_list': lesson_list,
+                   'category': category})
 
 
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def lesson_list_all(request):
+    lesson_list = Lesson.objects.filter(teacher=request.user)
+    return render(request,'teacher/lesson_list.html',
+                  {'lesson_list': lesson_list})
