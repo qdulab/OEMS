@@ -178,12 +178,17 @@ def lesson_list(request):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def update_lesson(request, lesson_id):
-    lesson = Lesson.objects.get(id=lesson_id)
+    try:
+        lesson = Lesson.objects.get(id=lesson_id)
+    except Lesson.DoesNotExist:
+        raise Http404
     if request.method == 'POST':
-        form = LessonForm(data=request.POST)
-        if form.is_valid():
-            update_info = form.clean()
-            lesson.update(update_info)
+        updated_form = LessonForm(data=request.POST)
+        if updated_form.is_valid():
+            lesson.name = updated_form.cleaned_data['name']
+            lesson.category = updated_form.cleaned_data['category']
+            lesson.info = updated_form.cleaned_data['info']
+            lesson.save()
             return redirect('created_success')
     else:
         categories = LessonCategory.objects.all()

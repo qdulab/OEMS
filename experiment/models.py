@@ -37,12 +37,6 @@ class Lesson(models.Model):
         verbose_name = _('Lesson')
         verbose_name_plural = _('Lessons')
 
-    def update(self, update_info):
-        self.category = update_info['category']
-        self.name = update_info['name']
-        self.info = update_info['info']
-        self.save()
-
     def __unicode__(self):
         return u"Lesson: %s" % self.name
 
