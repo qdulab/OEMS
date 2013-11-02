@@ -35,7 +35,9 @@
                     <button type="submit" class="btn btn-primary" name="submit">保存修改</button>
                 </div>
                 <div class="col-md-1">
-                    <button type="reset" class="btn btn-primary" name="reset">重置</button>
+                    <a href="{% url 'lesson_info' lesson.id %}">
+                        <button type="button" class="btn btn-primary">取消</button>
+                    </a>
                 </div>
             </div>
         </div>
