@@ -6,7 +6,6 @@ from experiment.models import Experiment, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
-import pdb
 
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
