@@ -13,9 +13,8 @@ class Teacher(AbstractUser):
 
     @property
     def profile(self):
-        u = lambda t:TeacherProfile.objects.get_or_create(teacher=t)[0]
-        return u(self)
-
+        return TeacherProfile.objects.get_or_create(teacher=self)[0]
+        
 
 class TeacherProfile(models.Model):
     """
