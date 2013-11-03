@@ -7,6 +7,7 @@ from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
 
+
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
 
@@ -153,8 +154,10 @@ def experiment_modify(request, experiment_id):
 @is_teacher(redirect_url='')
 def lesson_category_list(request):
     category_list = LessonCategory.objects.all()
+
     def _get_count(Category):
-        count = Lesson.objects.filter(category=Category, teacher=request.user).count()
+        count = Lesson.objects.filter(category=Category,
+                                      teacher=request.user).count()
         setattr(Category, 'lesson_count', count)
         return count
     category_list = sorted(category_list, key=_get_count, reverse=True)
@@ -196,5 +199,5 @@ def lesson_list(request, category_id):
 @is_teacher(redirect_url='')
 def lesson_list_all(request):
     lesson_list = Lesson.objects.filter(teacher=request.user)
-    return render(request,'teacher/lesson_list.html',
+    return render(request, 'teacher/lesson_list.html',
                   {'lesson_list': lesson_list})
