@@ -179,7 +179,8 @@ def lesson_list(request):
 @is_teacher(redirect_url='')
 def update_lesson(request, lesson_id):
     try:
-        lesson = Lesson.objects.get(id=lesson_id)
+        lesson = Lesson.objects.get(id=lesson_id,
+                                    teacher=request.user)
     except Lesson.DoesNotExist:
         raise Http404
     if request.method == 'POST':
