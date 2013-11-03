@@ -154,12 +154,12 @@ def experiment_modify(request, experiment_id):
 @is_teacher(redirect_url='')
 def lesson_category_list(request):
     category_list = LessonCategory.objects.all()
-    def get_count(Category):
-        temp = Lesson.objects.filter(category=Category, teacher=request.user).count()
-        setattr(Category, 'mycount', temp)
-        return temp
-    sorted(category_list, key=get_count)
-#    sorted(category_list, key=lambda category: Lesson.objects.filter(category=category, teacher=teacher).count())
+    def _get_count(Category):
+        count = Lesson.objects.filter(category=Category, teacher=request.user).count()
+        setattr(Category, 'lesson_count', count)
+        return count
+    sorted(category_list, key=_get_count)
+    category_list.reverse()
     return render(request, 'teacher/lesson_category_list.html',
                   {'category_list': category_list})
 
