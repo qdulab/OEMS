@@ -6,7 +6,7 @@ from experiment.models import Experiment, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
-
+import pdb
 
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
@@ -158,8 +158,7 @@ def lesson_category_list(request):
         count = Lesson.objects.filter(category=Category, teacher=request.user).count()
         setattr(Category, 'lesson_count', count)
         return count
-    sorted(category_list, key=_get_count)
-    category_list.reverse()
+    category_list = sorted(category_list, key=_get_count, reverse=True)
     return render(request, 'teacher/lesson_category_list.html',
                   {'category_list': category_list})
 
