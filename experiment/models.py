@@ -18,6 +18,10 @@ class LessonCategory(models.Model):
     def __unicode__(self):
         return u"Lesson Category: %s Created_at: %s" % (self.name,
                                                         self.created_at)
+    @property
+    def count(self):
+        return 1
+
 
 
 class Lesson(models.Model):
