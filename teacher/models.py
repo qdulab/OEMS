@@ -11,6 +11,11 @@ class Teacher(AbstractUser):
         verbose_name = _('Teacher')
         verbose_name_plural = _('Teachers')
 
+    @property
+    def profile(self):
+        u = lambda t:TeacherProfile.objects.get_or_create(teacher=t)[0]
+        return u(self)
+
 
 class TeacherProfile(models.Model):
     """
@@ -28,7 +33,3 @@ class TeacherProfile(models.Model):
 
     def __unicode__(self):
         return u"Teacher: %s" % self.teacher
-
-
-Teacher.profile = property(lambda u:TeacherProfile.objects.get_or_create(teacher=u)[0])
-
