@@ -2,13 +2,13 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from teacher.models import Teacher
+from teacher.forms import TeacherForm, TeacherProfileForm
+from teacher.models import Teacher, TeacherProfile
 from teacher.utils import is_teacher
-from teacher.forms import TeacherForm
 
 
-@login_required()
-@is_teacher()
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def dashboard(request):
     return render(request, 'teacher/dashboard.html')
 
@@ -31,8 +31,28 @@ def sign_in(request):
                 return redirect('teacher_dashboard')
     return redirect('teacher_index')
 
-#TODO  add:(login_url='/teacher/login')
-@login_required()
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def sign_out(request):
     logout(request)
     return redirect('teacher_index')
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def teacher_profile(request):
+    if request.method == 'POST':
+        form = TeacherProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect("edit_success")
+    else:
+        form = TeacherProfileForm(instance=request.user.profile)
+    return render(request, 'teacher/profile.html', {'form':form})
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def edit_success(request):
+    return render(request, 'teacher/edit_success.html', {})
