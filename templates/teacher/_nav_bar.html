@@ -11,7 +11,7 @@
 
         {% if user.is_authenticated %}
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="">{{ user.get_username }}</a></li>
+            <li><a href="{% url 'teacher_profile' %}">{{ user.get_username }}</a></li>
             <li><a href="{% url 'teacher_signout' %}">登出</a></li>
         </ul>
         {% endif %}
