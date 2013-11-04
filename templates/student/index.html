@@ -1,20 +1,9 @@
 {% extends "base.html" %}
 
+
 {% block body %}
 
 {% include "student/_nav_bar.html" %}
-
-<div id="login_form" class="container col-md-offset-4 col-md-4">
-    <form class="navbar-form navbar-right" action="{% url 'student_signin' %}" method='post'>
-        {% csrf_token %}
-        <div class="form-group">
-            <input type="text" placeholder="帐号" class="form-control" id='username' name='username'>
-        </div>
-        <div class="form-group">
-            <input type="password" placeholder="密码" class="form-control" id="password" name="password">
-        </div>
-        <br />
-        <button type="submit" class="btn btn-success">登录</button> 
-    </form>
+{% include "student/_login_form.html" %}
 
 {% endblock %}
