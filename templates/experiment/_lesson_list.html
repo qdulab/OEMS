@@ -9,10 +9,10 @@
     <tbody class="align-center">
         {% for lesson in lesson_list %}
         <tr>
-            <td><a href="{% url 'lesson_info' lesson.id %}">{{lesson.name}}</a></td>
-            <td>{{lesson.status}}</td>
-            <td>{{lesson.info}}</td>
-            <td>{{lesson.create_at}}</td>
+            <td><a href="{% url 'lesson_info' lesson.id %}">{{ lesson.name }}</a></td>
+            <td>{{ lesson.status }}</td>
+            <td>{{ lesson.info }}</td>
+            <td>{{ lesson.create_at|date:"Y-m-d" }}</td>
          </tr>
         {% endfor %}
     </tbody>

@@ -11,7 +11,7 @@
         <td>教师</td>
         <td colspan="1">{{ experiment.lesson.teacher.username }}</td>
         <td colspan="1">创建时间</td>
-        <td>{{ experiment.create_at }}</td>
+        <td>{{ experiment.create_at|date:"Y-m-d" }}</td>
         <td>作业提交总数</td>
         <td>{{ submit_experiment_list.count }}0 / {{ experiment.lesson.students.count }}</td>
     <tr>
