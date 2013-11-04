@@ -201,3 +201,26 @@ def lesson_list_all(request):
     lesson_list = Lesson.objects.filter(teacher=request.user)
     return render(request, 'teacher/lesson_list.html',
                   {'lesson_list': lesson_list})
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def update_lesson(request, lesson_id):
+    try:
+        lesson = Lesson.objects.get(id=lesson_id,
+                                    teacher=request.user)
+    except Lesson.DoesNotExist:
+        raise Http404
+    if request.method == 'POST':
+        updated_form = LessonForm(data=request.POST)
+        if updated_form.is_valid():
+            lesson.name = updated_form.cleaned_data['name']
+            lesson.category = updated_form.cleaned_data['category']
+            lesson.info = updated_form.cleaned_data['info']
+            lesson.save()
+            return redirect('created_success')
+    else:
+        categories = LessonCategory.objects.all()
+        return render(request, 'teacher/update_lesson.html',
+                      {'categories': categories,
+                       'lesson': lesson})

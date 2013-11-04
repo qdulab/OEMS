@@ -59,4 +59,6 @@ urlpatterns = patterns(
     url(r'^teacher/experiment/modify/(?P<experiment_id>\d+)/$',
         'experiment.views.experiment_modify', 
         name='experiment_modify'),
+    url(r'^teacher/update_lesson/(?P<lesson_id>\d+)/$',
+        'experiment.views.update_lesson', name='update_lesson'),
 )
