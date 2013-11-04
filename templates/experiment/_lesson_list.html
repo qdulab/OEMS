@@ -10,7 +10,11 @@
         {% for lesson in lesson_list %}
         <tr>
             <td><a href="{% url 'lesson_info' lesson.id %}">{{ lesson.name }}</a></td>
-            <td>{{ lesson.status }}</td>
+            {% if lesson.status %}
+            <td>是</td>
+            {% else %}
+            <td>否</td>
+            {% endif %}
             <td>{{ lesson.info }}</td>
             <td>{{ lesson.create_at|date:"Y-m-d" }}</td>
          </tr>
