@@ -8,7 +8,7 @@
         {% for experiment in experiment_list %}
         <tr>
             <td><a href="{% url 'experiment_info' experiment.id %}">{{experiment.name}}</a></td>
-            <td>{{experiment.deadline}}</td>
+            <td>{{ experiment.deadline|date:"Y-m-d" }}</td>
          </tr>
         {% endfor %}
     </tbody>

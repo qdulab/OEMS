@@ -13,7 +13,11 @@
     </tr>
     <tr>
         <td style="white-space: nowrap">课程状态</td>
-        <td>{{ lesson.status }}</td>
+        {% if lesson.status %}
+        <td>是</td>
+        {% else %}
+        <td>否</td>
+        {% endif %}
         <td>学生总数</td>
         <td>{{ lesson.students.count }}</td>
         <td>实验总数</td>
