@@ -61,12 +61,12 @@ class Experiment(models.Model):
         return u"Experiment: %s" % self.name
 	
 
-class Experiment_report(models.Model):
+class ExperimentReport(models.Model):
     name = models.CharField(max_length=60, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     experiment = models.ForeignKey(Experiment)
     content = models.TextField(null=False, blank=True)
-    submit_time = models.DateTimeField(auto_now=True)
+    update_at = models.DateTimeField(auto_now=True)
     score = models.PositiveSmallIntegerField(null=True, blank=True)
     student = models.ForeignKey(User)
 
@@ -76,3 +76,4 @@ class Experiment_report(models.Model):
     
     def __unicode__(self):
         return u"Experiment_report: %s" % self.name
+

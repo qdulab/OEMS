@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -5,12 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
+from student.forms import ReportForm
 
-from student.utils import is_student
+from experiment.models import ExperimentReport, Experiment
+#from student.utils import is_student
 
 
 @login_required(login_url='student_index')
-@is_student()
+#@is_student()
 def dashboard(request):
     return render(request, 'student/dashboard.html')
 
@@ -35,7 +38,33 @@ def sign_in(request):
 
 
 @login_required(login_url='student_index')
-@is_student()
+#@is_student()
 def sign_out(request):
     logout(request)
     return redirect('student_index')
+
+@login_required(login_url='student_index')
+#@in_student()
+def submit_report(request, experiment_id):
+    try:
+        experiment = Experiment.objects.get(id=experiment_id)
+    except Experiment.DoesNotExist:
+        raise Http404
+    if request.method == 'POST':
+        report_form = ReportForm(request.POST)
+        if report_form.is_valid():
+            try:
+                report = ExperimentReport.objects.get(experiment=experiment,
+                                                     student=request.user)
+            except ExperimentReport.DoesNotExist():
+                report = ExperimentReport(experiment=experiment,
+                                          student=request.user)
+            report.name = report_form.cleaned_data['title']
+            report.content = report_form.cleaned_data['content']
+            report.save()
+            render(request, "student_success", {})
+        else:
+            raise Http404
+    else:
+        return render(request, "student/submit_report.html", {})
+
