@@ -53,7 +53,6 @@ class Experiment(models.Model):
     deadline = models.DateTimeField(blank=True, null=True)
     remark = models.TextField(null=False, blank=True)
     
-    
     class Meta:
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
@@ -61,3 +60,19 @@ class Experiment(models.Model):
     def __unicode__(self):
         return u"Experiment: %s" % self.name
 	
+
+class Experiment_report(models.Model):
+    name = models.CharField(max_length=60, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    experiment = models.ForeignKey(Experiment)
+    content = models.TextField(null=False, blank=True)
+    submit_time = models.DateTimeField(auto_now=True)
+    score = models.PositiveSmallIntegerField(null=True, blank=True)
+    student = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name = _('Experiment_report')
+        verbose_name_plural = _('Experiment_reports')
+    
+    def __unicode__(self):
+        return u"Experiment_report: %s" % self.name
