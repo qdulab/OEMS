@@ -6,27 +6,36 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
 
+from student.utils import is_student
+
 
 @login_required(login_url='student_index')
+@is_student()
 def dashboard(request):
-    return render(request, 'student/dashboard.html', {})
+    return render(request, 'student/dashboard.html')
+
 
 def index(request):
-    if hasattr(request, 'user') and isinstance(request.user, User):
+    try:
+        isinstance(request.user, User)
+    except AttributeError:
         return redirect('student_dashboard')
-    return render(request, 'student/index.html', {})
+    return render(request, 'student/index.html')
+
 
 def sign_in(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         student = authenticate(username=username, password=password)
-        if student is not None and isinstance(student, User):
+        if isinstance(student, User):
             login(request, student)
             return redirect('student_dashboard')
-    return redirect('student_dashboard')
-        
+    return redirect('student_index')
+
+
 @login_required(login_url='student_index')
+@is_student()
 def sign_out(request):
     logout(request)
     return redirect('student_index')
