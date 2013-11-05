@@ -5,11 +5,11 @@
     {% csrf_token %}
     <div class="form-group">
         <label for="title">题目</label>
-        <input type="text" maxlength="60" id="title" name="title" placeholder="请输入实验报告题目" class="form-control" required="required" value="{{ experiment_report.name }}"/>
+        <input type="text" maxlength="60" id="title" name="title" placeholder="请输入实验报告题目" class="form-control" required="required" value="{{ report.name }}" />
     </div>
     <div class="from-group">
         <label for="content">实验内容</label>
-        <textarea rows="20" class="form-control" name="content" id="content" placeholder="实验内容" /></textarea>
+        <textarea rows="20" class="form-control" name="content" id="content" placeholder="实验内容" />{{ report.content }}</textarea>
     </div>
     <button type="submit" class="btn btn-success" name="submit">提交</button>
     <button type="button" class="btn btn-default">取消</button>
