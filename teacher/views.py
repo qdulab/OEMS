@@ -14,7 +14,9 @@ def dashboard(request):
 
 
 def index(request):
-    if hasattr(request, 'user') and isinstance(request.user, Teacher):
+    try:
+        isinstance(request.user, Teacher)
+    except AttributeError:
         return redirect('teacher_dashboard')
     return render(request, 'teacher/index.html')
 

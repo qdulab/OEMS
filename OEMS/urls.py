@@ -16,6 +16,13 @@ urlpatterns = patterns(
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^student/$', 'student.views.index', name='student_index'),
+    url(r'^student/signin/$', 'student.views.sign_in',
+        name='student_signin'),
+    url(r'^student/signout/$', 'student.views.sign_out',
+        name='student_signout'),
+    url(r'^student/dashboard/$', 'student.views.dashboard',
+        name='student_dashboard'),
     url(r'^teacher/$', 'teacher.views.index', name='teacher_index'),
     url(r'^teacher/dashboard/$', 'teacher.views.dashboard',
         name='teacher_dashboard'),
