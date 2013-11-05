@@ -1,0 +1,24 @@
+<table class="table table-hover" id="experimentlist">
+    {% if report_list %}
+    <thead class="align-center">
+        <th class="align-center">学生姓名</th>
+        <th class="align-center">实验题目</th>
+        <th class="align-center">提交时间</th>
+        <th class="align-center">分数</th>
+    </thead>
+    <tbody class="align-center">
+        {% for report in report_list %}
+        <tr>
+            <td><a href="#">{{ report.student.username }}</a></td>
+            <td><a href="#">{{ report.name }}</a></td>
+            <td>{{ report.update_at|date:"Y-m-d" }}</td>
+            <td>{{ report.score|default_if_none:"" }}</td>
+         </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <tr>
+        <td class="align-center">无记录</td>
+    </tr>
+    {% endif %}
+</table>
