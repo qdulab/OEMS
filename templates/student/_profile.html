@@ -1,0 +1,36 @@
+<div class="container col-lg-4">
+	<table class="table table-striped">
+		<tbody>
+		<tr>
+			<th>学号:</th>
+			<td>{{ form.school_id }}</td>
+		</tr>
+		<tr>
+			<th>年级:</th>
+			<td>{{ form.grade }}</td>
+		</tr>
+		<tr>
+			<th>专业:</th>
+			<td>{{ form.major }}</td>
+		</tr>
+		<tr>
+			<th>班级:</th>
+			<td>{{ form.class_num }}</td>
+		</tr>
+		<tr>
+			<th>手机号:</th>
+			<td>{{ form.phone_num }}</td>
+		</tr>
+		</tbody>
+	</table>
+	<div class="row">
+		<div class="col-md-1">
+			<div class="col-md-2">
+				<a href=" {% url 'update_student_profile' %}">
+					<button type="button" class="btn btn-primary"> 编辑个人信息</button>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+

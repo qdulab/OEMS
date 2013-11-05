@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'south',
     'teacher',
     'experiment',
+    'student',
 )
 
 # A sample logging configuration. The only tangible logging

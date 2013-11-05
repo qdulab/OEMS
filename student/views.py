@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
 
+from student.forms import UserProfileForm
+from student.models import UserProfile
 from student.utils import is_student
 
 
@@ -39,3 +41,26 @@ def sign_in(request):
 def sign_out(request):
     logout(request)
     return redirect('student_index')
+
+@login_required(login_url='student_index')
+@is_student()
+def view_profile(request):
+    form = UserProfile.objects.get(student=request.user)
+    return render(request, 'student/profile.html',
+                  {'form': form})
+
+@login_required(login_url='student_index')
+@is_student()
+def update_profile(request):
+    import pdb; pdb.set_trace()
+    if request.method == 'POST':
+        form = UserProfileForm(data=request.POST)
+        if form.is_valid():
+            student = User.objects.get(id=request.user.id)
+            form.student = student
+            form.save()
+            return redirect('edit_success')
+    else:
+        form = UserProfile.objects.get(student=request.user)
+        return render(request, 'student/update_profile.html',
+                      {'form': form})
