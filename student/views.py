@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import Http404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
@@ -42,25 +43,35 @@ def sign_out(request):
     logout(request)
     return redirect('student_index')
 
-@login_required(login_url='student_index')
-@is_student()
-def view_profile(request):
-    form = UserProfile.objects.get(student=request.user)
-    return render(request, 'student/profile.html',
-                  {'form': form})
 
 @login_required(login_url='student_index')
 @is_student()
 def update_profile(request):
-    import pdb; pdb.set_trace()
+    try:
+        profile = UserProfile.objects.get(id=request.user.id,
+                                       student=request.user)
+    except User.DoesNotExist:
+        raise Http404
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST)
         if form.is_valid():
-            student = User.objects.get(id=request.user.id)
-            form.student = student
-            form.save()
-            return redirect('edit_success')
+            profile.school_id = form.cleaned_data['school_id']
+            profile.grade = form.cleaned_data['grade']
+            profile.major = form.cleaned_data['major']
+            profile.class_num = form.cleaned_data['class_num']
+            profile.phone_num = form.cleaned_data['phone_num']
+            profile.save()
+            return redirect('created_success')
+        else:
+            raise Http404
     else:
-        form = UserProfile.objects.get(student=request.user)
+        form = UserProfile.objects.filter(student=request.user)[0]
         return render(request, 'student/update_profile.html',
                       {'form': form})
+
+@login_required(login_url='student_index')
+@is_student()
+def view_profile(request):
+    form = UserProfile.objects.get_or_create(student=request.user)[0]
+    return render(request, 'student/profile.html',
+                  {'form': form})
