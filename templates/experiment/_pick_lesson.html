@@ -1,0 +1,22 @@
+<table class="table table-hover" id="lesson_list">
+    {% if drop_list %}
+    <thead class="align-center">
+        <th class="align-center">课程名称</th>
+        <th class="align-center">课程信息</th>
+        <th class="align-center">选课</th>
+    </thead>
+    <tbody class="align-center">
+        {% for lesson in drop_list %}
+        <tr>
+            <td><a href="{% url 'lesson_info_for_student' lesson.id %}">{{ lesson.name }}</a></td>
+            <td>{{ lesson.info }}</td>
+            <td><a href="{% url 'lesson_info_for_student' lesson.id %}">我要选</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <tr>
+        <td class="align-center">没有可选课程</td>
+    </tr>
+    {% endif %}
+</table>

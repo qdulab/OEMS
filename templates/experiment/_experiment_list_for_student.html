@@ -1,0 +1,24 @@
+<table class="table table-hover" id="lesson_list">
+    {% if experiment_list %}
+    <thead class="align-center">
+        <th class="align-center">实验名称</th>
+        <th class="align-center">所属课程</th>
+        <th class="align-center">任课教师</th>
+        <th class="align-center">截止时间</th>
+    </thead>
+    <tbody class="align-center">
+        {% for experiment in experiment_list %}
+        <tr>
+            <td><a href="{% url 'experiment_info_for_student' experiment.id %}">{{experiment.name}}</a></td>
+            <td>{{ experiment.lesson }}</td>
+            <td>{{ experiment.teacher }}</td>
+            <td>{{ experiment.deadline|date:"Y-m-d"}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <tr>
+        <td class="align-center">没有实验</td>
+    </tr>
+    {% endif %}
+</table>

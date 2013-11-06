@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.http import Http404
 
 from experiment.models import Lesson, Experiment
 
@@ -65,7 +66,10 @@ def lesson_pick_success(request):
 
 def lesson_drop(request, lesson_id):
     student = request.user
-    lesson = Lesson.objects.get(id=lesson_id)
+    try:
+        lesson = Lesson.objects.get(id=lesson_id)
+    except Lesson.DoesNotExist:
+        raise Http404
     lesson.students.remove(student)
     return redirect('drop_success')
 
@@ -86,14 +90,35 @@ def list_experiment(request):
     return render(request, 'student/experiment_list.html', {'experiment_list':experiment_list})
 
 
-def search_experiment(request):
-    return render(request, 'student/search_experiment.html', {})
+def search_lesson(request):
+    return render(request, 'student/search_lesson.html', {})
 
 
-def search_experiment_result(request):
+def search_lesson_result(request):
     lesson_list = {}
     if request.method == 'POST':
         lesson_name = request.POST.get('lesson_name', '')
         if lesson_name is not None:
             lesson_list = Lesson.objects.filter(name__contains=lesson_name)
-    return render(request, 'student/search_experiment_result.html', {'lesson_list':lesson_list})
+    return render(request, 'student/search_lesson_result.html', {'lesson_list':lesson_list})
+
+def experiment_information(request, experiment_id):
+    try:
+        experiment = Experiment.objects.get(id=experiment_id)
+    except Experiment.DoesNotExist:
+        raise Http404
+    if experiment.lesson.status == True:
+        return render(request, 'student/experiment_information.html',
+                     {'experiment':experiment})
+    raise Http404
+
+def lesson_information(request, lesson_id):
+    try:
+        lesson = Lesson.objects.get(id=lesson_id)
+    except Lesson.DoesNotExist:
+        raise Http404
+    if lesson.status == True:
+        experiment_list = Experiment.objects.filter(lesson=lesson)
+        return render(request, 'student/lesson_information.html',
+                     {'lesson': lesson, 'experiment_list':experiment_list})
+    raise Http404

@@ -1,17 +1,10 @@
-{% extends "student/dashboard.html" %}
-
-
-{% block title %}课程搜索{% endblock %}
-
-{% block right %}
-<h1><small>课程搜索</small></h1>
-<form class="form-horizontal" role="form" action="{% url 'search_experiment_result' %}" method="post">
+<form class="form-horizontal" role="form" action="{% url 'search_lesson_result' %}" method="post">
     {% csrf_token %}
     <div class="form-group">
         <label for="lesson_name" class="col-sm-3 control-label">请输入要搜索的课程名:</label>
         <div class="col-sm-9">
             <input type="text" class="form-control" name="lesson_name" id="lesson_name" placeholder="例如:数据结构">
-        </div>
+                </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-5 col-sm-10">
@@ -19,6 +12,3 @@
         </div>
     </div>
 </form>
-{% endblock %}
-
-
