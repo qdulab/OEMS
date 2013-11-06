@@ -38,6 +38,7 @@ def sign_out(request):
     return redirect('student_index')
 
 
+@login_required(login_url='student_index')
 def pick(request):
     student = request.user
     lesson_list = Lesson.objects.filter(status=True)
@@ -45,6 +46,7 @@ def pick(request):
     return render(request, 'student/pick.html', {'drop_list':drop_list})
 
 
+@login_required(login_url='student_index')
 def drop(request):
     student = request.user
     lesson_list = Lesson.objects.filter(status=True)
@@ -52,18 +54,23 @@ def drop(request):
     return render(request, 'student/drop.html', {'pick_list':pick_list})
 
 
-
+@login_required(login_url='student_index')
 def lesson_pick(request, lesson_id):
     student = request.user
-    lesson = Lesson.objects.get(id=lesson_id)
+    try:
+        lesson = Lesson.objects.get(id=lesson_id)
+    except Lesson.DoesNotExist:
+        raise Http404
     lesson.students.add(student)
     return redirect('pick_success')
 
 
+@login_required(login_url='student_index')
 def lesson_pick_success(request):
     return render(request, 'student/pick_success.html')
 
 
+@login_required(login_url='student_index')
 def lesson_drop(request, lesson_id):
     student = request.user
     try:
@@ -74,26 +81,31 @@ def lesson_drop(request, lesson_id):
     return redirect('drop_success')
 
 
+@login_required(login_url='student_index')
 def lesson_drop_success(request):
     return render(request, 'student/drop_success.html')
 
 
+@login_required(login_url='student_index')
 def list_lesson(request):
     student = request.user
     lesson_list = student.lesson_set.all()
     return render(request, 'student/lesson_list.html', {'lesson_list':lesson_list})
 
 
+@login_required(login_url='student_index')
 def list_experiment(request):
     student = request.user
     experiment_list = Experiment.objects.filter(lesson__students=student)
     return render(request, 'student/experiment_list.html', {'experiment_list':experiment_list})
 
 
+@login_required(login_url='student_index')
 def search_lesson(request):
     return render(request, 'student/search_lesson.html', {})
 
 
+@login_required(login_url='student_index')
 def search_lesson_result(request):
     lesson_list = {}
     if request.method == 'POST':
@@ -102,6 +114,8 @@ def search_lesson_result(request):
             lesson_list = Lesson.objects.filter(name__contains=lesson_name)
     return render(request, 'student/search_lesson_result.html', {'lesson_list':lesson_list})
 
+
+@login_required(login_url='student_index')
 def experiment_information(request, experiment_id):
     try:
         experiment = Experiment.objects.get(id=experiment_id)
@@ -112,6 +126,8 @@ def experiment_information(request, experiment_id):
                      {'experiment':experiment})
     raise Http404
 
+
+@login_required(login_url='student_index')
 def lesson_information(request, lesson_id):
     try:
         lesson = Lesson.objects.get(id=lesson_id)
