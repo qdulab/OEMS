@@ -1,8 +1,10 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import redirect, render
 
-from teacher.forms import TeacherForm, TeacherProfileForm
+from experiment.models import ExperimentReport
+from teacher.forms import TeacherForm, TeacherProfileForm, ReportEvaluateForm
 from teacher.models import Teacher, TeacherProfile
 from teacher.utils import is_teacher
 
@@ -32,6 +34,29 @@ def sign_in(request):
                 login(request, teacher)
                 return redirect('teacher_dashboard')
     return redirect('teacher_index')
+
+
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
+def report_evaluate(request, report_id):
+    try:
+       report = ExperimentReport.objects.get(id=report_id)
+    except ExperimentReport.DoesNotExist:
+        raise Http404
+    if request.method == 'POST':
+        form = ReportEvaluateForm(request.POST)
+        if form.is_valid():
+            report.score = form.cleaned_data['score']
+            report.critic = form.cleaned_data['critic']
+            report.save()
+            return redirect('created_success')
+        else:
+            raise Http404
+    else:
+        return render(request, 'teacher/report_evaluat.html', 
+                      {'report': report})
+
+
 
 
 @login_required(login_url='teacher')

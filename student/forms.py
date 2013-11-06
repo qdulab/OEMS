@@ -3,6 +3,6 @@
 from django import forms
 
 
-class ReportForm(forms.Form):
+class ReportSubmitForm(forms.Form):
     title = forms.CharField(max_length=60, required=True)
-    content = forms.CharField(widget=forms.Textarea) 
+    content = forms.CharField(widget=forms.Textarea, required=True) 

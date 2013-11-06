@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
-from student.forms import ReportForm
+from student.forms import ReportSubmitForm
 
 from experiment.models import ExperimentReport, Experiment
 #from student.utils import is_student
@@ -56,7 +56,7 @@ def submit_report(request, experiment_id):
         report = ExperimentReport(experiment=experiment,
                                   student=request.user)
     if request.method == 'POST':
-        report_form = ReportForm(request.POST)
+        report_form = ReportSubmitForm(request.POST)
         if report_form.is_valid():
             report.name = report_form.cleaned_data['title']
             report.content = report_form.cleaned_data['content']

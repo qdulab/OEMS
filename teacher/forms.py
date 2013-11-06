@@ -13,3 +13,8 @@ class TeacherProfileForm(forms.ModelForm):
     class Meta:
         model = TeacherProfile
         fields = ('address', 'mobile', 'QQ', 'blog')
+
+
+class ReportEvaluateForm(forms.Form):
+    score = forms.IntegerField(required=True)
+    critic = forms.CharField(widget=forms.Textarea)

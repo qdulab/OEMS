@@ -69,6 +69,7 @@ class ExperimentReport(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     score = models.PositiveSmallIntegerField(null=True, blank=True)
     student = models.ForeignKey(User)
+    critic = models.TextField(null=False, blank=True)
 
     class Meta:
         verbose_name = _('Experiment_report')
