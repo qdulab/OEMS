@@ -4,14 +4,14 @@
         <th class="align-center">实验名称</th>
         <th class="align-center">所属课程</th>
         <th class="align-center">任课教师</th>
-        <th class="align-center">截止时间</th>
+        <th class="align-center">最晚提交日期</th>
     </thead>
     <tbody class="align-center">
         {% for experiment in experiment_list %}
         <tr>
             <td><a href="{% url 'experiment_info_for_student' experiment.id %}">{{experiment.name}}</a></td>
-            <td>{{ experiment.lesson }}</td>
-            <td>{{ experiment.teacher }}</td>
+            <td>{{ experiment.lesson.name }}</td>
+            <td>{{ experiment.lesson.teacher }}</td>
             <td>{{ experiment.deadline|date:"Y-m-d"}}</td>
         </tr>
         {% endfor %}
