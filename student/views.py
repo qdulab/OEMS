@@ -1,19 +1,17 @@
-from django.http import Http404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 from student.forms import ReportSubmitForm
 
 from experiment.models import ExperimentReport, Experiment
-#from student.utils import is_student
 
 
 @login_required(login_url='student_index')
-#@is_student()
 def dashboard(request):
     return render(request, 'student/dashboard.html')
 
@@ -38,14 +36,12 @@ def sign_in(request):
 
 
 @login_required(login_url='student_index')
-#@is_student()
 def sign_out(request):
     logout(request)
     return redirect('student_index')
 
 
 @login_required(login_url='student_index')
-#@in_student()
 def submit_report(request, experiment_id):
     try:
         experiment = Experiment.objects.get(id=experiment_id)
@@ -62,7 +58,8 @@ def submit_report(request, experiment_id):
             experiment_report.title = report_form.cleaned_data['title']
             experiment_report.content = report_form.cleaned_data['content']
             experiment_report.save()
-            return redirect('created_success')
+            # TO DO:success response
+            return HttpResponse("success")
         else:
             raise Http404
     else:
