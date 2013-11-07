@@ -47,26 +47,15 @@ def sign_out(request):
 @login_required(login_url='student_index')
 @is_student()
 def update_profile(request):
-    try:
-        profile = UserProfile.objects.get(id=request.user.id,
-                                       student=request.user)
-    except User.DoesNotExist:
-        raise Http404
     if request.method == 'POST':
-        form = UserProfileForm(data=request.POST, instance=profile)
+        form = UserProfileForm(data=request.POST,
+                               instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('created_success')
         else:
             raise Http404
     else:
-        form = UserProfile.objects.filter(student=request.user)[0]
+        form = UserProfileForm(instance=request.user.profile)
         return render(request, 'student/update_profile.html',
                       {'form': form})
-
-@login_required(login_url='student_index')
-@is_student()
-def view_profile(request):
-    form = UserProfile.objects.get_or_create(student=request.user)[0]
-    return render(request, 'student/profile.html',
-                  {'form': form})
