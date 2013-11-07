@@ -9,6 +9,8 @@ from django.shortcuts import render
 from student.forms import ReportSubmitForm
 
 from experiment.models import ExperimentReport, Experiment
+from student.forms import UserProfileForm
+from student.utils import is_student
 
 
 @login_required(login_url='student_index')
@@ -23,6 +25,11 @@ def index(request):
         return redirect('student_dashboard')
     return render(request, 'student/index.html')
 
+
+@login_required(login_url='student_index')
+@is_student()
+def profile(request):
+    return render(request, 'student/profile.html')
 
 def sign_in(request):
     if request.method == 'POST':
@@ -65,3 +72,15 @@ def submit_report(request, experiment_id):
     else:
         return render(request, "student/submit_report.html",
                       {"experiment_report": experiment_report})
+
+
+@login_required(login_url='student_index')
+@is_student()
+def update_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(data=request.POST,
+                               instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('student_profile')
+    raise Http404
