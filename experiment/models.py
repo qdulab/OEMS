@@ -7,8 +7,7 @@ class LessonCategory(models.Model):
     """
     OMES LessonCategory have attributes name and created_at
     """
-    name = models.CharField(max_length=60, null=False, blank=False,
-                            unique=True)
+    name = models.CharField(max_length=60, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -46,7 +45,7 @@ class Lesson(models.Model):
 
 
 class Experiment(models.Model):
-    name = models.CharField(blank=False, max_length=128)
+    name = models.CharField(max_length=128)
     create_at = models.DateTimeField(auto_now_add=True)
     content = models.TextField(blank=True)
     lesson = models.ForeignKey(Lesson)
@@ -62,7 +61,7 @@ class Experiment(models.Model):
 	
 
 class ExperimentReport(models.Model):
-    title = models.CharField(max_length=60, blank=False)
+    title = models.CharField(max_length=60)
     created_at = models.DateTimeField(auto_now_add=True)
     experiment = models.ForeignKey(Experiment)
     content = models.TextField(blank=True)

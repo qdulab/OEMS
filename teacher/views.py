@@ -40,7 +40,8 @@ def sign_in(request):
 @is_teacher(redirect_url='')
 def experiment_report_evaluate(request, experiment_report_id):
     try:
-       experiment_report = ExperimentReport.objects.get(id=experiment_report_id)
+        experiment_report = ExperimentReport.objects.get(
+            id=experiment_report_id)
     except ExperimentReport.DoesNotExist:
         raise Http404
     if request.method == 'POST':
@@ -51,10 +52,10 @@ def experiment_report_evaluate(request, experiment_report_id):
             experiment_report.save()
             return redirect('created_success')
         else:
-            #TO DO:form error tip
+            # TO DO:form error tip
             raise Http404
     else:
-        return render(request, 'teacher/experiment_report_evaluate.html', 
+        return render(request, 'teacher/experiment_report_evaluate.html',
                       {'experiment_report': experiment_report})
 
 
@@ -75,7 +76,7 @@ def teacher_profile(request):
             return redirect("edit_success")
     else:
         form = TeacherProfileForm(instance=request.user.profile)
-    return render(request, 'teacher/profile.html', {'form':form})
+    return render(request, 'teacher/profile.html', {'form': form})
 
 
 @login_required(login_url='teacher')

@@ -113,8 +113,9 @@ def experiment_information(request, experiment_id):
         experiment = Experiment.objects.get(id=experiment_id)
     except Experiment.DoesNotExist:
         raise Http404
-    if experiment.lesson.teacher == request.user:
-        experiment_report_list = ExperimentReport.objects.filter(experiment=experiment)
+    if experiment.lesson.teacher is request.user:
+        experiment_report_list = ExperimentReport.objects.filter(
+            experiment=experiment)
         return render(request, 'teacher/experiment_information.html',
                       {'experiment_report_list': experiment_report_list,
                        'experiment': experiment,
@@ -223,5 +224,3 @@ def update_lesson(request, lesson_id):
         return render(request, 'teacher/update_lesson.html',
                       {'categories': categories,
                        'lesson': lesson})
-
-

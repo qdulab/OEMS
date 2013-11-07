@@ -43,28 +43,28 @@ def sign_out(request):
     logout(request)
     return redirect('student_index')
 
+
 @login_required(login_url='student_index')
 #@in_student()
 def submit_report(request, experiment_id):
     try:
         experiment = Experiment.objects.get(id=experiment_id)
-        report = ExperimentReport.objects.get(experiment=experiment,
-                                              student=request.user)
+        experiment_report = ExperimentReport.objects.get(experiment=experiment,
+                                                         student=request.user)
     except Experiment.DoesNotExist:
         raise Http404
     except ExperimentReport.DoesNotExist:
-        report = ExperimentReport(experiment=experiment,
-                                  student=request.user)
+        experiment_report = ExperimentReport(experiment=experiment,
+                                             student=request.user)
     if request.method == 'POST':
         report_form = ReportSubmitForm(request.POST)
         if report_form.is_valid():
-            report.title = report_form.cleaned_data['title']
-            report.content = report_form.cleaned_data['content']
-            report.save()
+            experiment_report.title = report_form.cleaned_data['title']
+            experiment_report.content = report_form.cleaned_data['content']
+            experiment_report.save()
             return redirect('created_success')
         else:
             raise Http404
     else:
-        return render(request, "student/submit_report.html", 
-                      {"report": report})
-
+        return render(request, "student/submit_report.html",
+                      {"experiment_report": experiment_report})
