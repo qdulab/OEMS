@@ -39,19 +39,21 @@ def sign_out(request):
 
 
 @login_required(login_url='student_index')
-def pick(request):
+def pick_lesson_list(request):
     student = request.user
     lesson_list = Lesson.objects.filter(status=True)
-    drop_list = lesson_list.exclude(students=student)
-    return render(request, 'student/pick.html', {'drop_list':drop_list})
+    can_pick_lesson_list = lesson_list.exclude(students=student)
+    return render(request, 'student/pick_lesson.html',
+                 {'can_pick_lesson_list':can_pick_lesson_list})
 
 
 @login_required(login_url='student_index')
-def drop(request):
+def drop_lesson_list(request):
     student = request.user
     lesson_list = Lesson.objects.filter(status=True)
-    pick_list = lesson_list.filter(students=student)
-    return render(request, 'student/drop.html', {'pick_list':pick_list})
+    can_drop_lesson_list = lesson_list.filter(students=student)
+    return render(request, 'student/drop_lesson.html',
+                 {'can_drop_lesson_list':can_drop_lesson_list})
 
 
 @login_required(login_url='student_index')
@@ -110,7 +112,7 @@ def search_lesson_result(request):
     lesson_list = {}
     if request.method == 'POST':
         lesson_name = request.POST.get('lesson_name', '')
-        if lesson_name is not None:
+        if lesson_name:
             lesson_list = Lesson.objects.filter(name__contains=lesson_name)
     return render(request, 'student/search_lesson_result.html', {'lesson_list':lesson_list})
 
@@ -121,7 +123,7 @@ def experiment_information(request, experiment_id):
         experiment = Experiment.objects.get(id=experiment_id)
     except Experiment.DoesNotExist:
         raise Http404
-    if experiment.lesson.status == True:
+    if experiment.lesson.status:
         return render(request, 'student/experiment_information.html',
                      {'experiment':experiment})
     raise Http404
@@ -134,7 +136,7 @@ def lesson_information(request, lesson_id):
     except Lesson.DoesNotExist:
         raise Http404
     if lesson.status == True:
-        experiment_list = Experiment.objects.filter(lesson=lesson)
+        experiment_list = Experiment.objects.filter(lesson=lesson, status=True)
         return render(request, 'student/lesson_information.html',
                      {'lesson': lesson, 'experiment_list':experiment_list})
     raise Http404

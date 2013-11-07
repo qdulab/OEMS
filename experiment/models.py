@@ -52,12 +52,10 @@ class Experiment(models.Model):
     lesson = models.ForeignKey(Lesson)
     deadline = models.DateTimeField(blank=True, null=True)
     remark = models.TextField(null=False, blank=True)
-    
-    
+
     class Meta:
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
 
     def __unicode__(self):
         return u"Experiment: %s" % self.name
-	
