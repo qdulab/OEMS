@@ -58,7 +58,7 @@ def submit_report(request, experiment_id):
     if request.method == 'POST':
         report_form = ReportSubmitForm(request.POST)
         if report_form.is_valid():
-            report.name = report_form.cleaned_data['title']
+            report.title = report_form.cleaned_data['title']
             report.content = report_form.cleaned_data['content']
             report.save()
             return redirect('created_success')

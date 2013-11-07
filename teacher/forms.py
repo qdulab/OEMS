@@ -1,5 +1,6 @@
 from django import forms
 
+from experiment.models import ExperimentReport
 from teacher.models import TeacherProfile
 
 
@@ -15,6 +16,8 @@ class TeacherProfileForm(forms.ModelForm):
         fields = ('address', 'mobile', 'QQ', 'blog')
 
 
-class ReportEvaluateForm(forms.Form):
-    score = forms.IntegerField(required=True)
-    critic = forms.CharField(widget=forms.Textarea)
+class ReportEvaluateForm(forms.ModelForm):
+
+    class Meta:
+        model = ExperimentReport
+        fields = ('score', 'comment')

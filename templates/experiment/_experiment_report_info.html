@@ -1,11 +1,11 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title">题目：{{ report.name }}</h3>
+        <h3 class="panel-title">题目：{{ experiment_report.title }}</h3>
     </div>
     <div >
         <div class="panel-body">
             <h4>内容:</h4>
-            {{ report.content }}
+            <pre>{{ experiment_report.content }}</pre>
         </div>
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -16,10 +16,10 @@
                     {% csrf_token %}
                     <div class="panel-body">
                         <label for="score">得分</label><br/>
-                        <input title="text" name="score", id="score" value="{{ report.score }}"/>
+                        <input title="text" name="score", id="score" value="{{ experiment_report.score|default_if_none:"" }}"/>
                     <div style="margin-top:10px">
                         <label for="critic">评语</label>
-                        <textarea name="critic" id="critic" class="form-control">{{ report.critic|default_if_none:"" }}</textarea>
+                        <textarea name="comment" id="comment" class="form-control">{{ experiment_report.comment }}</textarea>
                     </div>
                     <div style="margin-top:10px">
                         <button title="submit" class="btn btn-info">提交</button>

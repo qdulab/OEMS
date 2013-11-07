@@ -4,7 +4,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from experiment.models import ExperimentReport
-from teacher.forms import TeacherForm, TeacherProfileForm, ReportEvaluateForm
+from teacher.forms import ReportEvaluateForm, TeacherForm, TeacherProfileForm
 from teacher.models import Teacher, TeacherProfile
 from teacher.utils import is_teacher
 
@@ -38,25 +38,24 @@ def sign_in(request):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def report_evaluate(request, report_id):
+def experiment_report_evaluate(request, experiment_report_id):
     try:
-       report = ExperimentReport.objects.get(id=report_id)
+       experiment_report = ExperimentReport.objects.get(id=experiment_report_id)
     except ExperimentReport.DoesNotExist:
         raise Http404
     if request.method == 'POST':
         form = ReportEvaluateForm(request.POST)
         if form.is_valid():
-            report.score = form.cleaned_data['score']
-            report.critic = form.cleaned_data['critic']
-            report.save()
+            experiment_report.score = form.cleaned_data['score']
+            experiment_report.comment = form.cleaned_data['comment']
+            experiment_report.save()
             return redirect('created_success')
         else:
+            #TO DO:form error tip
             raise Http404
     else:
-        return render(request, 'teacher/report_evaluat.html', 
-                      {'report': report})
-
-
+        return render(request, 'teacher/experiment_report_evaluate.html', 
+                      {'experiment_report': experiment_report})
 
 
 @login_required(login_url='teacher')

@@ -5,7 +5,7 @@
     {% csrf_token %}
     <div class="form-group">
         <label for="title">题目</label>
-        <input type="text" maxlength="60" id="title" name="title" placeholder="请输入实验报告题目" class="form-control" required="required" value="{{ report.name }}" />
+        <input type="text" maxlength="60" id="title" name="title" placeholder="请输入实验报告题目" class="form-control" required="required" value="{{ report.title }}" />
     </div>
     <div class="from-group">
         <label for="content">实验内容</label>

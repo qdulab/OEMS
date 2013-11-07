@@ -114,11 +114,10 @@ def experiment_information(request, experiment_id):
     except Experiment.DoesNotExist:
         raise Http404
     if experiment.lesson.teacher == request.user:
-        report_list = ExperimentReport.objects.filter(experiment=experiment)
+        experiment_report_list = ExperimentReport.objects.filter(experiment=experiment)
         return render(request, 'teacher/experiment_information.html',
-                      {'report_list': report_list,
+                      {'experiment_report_list': experiment_report_list,
                        'experiment': experiment,
-                       'experiment_id': experiment.id
                        })
     else:
         raise Http404
