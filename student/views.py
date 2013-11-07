@@ -7,8 +7,7 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from student.forms import UserProfileForm
-from student.models import UserProfile
+from student.forms import UserProfileForm from student.models import UserProfile
 from student.utils import is_student
 
 
@@ -57,5 +56,5 @@ def update_profile(request):
             raise Http404
     else:
         form = UserProfileForm(instance=request.user.profile)
-        return render(request, 'student/update_profile.html',
+        return render(request, 'student/profile.html',
                       {'form': form})
