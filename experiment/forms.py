@@ -11,12 +11,9 @@ class LessonForm(forms.ModelForm):
         form.status = True
         form.save()
 
-
     class Meta:
         model = Lesson
         fields = ('name', 'category', 'info')
-
-
 
 
 class LessonCategoryForm(forms.Form):

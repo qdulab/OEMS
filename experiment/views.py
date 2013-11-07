@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import Http404
 
-from experiment.models import Experiment, LessonCategory, Lesson
+from experiment.models import Experiment, ExperimentReport, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
@@ -114,11 +114,11 @@ def experiment_information(request, experiment_id):
     except Experiment.DoesNotExist:
         raise Http404
     if experiment.lesson.teacher == request.user:
-        student_list = {}
+        experiment_report_list = ExperimentReport.objects.filter(
+            experiment=experiment)
         return render(request, 'teacher/experiment_information.html',
-                      {'student_list': student_list,
+                      {'experiment_report_list': experiment_report_list,
                        'experiment': experiment,
-                       'experiment_id': experiment.id
                        })
     else:
         raise Http404

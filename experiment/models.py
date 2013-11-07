@@ -7,8 +7,7 @@ class LessonCategory(models.Model):
     """
     OMES LessonCategory have attributes name and created_at
     """
-    name = models.CharField(max_length=60, null=False, blank=False,
-                            unique=True)
+    name = models.CharField(max_length=60, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -46,13 +45,12 @@ class Lesson(models.Model):
 
 
 class Experiment(models.Model):
-    name = models.CharField(null=False, blank=False, max_length=128)
+    name = models.CharField(max_length=128)
     create_at = models.DateTimeField(auto_now_add=True)
-    content = models.TextField(null=False, blank=True)
+    content = models.TextField(blank=True)
     lesson = models.ForeignKey(Lesson)
     deadline = models.DateTimeField(blank=True, null=True)
-    remark = models.TextField(null=False, blank=True)
-    
+    remark = models.TextField(blank=True)
     
     class Meta:
         verbose_name = _('Experiment')
@@ -61,3 +59,22 @@ class Experiment(models.Model):
     def __unicode__(self):
         return u"Experiment: %s" % self.name
 	
+
+class ExperimentReport(models.Model):
+    title = models.CharField(max_length=60)
+    created_at = models.DateTimeField(auto_now_add=True)
+    experiment = models.ForeignKey(Experiment)
+    content = models.TextField(blank=True)
+    update_at = models.DateTimeField(auto_now=True)
+    score = models.PositiveSmallIntegerField(null=True, blank=True)
+    student = models.ForeignKey(User)
+    comment = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = _('Experiment_report')
+        verbose_name_plural = _('Experiment_reports')
+    
+    def __unicode__(self):
+        return u"Experiment_report: %s" % self.title
+
+
