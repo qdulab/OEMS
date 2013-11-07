@@ -7,7 +7,7 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from student.forms import UserProfileForm from student.models import UserProfile
+from student.forms import UserProfileForm
 from student.utils import is_student
 
 
@@ -24,6 +24,11 @@ def index(request):
         return redirect('student_dashboard')
     return render(request, 'student/index.html')
 
+
+@login_required(login_url='student_index')
+@is_student()
+def profile(request):
+    return render(request, 'student/profile.html')
 
 def sign_in(request):
     if request.method == 'POST':
@@ -51,10 +56,5 @@ def update_profile(request):
                                instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('created_success')
-        else:
-            raise Http404
-    else:
-        form = UserProfileForm(instance=request.user.profile)
-        return render(request, 'student/profile.html',
-                      {'form': form})
+            return redirect('student_profile')
+    raise Http404
