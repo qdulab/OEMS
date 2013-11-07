@@ -53,14 +53,9 @@ def update_profile(request):
     except User.DoesNotExist:
         raise Http404
     if request.method == 'POST':
-        form = UserProfileForm(data=request.POST)
+        form = UserProfileForm(data=request.POST, instance=profile)
         if form.is_valid():
-            profile.school_id = form.cleaned_data['school_id']
-            profile.grade = form.cleaned_data['grade']
-            profile.major = form.cleaned_data['major']
-            profile.class_num = form.cleaned_data['class_num']
-            profile.phone_num = form.cleaned_data['phone_num']
-            profile.save()
+            form.save()
             return redirect('created_success')
         else:
             raise Http404
