@@ -31,6 +31,7 @@ def index(request):
 def profile(request):
     return render(request, 'student/profile.html')
 
+
 def sign_in(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -43,12 +44,14 @@ def sign_in(request):
 
 
 @login_required(login_url='student_index')
+@is_student()
 def sign_out(request):
     logout(request)
     return redirect('student_index')
 
 
 @login_required(login_url='student_index')
+@is_student()
 def submit_report(request, experiment_id):
     try:
         experiment = Experiment.objects.get(id=experiment_id)
