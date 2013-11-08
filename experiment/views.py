@@ -8,6 +8,8 @@ from experiment.forms import LessonForm
 from teacher.utils import is_teacher
 
 
+@login_required(login_url='teacher')
+@is_teacher(redirect_url='')
 def created_success(request):
     return render(request, 'teacher/created_success.html', {})
 
