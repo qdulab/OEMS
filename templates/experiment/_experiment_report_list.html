@@ -11,7 +11,7 @@
         <tr>
             <td><a href="#">{{ experiment_report.student.username }}</a></td>
             <td><a href="{% url 'experiment_report_evaluate' experiment_report.id %}">{{ experiment_report.title }}</a></td>
-            <td>{{ experiment_report.update_at|date:"Y-m-d" }}</td>
+            <td>{{ experiment_report.update_at|date:"Y年m月d日 h:i:s A" }}</td>
             <td>{{ experiment_report.score|default_if_none:'<span style="color:red">未评分</span>' }}</td>
          </tr>
         {% endfor %}

@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from student.forms import ReportSubmitForm
 
-from experiment.models import ExperimentReport, Experiment
+from experiment.models import ExperimentReport, Experiment, Lesson
 from student.forms import UserProfileForm
 from student.utils import is_student
 
@@ -55,9 +55,12 @@ def sign_out(request):
 def submit_report(request, experiment_id):
     try:
         experiment = Experiment.objects.get(id=experiment_id)
+        Lesson.objects.get(experiment=experiment, students=request.user)
         experiment_report = ExperimentReport.objects.get(experiment=experiment,
                                                          student=request.user)
     except Experiment.DoesNotExist:
+        raise Http404
+    except Lesson.DoesNotExist:
         raise Http404
     except ExperimentReport.DoesNotExist:
         experiment_report = ExperimentReport(experiment=experiment,
