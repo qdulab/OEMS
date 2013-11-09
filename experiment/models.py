@@ -48,6 +48,7 @@ class Experiment(models.Model):
     lesson = models.ForeignKey(Lesson)
     deadline = models.DateTimeField(blank=True, null=True)
     remark = models.TextField(blank=True)
+    weight = models.IntegerField()
     
     class Meta:
         verbose_name = _('Experiment')

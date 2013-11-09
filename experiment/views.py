@@ -58,18 +58,11 @@ def create_experiment(request, lesson_id):
     if request.method == 'POST':
         form = ExperimentForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            content = form.cleaned_data['content']
-            deadline = form.cleaned_data['deadline']
-            info = form.cleaned_data['information']
             try:
                 lesson = Lesson.objects.get(id=lesson_id, teacher=request.user)
             except Lesson.DoesNotExist:
                 return render(request, "base.html")
-            experiment = Experiment(
-                name=name, content=content, deadline=deadline,
-                remark=info, lesson=lesson)
-            experiment.save()
+            form.save(lesson)
             return redirect('create_experiment_success', lesson_id=lesson_id)
         else:
             render(request, "base.html")

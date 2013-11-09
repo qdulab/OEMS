@@ -6,3 +6,12 @@ div.substance_left
 {
     text-align: center;
 }
+pre
+{
+    border: 0px;
+    background-color: #ffffff
+}
+.font-strong
+{
+    font-weight:bold;
+}
