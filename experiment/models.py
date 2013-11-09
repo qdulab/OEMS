@@ -58,7 +58,7 @@ class Experiment(models.Model):
         return u"Experiment: %s" % self.name
 
     @property
-    def count(self):
+    def count_report(self):
         return ExperimentReport.objects.filter(experiment=self).count()
 	
 

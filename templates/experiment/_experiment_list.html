@@ -9,7 +9,7 @@
         {% for experiment in experiment_list %}
         <tr>
             <td><a href="{% url 'experiment_info' experiment.id %}">{{experiment.name}}</a></td>
-            <td>{{ experiment.count }}</td>
+            <td>{{ experiment.count_report|default:"0" }}</td>
             <td>{{ experiment.deadline|date:"Y-m-d"|default:'<span style="color:red">未设置</span>' }}</td>
          </tr>
         {% endfor %}

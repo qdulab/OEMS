@@ -134,7 +134,7 @@ def experiment_modify(request, experiment_id):
             experiment.name = form.cleaned_data['name']
             experiment.content = form.cleaned_data['content']
             experiment.deadline = form.cleaned_data['deadline']
-            experiment.information = form.cleaned_data['information']
+            experiment.information = form.cleaned_data['remark']
             experiment.save()
             return redirect('created_success')
         else:
@@ -171,9 +171,7 @@ def lesson_information(request, lesson_id):
     experiment_list = Experiment.objects.filter(lesson=lesson)
     return render(request, 'teacher/lesson_information.html',
                   {'experiment_list': experiment_list,
-                   'lesson': lesson,
-                   'lesson_id': lesson_id
-                   })
+                   'lesson': lesson})
 
 
 @login_required(login_url='teacher')

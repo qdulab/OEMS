@@ -1,19 +1,30 @@
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title">题目：{{ experiment_report.title }}</h3>
-    </div>
-    <div >
-        <div class="panel-body">
-            <h4>内容:</h4>
-            <pre>{{ experiment_report.content }}</pre>
+<div class="panel-group">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">题目：{{ experiment_report.title }}</h3>
         </div>
-        <div class="panel panel-default">
+        <div >
             <div class="panel-body">
-                <form method="POST" >
-                    {% csrf_token %}
-                    <div class="panel-body">
-                        <label for="score">得分</label><br/>
-                        <input title="text" name="score", id="score" value="{{ experiment_report.score|default_if_none:"" }}"/>
+                <h4>内容:</h4>
+            <pre>{{ experiment_report.content }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="#panel-body" data-toggle="collapse">
+                <div class="panel-title font-strong align-center">
+                    批阅/修改成绩
+                </div>
+            </a>
+        </div>
+        <div class="panel-body panel-collapse collapse" id="panel-body">
+            <form method="POST" >
+                {% csrf_token %}
+                <div class="panel-body">
+                    <label for="score">得分</label><br/>
+                    <input title="text" name="score", id="score" class="form-control" value="{{ experiment_report.score|default_if_none:"" }}"/>
                     <div style="margin-top:10px">
                         <label for="critic">评语</label>
                         <textarea name="comment" id="comment" class="form-control">{{ experiment_report.comment }}</textarea>
@@ -21,8 +32,9 @@
                     <div style="margin-top:10px">
                         <button title="submit" class="btn btn-info">提交</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
