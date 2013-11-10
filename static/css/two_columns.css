@@ -6,6 +6,14 @@ div.substance_left
 {
     text-align: center;
 }
+.align-right
+{
+    text-align: right;
+}
+.align-left
+{
+    text-align: right;
+}
 pre
 {
     border: 0px;
