@@ -1,4 +1,4 @@
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel-heading">
         <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
             <h4 class="panel-title font-strong align-center">
@@ -20,6 +20,10 @@
                 <tr>
                     <td class="font-strong align-center">创建时间</td>
                     <td>{{ experiment.create_at|date:"Y年m月d日 h:i:s A" }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">截止时间</td>
+                    <td>{{ experiment.deadline|date:"Y年m月d日"|default:"<span class='red'>未设置</span>" }}</td>
                 </tr>
                 <tr>
                     <td class="font-strong align-center">学生总数</td>
