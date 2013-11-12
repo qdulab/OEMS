@@ -1,25 +1,45 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title">实验报告：{{ experiment_report.title }}<span class="pull-right">最后提交时间&nbsp:&nbsp</span></h3>
+        <h3 class="panel-title">实验报告：{{ experiment_report.title }}</h3>
     </div>
     <div >
         <div class="panel-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <h5>学生姓名:</h5>
-                    <h5>学生学号:</h5>
-                    <h5>最后提交时间:</h5>
+            <ul style="list-style-type:none">
+                <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="name">学生姓名:</label></div>
+                    <div class="col-md-9" id="name">{{ experiment_report.student.profile.name|default:experiment_report.student.username }}</div>
                 </div>
-                <div class="col-md-9">
-                    <div style="font-size:1.5em">{{ experiment_report.student.profile.name|default:experiment_report.student.username }}</div>
-                    <div style="font-size:1.5em">{{ experiment_report.student.profile.number|default:"<span class='red'>未知</span>" }}</div>
-                    <div style="font-size:1.5em">{{ experiment_report.update_at|date:"Y年m月d日 h:i:s A" }}</div>
+                </li>
+                <li>
+                <div class="row">
+                    <div class="col-md-2" style="clear"><label for="school_number">学生学号:</label></div>
+                    <div class="col-md-9" id="school_number">{{ experiment_report.student.profile.number|default:"<span class='red'>未知</span>" }}</div>
                 </div>
-            </div>
+                </li>
+                <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="last_sub_time">最后提交时间:</label></div>
+                    <div class="col-md-9" id="last_sub_time">{{ experiment_report.update_at|date:"Y年m月d日 h:i:s A" }}</div>
+                </div>
+                </li>
+                <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="score">得分</label></div>
+                    <div class="col-md-9" id="score">{{ experiment_report.score|default:"<span class='red'>未评分</span>" }}</div>
+                </div>
+                </li>
+                <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="comment">评语</label></div>
+                    <div class="col-md-9" id="comment"><pre>{{ experiment_report.content }}</pre></div>
+                </div>
+                </li>
+            </ul>
             <hr />
-            <h4>提交内容</h4>
-            <pre>{{ experiment_report.content }}</pre>
-            </div>
+            <label for="content">提交内容</label>
+            <pre id="content">{{ experiment_report.content }}</pre>
         </div>
     </div>
 </div>
+
