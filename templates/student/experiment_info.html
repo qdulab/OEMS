@@ -1,4 +1,4 @@
-{% extends "teacher/dashboard.html" %}
+{% extends "student/dashboard.html" %}
 
 
 {% block title %}查看实验详情{% endblock %}
@@ -9,13 +9,13 @@
         <h1>{{ experiment.name }}<small>{{ experiment.lesson.name }}</small></h1>
     </div>
     <div class="col-md-4" style="text-align:right">
-        <a href="{% url 'experiment_modify' experiment.id %}"><button type="button" class="btn btn-info ">编辑实验</button></a>
-        <a href="{% url 'delete_experiment' experiment.id %} "><button type="button" class="btn btn-danger">删除实验</button></a>
+        <a href="{% url 'submit_report' experiment.id %}"><button type="button" class="btn btn-info ">提交/修改实验</button></a>
+        <a href="#"><button type="button" class="btn btn-success">在线提问</button></a>
     </div>
 </div>
-
 <div class="panel-group" id="accordion">
+    {% include "experiment/_experiment_report_info.html" %}
     {% include "experiment/_experiment_info.html"%}
-    {% include "experiment/_experiment_report_list.html"%} 
+    <!-- To Do :add report_list -->
 </div>
 {% endblock %}

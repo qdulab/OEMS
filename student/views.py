@@ -6,12 +6,29 @@ from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
-from student.forms import ReportSubmitForm
 
+from student.forms import ReportSubmitForm
 from experiment.models import ExperimentReport, Experiment, Lesson
 from student.forms import UserProfileForm
 from student.utils import is_student
 
+
+@login_required(login_url='student_index')
+@is_student()
+def experiment_information(request, experiment_id):
+    try:
+        experiment = Experiment.objects.get(id=experiment_id)
+        experiment_report = ExperimentReport.objects.get(
+            student=request.user,
+            experiment=experiment)
+    except Experiment.DoesNotExist:
+        raise Http404
+    except ExperimentReport.DoesNotExist:
+        experiment_report = None
+    return render(request, 'student/experiment_info.html',
+                  {'experiment': experiment,
+                   'experiment_report': experiment_report})
+    
 
 @login_required(login_url='student_index')
 def dashboard(request):
