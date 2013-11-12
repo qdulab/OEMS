@@ -1,0 +1,18 @@
+<table class="table table-hover pull-right" id="lesson_list">
+    {% if lesson_list %}
+    <thead class="align-center">
+        <th class="align-center"></th>
+    </thead>
+    <tbody class="align-center">
+        {% for lesson in lesson_list %}
+        <tr>
+            <td><a href="{% url 'lesson_info_for_student' lesson.id %}">{{lesson.name}}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <tr>
+        <td class="align-center">无相关课程</td>
+    </tr>
+    {% endif %}
+</table>

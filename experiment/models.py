@@ -50,6 +50,7 @@ class Experiment(models.Model):
     remark = models.TextField(blank=True)
     weight = models.IntegerField()
     
+    
     class Meta:
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
@@ -75,8 +76,7 @@ class ExperimentReport(models.Model):
     class Meta:
         verbose_name = _('Experiment_report')
         verbose_name_plural = _('Experiment_reports')
-    
+
     def __unicode__(self):
         return u"Experiment_report: %s" % self.title
-
 
