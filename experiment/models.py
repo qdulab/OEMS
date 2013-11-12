@@ -50,15 +50,15 @@ class Experiment(models.Model):
     content = models.TextField(blank=True)
     lesson = models.ForeignKey(Lesson)
     deadline = models.DateTimeField(blank=True, null=True)
-    remark = models.TextField(blank=True)
-    
+    remark = models.TextField(null=False, blank=True)
+
     class Meta:
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
 
     def __unicode__(self):
         return u"Experiment: %s" % self.name
-	
+
 
 class ExperimentReport(models.Model):
     title = models.CharField(max_length=60)
@@ -73,8 +73,7 @@ class ExperimentReport(models.Model):
     class Meta:
         verbose_name = _('Experiment_report')
         verbose_name_plural = _('Experiment_reports')
-    
+
     def __unicode__(self):
         return u"Experiment_report: %s" % self.title
-
 
