@@ -10,7 +10,7 @@
         <tr>
             <td><a href="{% url 'lesson_info_for_student' lesson.id %}">{{ lesson.name }}</a></td>
             <td>{{ lesson.info }}</td>
-            <td><a href="{% url 'lesson_info_for_student' lesson.id %}">我要选</a></td>
+            <td><a href="{% url 'lesson_pick' lesson.id %}">我要选</a></td>
         </tr>
         {% endfor %}
     </tbody>
