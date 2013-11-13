@@ -135,6 +135,7 @@ def experiment_modify(request, experiment_id):
             experiment.content = form.cleaned_data['content']
             experiment.deadline = form.cleaned_data['deadline']
             experiment.information = form.cleaned_data['remark']
+            experiment.weight = form.cleaned_data['weight']
             experiment.save()
             return redirect('created_success')
         else:
