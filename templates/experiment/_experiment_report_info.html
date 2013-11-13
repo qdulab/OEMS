@@ -7,13 +7,13 @@
             <li>
                 <div class="row">
                     <div class="col-md-2"><label for="name">学生姓名:</label></div>
-                    <div class="col-md-9" id="name">{{ experiment_report.student.profile.name|default:experiment_report.student.username }}</div>
+                    <div class="col-md-9" id="name">{{ experiment_report.student.first_name|default:experiment_report.student.username }}</div>
                 </div>
             </li>
             <li>
                 <div class="row">
                     <div class="col-md-2" style="clear"><label for="school_number">学生学号:</label></div>
-                    <div class="col-md-9" id="school_number">{{ experiment_report.student.profile.number|default:"<span class='red'>未知</span>" }}</div>
+                    <div class="col-md-9" id="school_number">{{ experiment_report.student.profile.school_id|default:"<span class='red'>未知</span>" }}</div>
                 </div>
             </li>
             <li>

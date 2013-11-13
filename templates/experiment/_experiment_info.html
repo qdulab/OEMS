@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td class="font-strong align-center">教师</td>
-                    <td>{{ experiment.lesson.teacher.name|default:experiment.lesson.teacher.username }}</td>
+                    <td>{{ experiment.lesson.teacher.first_name|default:experiment.lesson.teacher.username }}</td>
                 </tr>
                 <tr>
                     <td class="font-strong align-center">创建时间</td>

@@ -1,7 +1,7 @@
 <table class="table table-bordered table-hover">
     <tr>
         <td class="font-strong align-center">教师</td>
-        <td>{{ lesson.teacher.name|default:lesson.teacher.username}}</td>
+        <td>{{ lesson.teacher.first_name|default:lesson.teacher.username}}</td>
     </tr>
     <tr>
         <td class="font-strong align-center">创建时间</td>
