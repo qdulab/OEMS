@@ -16,6 +16,23 @@ urlpatterns = patterns(
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
+    #TODO: remove
+    url(r'^teacher/edit_success/$', 'teacher.views.edit_success',
+        name='edit_success'),
+    url(r'^teacher/experiment/create_success/(?P<lesson_id>\d+)/$',
+        'experiment.views.create_experiment_success',
+        name='create_experiment_success'),
+    url(r'^student/lesson_pick/success/$',
+        'student.views.pick_lesson_success', name='pick_success'),
+    url(r'^student/lesson_drop/success/$',
+        'student.views.drop_lesson_success', name='drop_success'),
+    url(r'^teacher/delete_success/$', 'experiment.views.delete_success',
+        name='delete_success'),
+    url(r'^student/success/$', 'experiment.views.created_success',
+        name="student_success"),
+
+
+    #Student related
     url(r'^student/$', 'student.views.index', name='student_index'),
     url(r'^student/dashboard/$', 'student.views.dashboard',
         name='student_dashboard'),
@@ -27,15 +44,51 @@ urlpatterns = patterns(
         name='student_signin'),
     url(r'^student/signout/$', 'student.views.sign_out',
         name='student_signout'),
+
+    #Student Experimnt Related
+    url(r'^student/experiment/(?P<experiment_id>\d+)/$',
+        'student.views.experiment_information',
+        name='experiment_info_for_student'),
+    url(r'^student/experiment_list/$',
+        'student.views.experiment_list_for_picked_lesson',
+        name='student_list_experiment'),
+
+
+    #Student Lesson Related
+    url(r'^student/lesson_list/$', 'student.views.has_pick_lesson_list',
+        name='student_list_lesson'),
+    url(r'^student/lesson/(?P<lesson_id>\d+)/$',
+        'student.views.lesson_information',
+        name='lesson_info_for_student'),
+    url(r'^student/search/lesson/$', 'student.views.search_lesson',
+        name='search_lesson'),
+    url(r'^student/search_lesson/result/$',
+        'student.views.search_lesson_result',
+        name='search_lesson_result'),
+    url(r'^student/lesson_pick/$', 'student.views.can_pick_lesson_list',
+        name='student_pick'),
+    url(r'^student/lesson_drop/$', 'student.views.can_drop_lesson_list',
+        name='student_drop'),
+    url(r'^student/lesson_pick/(?P<lesson_id>\d+)/$',
+        'student.views.pick_lesson', name="lesson_pick"),
+    url(r'^student/lesson_drop/(?P<lesson_id>\d+)/$',
+        'student.views.drop_lesson', name="lesson_drop"),
+
+    #Student Experiment Related
     url(r'^student/submit_report/(?P<experiment_id>\d+)$',
         'student.views.submit_report',
         name="submit_report"),
     url(r'^student/experiment/(?P<experiment_id>\d+)/$',
         'student.views.experiment_information',
         name="student_experiment_info"),
-    url(r'^student/success/$', 'experiment.views.created_success',
-        name="student_success"),
 
+    #Student Experiment Report Related
+    url(r'^tecaher/experiment_report/(?P<experiment_report_id>\d+)/evaluate/$',
+        'teacher.views.experiment_report_evaluate',
+        name='experiment_report_evaluate'),
+
+
+    #Teacher Related
     url(r'^teacher/$', 'teacher.views.index', name='teacher_index'),
     url(r'^teacher/dashboard/$', 'teacher.views.dashboard',
         name='teacher_dashboard'),
@@ -45,70 +98,43 @@ urlpatterns = patterns(
         name='teacher_signout'),
     url(r'^teacher/profile/$', 'teacher.views.teacher_profile',
         name='teacher_profile'),
-    url(r'^teacher/edit_success/$', 'teacher.views.edit_success',
-        name='edit_success'),
-    url(r'^teacher/created_success/$',
-         'experiment.views.created_success', name='created_success'),
-    url(r'^teacher/lesson/(?P<lesson_id>\d+)/$',
-        'experiment.views.lesson_information', name="lesson_info"),
-    url(r'^teacher/experiment/(?P<experiment_id>\d+)/$',
-        'experiment.views.experiment_information', name="experiment_info"),
+
+    #Teacher Lesson Category Related
     url(r'^teacher/create_lesson_category/$',
         'experiment.views.create_lesson_category',
         name='create_lesson_category'),
-    url(r'^teacher/create_experiment/(?P<lesson_id>\d+)/$',
-        'experiment.views.create_experiment', name="create_experiment"),
+    url(r'^teacher/lesson_category_list/$',
+        'experiment.views.lesson_category_list', name="category_list"),
+
+    #Teacher Lesson Related
     url(r'^teacher/lesson/create/$', 'experiment.views.create_lesson',
         name='create_lesson'),
+    url(r'^teacher/lesson/(?P<lesson_id>\d+)/$',
+        'experiment.views.lesson_information', name="lesson_info"),
+    url(r'^teacher/update_lesson/(?P<lesson_id>\d+)/$',
+        'experiment.views.update_lesson', name='update_lesson'),
+    url(r'^teacher/lesson/(?P<lesson_id>\d+)/delete/$',
+        'experiment.views.delete_lesson', name='delete_lesson'),
     url(r'^teacher/lesson_list/$', 'experiment.views.lesson_list_all',
         name="teacher_lesson_list_all"),
     url(r'^teacher/lesson_list/(?P<category_id>\d+)/$',
         'experiment.views.lesson_list', name="teacher_lesson_list"),
-    url(r'^teacher/lesson_category_list/$',
-        'experiment.views.lesson_category_list', name="category_list"),
 
-    url(r'^teacher/experiment/create_success/(?P<lesson_id>\d+)/$',
-        'experiment.views.create_experiment_success',
-        name='create_experiment_success'),
+    #Teacher Experiment Related
+    url(r'^teacher/create_experiment/(?P<lesson_id>\d+)/$',
+        'experiment.views.create_experiment', name="create_experiment"),
+    url(r'^teacher/experiment/(?P<experiment_id>\d+)/$',
+        'experiment.views.experiment_information', name="experiment_info"),
     url(r'^teacher/experiment/(?P<experiment_id>\d+)/delete/$',
         'experiment.views.delete_experiment', name='delete_experiment'),
-    url(r'^tecaher/experiment_report/(?P<experiment_report_id>\d+)/evaluate/$',
-        'teacher.views.experiment_report_evaluate',
-        name='experiment_report_evaluate'),
-    url(r'^teacher/lesson/(?P<lesson_id>\d+)/delete/$',
-        'experiment.views.delete_lesson', name='delete_lesson'),
-    url(r'^teacher/delete_success/$', 'experiment.views.delete_success',
-        name='delete_success'),
+
+
+    #Teacher Experiment Report Related
     url(r'^teacher/experiment/(?P<experiment_id>\d+)/modify/$',
         'experiment.views.experiment_modify', name='experiment_modify'),
-    url(r'^teacher/update_lesson/(?P<lesson_id>\d+)/$',
-        'experiment.views.update_lesson', name='update_lesson'),
-    url(r'^student/lesson_pick/$', 'student.views.can_pick_lesson_list',
-        name='student_pick'),
-    url(r'^student/lesson_drop/$', 'student.views.can_drop_lesson_list',
-        name='student_drop'),
-    url(r'^student/lesson_pick/(?P<lesson_id>\d+)/$',
-        'student.views.pick_lesson', name="lesson_pick"),
-    url(r'^student/lesson_pick/success/$',
-        'student.views.pick_lesson_success', name='pick_success'),
-    url(r'^student/lesson_drop/(?P<lesson_id>\d+)/$',
-        'student.views.drop_lesson', name="lesson_drop"),
-    url(r'^student/lesson_drop/success/$',
-        'student.views.drop_lesson_success', name='drop_success'),
-    url(r'^student/lesson_list/$', 'student.views.has_pick_lesson_list',
-        name='student_list_lesson'),
-    url(r'^student/experiment_list/$',
-        'student.views.experiment_list_for_picked_lesson',
-        name='student_list_experiment'),
-    url(r'^student/search/lesson/$', 'student.views.search_lesson',
-        name='search_lesson'),
-    url(r'^student/search_lesson/result/$',
-        'student.views.search_lesson_result',
-        name='search_lesson_result'),
-    url(r'^student/experiment/(?P<experiment_id>\d+)/$',
-        'student.views.experiment_information',
-        name='experiment_info_for_student'),
-    url(r'^student/lesson/(?P<lesson_id>\d+)/$',
-        'student.views.lesson_information',
-        name='lesson_info_for_student'),
+
+
+
+
+
 )
