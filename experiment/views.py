@@ -58,18 +58,11 @@ def create_experiment(request, lesson_id):
     if request.method == 'POST':
         form = ExperimentForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            content = form.cleaned_data['content']
-            deadline = form.cleaned_data['deadline']
-            info = form.cleaned_data['information']
             try:
                 lesson = Lesson.objects.get(id=lesson_id, teacher=request.user)
             except Lesson.DoesNotExist:
                 return render(request, "base.html")
-            experiment = Experiment(
-                name=name, content=content, deadline=deadline,
-                remark=info, lesson=lesson)
-            experiment.save()
+            form.save(lesson)
             return redirect('create_experiment_success', lesson_id=lesson_id)
         else:
             render(request, "base.html")
@@ -141,7 +134,8 @@ def experiment_modify(request, experiment_id):
             experiment.name = form.cleaned_data['name']
             experiment.content = form.cleaned_data['content']
             experiment.deadline = form.cleaned_data['deadline']
-            experiment.information = form.cleaned_data['information']
+            experiment.information = form.cleaned_data['remark']
+            experiment.weight = form.cleaned_data['weight']
             experiment.save()
             return redirect('created_success')
         else:
@@ -178,9 +172,7 @@ def lesson_information(request, lesson_id):
     experiment_list = Experiment.objects.filter(lesson=lesson)
     return render(request, 'teacher/lesson_information.html',
                   {'experiment_list': experiment_list,
-                   'lesson': lesson,
-                   'lesson_id': lesson_id
-                   })
+                   'lesson': lesson})
 
 
 @login_required(login_url='teacher')

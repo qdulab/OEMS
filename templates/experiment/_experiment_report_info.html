@@ -1,31 +1,43 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title">题目：{{ experiment_report.title }}</h3>
+        <h3 class="panel-title">实验报告：{{ experiment_report.title }}</h3>
     </div>
-    <div >
-        <div class="panel-body">
-            <h4>内容:</h4>
-            <pre>{{ experiment_report.content }}</pre>
-        </div>
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h3 class="panel-title"></h3>
-            </div>
-            <div class="panel-body">
-                <form method="POST" >
-                    {% csrf_token %}
-                    <div class="panel-body">
-                        <label for="score">得分</label><br/>
-                        <input title="text" name="score", id="score" value="{{ experiment_report.score|default_if_none:"" }}"/>
-                    <div style="margin-top:10px">
-                        <label for="critic">评语</label>
-                        <textarea name="comment" id="comment" class="form-control">{{ experiment_report.comment }}</textarea>
-                    </div>
-                    <div style="margin-top:10px">
-                        <button title="submit" class="btn btn-info">提交</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    <div class="panel-body">
+        <ul style="list-style-type:none">
+            <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="name">学生姓名:</label></div>
+                    <div class="col-md-9" id="name">{{ experiment_report.student.first_name|default:experiment_report.student.username }}</div>
+                </div>
+            </li>
+            <li>
+                <div class="row">
+                    <div class="col-md-2" style="clear"><label for="school_number">学生学号:</label></div>
+                    <div class="col-md-9" id="school_number">{{ experiment_report.student.profile.school_id|default:"<span class='red'>未知</span>" }}</div>
+                </div>
+            </li>
+            <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="last_sub_time">最后提交时间:</label></div>
+                    <div class="col-md-9" id="last_sub_time">{{ experiment_report.update_at|date:"Y年m月d日 h:i:s A" }}</div>
+                </div>
+            </li>
+            <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="score">得分</label></div>
+                    <div class="col-md-9" id="score">{{ experiment_report.score|default:"<span class='red'>未评分</span>" }}</div>
+                </div>
+            </li>
+            <li>
+                <div class="row">
+                    <div class="col-md-2"><label for="comment">评语</label></div>
+                    <div class="col-md-9" id="comment"><pre>{{ experiment_report.comment }}</pre></div>
+                </div>
+            </li>
+        </ul>
+        <hr />
+        <label for="content">提交内容</label>
+        <pre id="content">{{ experiment_report.content }}</pre>
     </div>
 </div>
+

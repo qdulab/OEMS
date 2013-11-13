@@ -30,6 +30,9 @@ urlpatterns = patterns(
     url(r'^student/submit_report/(?P<experiment_id>\d+)$',
         'student.views.submit_report',
         name="submit_report"),
+    url(r'^student/experiment/(?P<experiment_id>\d+)/$',
+        'student.views.experiment_information',
+        name="student_experiment_info"),
     url(r'^student/success/$', 'experiment.views.created_success',
         name="student_success"),
 

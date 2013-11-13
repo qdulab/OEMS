@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
 from teacher.models import Teacher
 
 class LessonCategory(models.Model):
@@ -17,10 +18,6 @@ class LessonCategory(models.Model):
     def __unicode__(self):
         return u"Lesson Category: %s Created_at: %s" % (self.name,
                                                         self.created_at)
-    @property
-    def count(self):
-        return 1
-
 
 
 class Lesson(models.Model):
@@ -50,8 +47,10 @@ class Experiment(models.Model):
     content = models.TextField(blank=True)
     lesson = models.ForeignKey(Lesson)
     deadline = models.DateTimeField(blank=True, null=True)
-    remark = models.TextField(null=False, blank=True)
-
+    remark = models.TextField(blank=True)
+    weight = models.IntegerField()
+    
+    
     class Meta:
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
@@ -59,6 +58,10 @@ class Experiment(models.Model):
     def __unicode__(self):
         return u"Experiment: %s" % self.name
 
+    @property
+    def count_report(self):
+        return ExperimentReport.objects.filter(experiment=self).count()
+	
 
 class ExperimentReport(models.Model):
     title = models.CharField(max_length=60)

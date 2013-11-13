@@ -8,11 +8,10 @@
         <h1>{{ lesson.name }}<small>{{ lesson.category.name }}</small></h1>
     </div>
     <div class="pull-right">
-        <a href= "{% url 'create_experiment' lesson_id %}"><button type="button" class="btn btn-primary">创建实验</button></a>
+        <a href= "{% url 'create_experiment' lesson.id %}"><button type="button" class="btn btn-primary">创建实验</button></a>
         <a href="{% url 'update_lesson' lesson.id %}"><button type="button" class="btn btn-info">编辑课程</button></a>
         <a href= "{% url 'delete_lesson' lesson.id %}" ><button type="button" class="btn btn-danger">删除课程</button></a>
     </div>
 </div>
-{% include "experiment/_lesson_info.html" %}
-{% include "experiment/_experiment_list.html" %}
+{% include "experiment/_lesson_info_page.html" %}
 {% endblock %}

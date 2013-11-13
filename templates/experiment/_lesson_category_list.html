@@ -10,7 +10,7 @@
         <tr>
             <td><a href="{% url 'teacher_lesson_list' category.id %}">{{ category.name }}</a></td>
             <td>{{ category.lesson_count }}</td>
-            <td>{{ category.created_at|date:"Y-m-d" }}</td>
+            <td>{{ category.created_at|date:"Y年m月d日 h:i:s A" }}</td>
         </tr>
         {% endfor %}
     </tbody>

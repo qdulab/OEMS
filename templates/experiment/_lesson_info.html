@@ -1,31 +1,31 @@
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
     <tr>
-        <td>课程名</td>
-        <td colspan="2">{{ lesson.name }}</td>
-        <td colspan="2">所属科目</td>
-        <td>{{ lesson.category.name }}</td>
+        <td class="font-strong align-center">教师</td>
+        <td>{{ lesson.teacher.first_name|default:lesson.teacher.username}}</td>
     </tr>
     <tr>
-        <td>教师</td>
-        <td colspan="2">{{ lesson.teacher.username }}</td>
-        <td colspan="2">创建时间</td>
-        <td>{{ lesson.create_at|date:"Y-m-d" }}</td>
+        <td class="font-strong align-center">创建时间</td>
+        <td>{{ lesson.create_at|date:"Y年m月d日 h:i:s A" }}</td>
     </tr>
     <tr>
-        <td style="white-space: nowrap">课程状态</td>
+        <td style="white-space: nowrap" class="font-strong align-center">课程状态</td>
         {% if lesson.status %}
         <td>是</td>
         {% else %}
         <td>否</td>
         {% endif %}
-        <td>学生总数</td>
+    </tr>
+    <tr>
+        <td class="font-strong align-center">学生总数</td>
         <td>{{ lesson.students.count }}</td>
-        <td>实验总数</td>
+    </tr>
+    <tr>
+        <td class="font-strong align-center">实验总数</td>
         <td>{{ experiment_list.count }}</td>
     </tr>
     <tr>
-        <td>备注</td>
-        <td colspan="5">{{ lesson.info }}</td>
+        <td class="font-strong align-center">备注</td>
+        <td>{{ lesson.info }}</td>
     </tr>
 </table>
 

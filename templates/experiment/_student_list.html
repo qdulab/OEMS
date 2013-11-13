@@ -1,0 +1,29 @@
+<table class="table table-hover" id="student_list">
+    {% if lesson.students.all %}
+    <thead class="align-center">
+        <th class="align-center">学生姓名</th>
+        <th class="align-center">性别</th>
+        <th class="align-center">班级</th>
+        <th class="align-center">平均分</th>
+    </thead>
+    <tbody class="align-center">
+        {% for student in lesson.students.all %}
+        <tr>
+            <td>{{ student.name|default:student.username }}</td>
+            {% if student.sex %}
+            <td>女</td>
+            {% else %}
+            <td>男</td>
+            {% endif %}
+            <td>{{ student.class|default:"<span class='red'>未知</span>" }}</td>
+            <td>{{ student.score|default:"<span class='red'>无分数</span>" }}
+            <td><a href="">详细信息</a></td>
+         </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <tr>
+        <td class="align-center">没有学生记录</td>
+    </tr>
+    {% endif %}
+</table>

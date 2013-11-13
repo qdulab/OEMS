@@ -1,22 +1,47 @@
-<table class="table table-bordered">
-    <tr>
-        <td style="white-space: nowrap">实验名称</td>
-        <td>{{ experiment.name }}</td>
-        <td>所属课程</td>
-        <td>{{ experiment.lesson.name }}
-        <td>所属科目</td>
-        <td>{{ experiment.lesson.category.name }}</td>
-    </tr>
-    <tr>
-        <td>教师</td>
-        <td colspan="1">{{ experiment.lesson.teacher.username }}</td>
-        <td colspan="1">创建时间</td>
-        <td>{{ experiment.create_at|date:"Y-m-d" }}</td>
-        <td>作业提交总数</td>
-        <td>{{ submit_experiment_list.count }}0 / {{ experiment.lesson.students.count }}</td>
-    <tr>
-        <td>备注</td>
-        <td colspan="5">{{ experiment.remark }}</td>
-    </tr>
-</table>
-
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+            <h4 class="panel-title font-strong align-center">
+                实验详情
+            </h4>
+        </a>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <td class="font-strong align-center">所属科目</td>
+                    <td>{{ experiment.lesson.category.name }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">教师</td>
+                    <td>{{ experiment.lesson.teacher.first_name|default:experiment.lesson.teacher.username }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">创建时间</td>
+                    <td>{{ experiment.create_at|date:"Y年m月d日 h:i:s A" }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">截止时间</td>
+                    <td>{{ experiment.deadline|date:"Y年m月d日"|default:"<span class='red'>未设置</span>" }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">学生总数</td>
+                    <td>{{ experiment.lesson.students.count }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">作业提交总数</td>
+                    <td>{{ experiment.count_report }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">实验比重</td>
+                    <td>{{ experiment.weight }}</td>
+                </tr>
+                <tr>
+                    <td class="font-strong align-center">备注</td>
+                    <td><pre>{{ experiment.remark }}</pre></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

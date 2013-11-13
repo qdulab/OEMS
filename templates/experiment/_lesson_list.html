@@ -16,7 +16,7 @@
             <td>否</td>
             {% endif %}
             <td>{{ lesson.info }}</td>
-            <td>{{ lesson.create_at|date:"Y-m-d" }}</td>
+            <td>{{ lesson.create_at|date:"Y年m月d日 h:i:s A"}}</td>
          </tr>
         {% endfor %}
     </tbody>

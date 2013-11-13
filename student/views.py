@@ -11,6 +11,22 @@ from experiment.models import ExperimentReport, Experiment, Lesson
 
 @login_required(login_url='student_index')
 @is_student()
+def experiment_information(request, experiment_id):
+    try:
+        experiment = Experiment.objects.get(id=experiment_id)
+        experiment_report = ExperimentReport.objects.get(
+            student=request.user,
+            experiment=experiment)
+    except Experiment.DoesNotExist:
+        raise Http404
+    except ExperimentReport.DoesNotExist:
+        experiment_report = None
+    return render(request, 'student/experiment_info.html',
+                  {'experiment': experiment,
+                   'experiment_report': experiment_report})
+    
+
+@login_required(login_url='student_index')
 def dashboard(request):
     return render(request, 'student/dashboard.html')
 
@@ -52,9 +68,12 @@ def sign_out(request):
 def submit_report(request, experiment_id):
     try:
         experiment = Experiment.objects.get(id=experiment_id)
+        Lesson.objects.get(experiment=experiment, students=request.user)
         experiment_report = ExperimentReport.objects.get(experiment=experiment,
                                                          student=request.user)
     except Experiment.DoesNotExist:
+        raise Http404
+    except Lesson.DoesNotExist:
         raise Http404
     except ExperimentReport.DoesNotExist:
         experiment_report = ExperimentReport(experiment=experiment,
