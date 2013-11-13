@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 
 from experiment.models import ExperimentReport
 from teacher.forms import ReportEvaluateForm, TeacherForm, TeacherProfileForm
-from teacher.models import Teacher, TeacherProfile
+from teacher.models import Teacher
 from teacher.utils import is_teacher
 
 
