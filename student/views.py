@@ -145,7 +145,7 @@ def lesson_drop_success(request):
 @is_student()
 def list_lesson(request):
     student = request.user
-    lesson_list = student.lesson_set.all()
+    lesson_list = Lesson.objects.filter(students=student)
     return render(request, 'student/lesson_list.html',
                   {'lesson_list':lesson_list})
 
