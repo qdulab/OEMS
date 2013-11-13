@@ -87,7 +87,7 @@ def update_profile(request):
 
 @login_required(login_url='student_index')
 @is_student()
-def pick_lesson_list(request):
+def can_pick_lesson_list(request):
     student = request.user
     lesson_list = Lesson.objects.filter(status=True)
     can_pick_lesson_list = lesson_list.exclude(students=student)
@@ -97,7 +97,7 @@ def pick_lesson_list(request):
 
 @login_required(login_url='student_index')
 @is_student()
-def drop_lesson_list(request):
+def can_drop_lesson_list(request):
     student = request.user
     lesson_list = Lesson.objects.filter(status=True)
     can_drop_lesson_list = lesson_list.filter(students=student)
@@ -107,7 +107,7 @@ def drop_lesson_list(request):
 
 @login_required(login_url='student_index')
 @is_student()
-def lesson_pick(request, lesson_id):
+def pick_lesson(request, lesson_id):
     student = request.user
     try:
         lesson = Lesson.objects.get(id=lesson_id)
@@ -119,13 +119,13 @@ def lesson_pick(request, lesson_id):
 
 @login_required(login_url='student_index')
 @is_student()
-def lesson_pick_success(request):
+def pick_lesson_success(request):
     return render(request, 'student/pick_success.html')
 
 
 @login_required(login_url='student_index')
 @is_student()
-def lesson_drop(request, lesson_id):
+def drop_lesson(request, lesson_id):
     student = request.user
     try:
         lesson = Lesson.objects.get(id=lesson_id)
@@ -137,13 +137,13 @@ def lesson_drop(request, lesson_id):
 
 @login_required(login_url='student_index')
 @is_student()
-def lesson_drop_success(request):
+def drop_lesson_success(request):
     return render(request, 'student/drop_success.html')
 
 
 @login_required(login_url='student_index')
 @is_student()
-def list_lesson(request):
+def has_pick_lesson_list(request):
     student = request.user
     lesson_list = Lesson.objects.filter(students=student)
     return render(request, 'student/lesson_list.html',
@@ -152,7 +152,7 @@ def list_lesson(request):
 
 @login_required(login_url='student_index')
 @is_student()
-def list_experiment(request):
+def experiment_list_for_picked_lesson(request):
     student = request.user
     experiment_list = Experiment.objects.filter(lesson__students=student)
     return render(request, 'student/experiment_list.html',
@@ -185,7 +185,7 @@ def experiment_information(request, experiment_id):
     except Experiment.DoesNotExist:
         raise Http404
     if experiment.lesson.status:
-        return render(request, 'student/experiment_information.html',
+        return render(request, 'student/experiment_info.html',
                       {'experiment':experiment})
     raise Http404
 
