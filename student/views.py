@@ -194,11 +194,9 @@ def experiment_information(request, experiment_id):
 @is_student()
 def lesson_information(request, lesson_id):
     try:
-        lesson = Lesson.objects.get(id=lesson_id)
+        lesson = Lesson.objects.get(id=lesson_id, status=True)
     except Lesson.DoesNotExist:
         raise Http404
-    if lesson.status == True:
-        experiment_list = Experiment.objects.filter(lesson=lesson, status=True)
-        return render(request, 'student/lesson_information.html',
-                      {'lesson': lesson, 'experiment_list':experiment_list})
-    raise Http404
+    experiment_list = Experiment.objects.filter(lesson=lesson)
+    return render(request, 'student/lesson_information.html',
+                  {'lesson': lesson, 'experiment_list':experiment_list})
