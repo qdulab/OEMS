@@ -16,21 +16,6 @@ urlpatterns = patterns(
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
-    #TODO: remove
-    url(r'^teacher/edit_success/$', 'teacher.views.edit_success',
-        name='edit_success'),
-    url(r'^teacher/experiment/create_success/(?P<lesson_id>\d+)/$',
-        'experiment.views.create_experiment_success',
-        name='create_experiment_success'),
-    url(r'^student/lesson_pick/success/$',
-        'student.views.pick_lesson_success', name='pick_success'),
-    url(r'^student/lesson_drop/success/$',
-        'student.views.drop_lesson_success', name='drop_success'),
-    url(r'^teacher/delete_success/$', 'experiment.views.delete_success',
-        name='delete_success'),
-    url(r'^student/success/$', 'experiment.views.created_success',
-        name="student_success"),
-
 
     #Student related
     url(r'^student/$', 'student.views.index', name='student_index'),

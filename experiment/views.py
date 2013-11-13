@@ -1,24 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
-from django.http import Http404
 
 from experiment.models import Experiment, ExperimentReport, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
-
-
-@login_required(login_url='teacher')
-@is_teacher(redirect_url='')
-def created_success(request):
-    return render(request, 'teacher/created_success.html', {})
-
-
-@login_required(login_url='teacher')
-@is_teacher(redirect_url='')
-def create_experiment_success(request, lesson_id):
-    return render(request, 'teacher/create_experiment_success.html',
-                  {'lesson_id': lesson_id})
 
 
 @login_required(login_url='teacher')
@@ -29,7 +16,7 @@ def create_lesson_category(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             LessonCategory.objects.create(name=name)
-        return redirect('created_success')
+        return HttpResponse("success")
     return render(request, 'teacher/create_lesson_category.html',)
 
 
@@ -41,7 +28,7 @@ def create_lesson(request):
         if form.is_valid():
             teacher = request.user
             form.save(teacher=teacher)
-            return redirect('created_success')
+            return HttpResponse("success")
         else:
             return render(request,
                           'teacher/create_lesson.html', {})
@@ -63,7 +50,7 @@ def create_experiment(request, lesson_id):
             except Lesson.DoesNotExist:
                 return render(request, "base.html")
             form.save(lesson)
-            return redirect('create_experiment_success', lesson_id=lesson_id)
+            return HttpResponse("success")
         else:
             render(request, "base.html")
     else:
@@ -80,7 +67,7 @@ def delete_experiment(request, experiment_id):
         raise Http404
     if experiment.lesson.teacher == request.user:
         experiment.delete()
-        return redirect('delete_success')
+        return HttpResponse("success")
     else:
         return Http404
 
@@ -92,13 +79,7 @@ def delete_lesson(request, lesson_id):
         Lesson.objects.get(id=lesson_id, teacher=request.user).delete()
     except Experiment.DoesNotExist:
         raise Http404
-    return redirect('delete_success')
-
-
-@login_required(login_url='teacher')
-@is_teacher(redirect_url='')
-def delete_success(request):
-    return render(request, 'teacher/delete_success.html', {})
+    return HttpResponse("success")
 
 
 @login_required(login_url='teacher')
@@ -137,7 +118,7 @@ def experiment_modify(request, experiment_id):
             experiment.information = form.cleaned_data['remark']
             experiment.weight = form.cleaned_data['weight']
             experiment.save()
-            return redirect('created_success')
+            return HttpResponse("success")
         else:
             raise Http404
     else:
@@ -212,7 +193,7 @@ def update_lesson(request, lesson_id):
             lesson.category = updated_form.cleaned_data['category']
             lesson.info = updated_form.cleaned_data['info']
             lesson.save()
-            return redirect('created_success')
+            return HttpResponse("success")
     else:
         categories = LessonCategory.objects.all()
         return render(request, 'teacher/update_lesson.html',

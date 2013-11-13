@@ -133,13 +133,7 @@ def pick_lesson(request, lesson_id):
     except Lesson.DoesNotExist:
         raise Http404
     lesson.students.add(student)
-    return redirect('pick_success')
-
-
-@login_required(login_url='student_index')
-@is_student()
-def pick_lesson_success(request):
-    return render(request, 'student/pick_success.html')
+    return HttpResponse("success")
 
 
 @login_required(login_url='student_index')
@@ -151,13 +145,7 @@ def drop_lesson(request, lesson_id):
     except Lesson.DoesNotExist:
         raise Http404
     lesson.students.remove(student)
-    return redirect('drop_success')
-
-
-@login_required(login_url='student_index')
-@is_student()
-def drop_lesson_success(request):
-    return render(request, 'student/drop_success.html')
+    return HttpResponse("success")
 
 
 @login_required(login_url='student_index')

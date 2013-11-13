@@ -1,6 +1,6 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 
 from experiment.models import ExperimentReport
@@ -50,7 +50,7 @@ def experiment_report_evaluate(request, experiment_report_id):
             experiment_report.score = form.cleaned_data['score']
             experiment_report.comment = form.cleaned_data['comment']
             experiment_report.save()
-            return redirect('created_success')
+            return HttpResponse("success")
         else:
             # TO DO:form error tip
             raise Http404
@@ -73,13 +73,7 @@ def teacher_profile(request):
         form = TeacherProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect("edit_success")
+            return HttpResponse('success')
     else:
         form = TeacherProfileForm(instance=request.user.profile)
     return render(request, 'teacher/profile.html', {'form': form})
-
-
-@login_required(login_url='teacher')
-@is_teacher(redirect_url='')
-def edit_success(request):
-    return render(request, 'teacher/edit_success.html', {})
