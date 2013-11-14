@@ -185,5 +185,16 @@ def lesson_information(request, lesson_id):
     except Lesson.DoesNotExist:
         raise Http404
     experiment_list = Experiment.objects.filter(lesson=lesson)
+
+    def _get_score(experiment):
+        try:
+            score = ExperimentReport.objects.get(experiment=experiment,
+                                                 student=request.user).score
+        except ExperimentReport.DoesNotExist:
+            score = None
+        setattr(experiment, 'score', score )
+        return score
+    experiment_list = sorted(experiment_list, key=_get_score, reverse=True)
     return render(request, 'student/lesson_information.html',
-                  {'lesson': lesson, 'experiment_list':experiment_list})
+                  {'experiment_list': experiment_list,
+                   'lesson': lesson})

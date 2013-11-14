@@ -6,7 +6,11 @@
             </h4>
         </a>
     </div>
+    {% if experiment_report %}
     <div id="collapseOne" class="panel-collapse collapse">
+    {% else %}
+    <div id="collapseOne" class="panel-collapse collapse in">
+    {% endif %}
         <div class="panel-body">
             <table class="table table-bordered table-hover">
                 <tr>
