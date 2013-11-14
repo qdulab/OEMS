@@ -1,16 +1,78 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
+from django.contrib.auth.models import User
 from django.test import TestCase
+from django.test.client import Client
+from django.test.utils import override_settings
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+@override_settings(AUTHENTICATION_BACKENDS=
+                   ('django.contrib.auth.backends.ModelBackend',))
+class StudentLoginLogoutTest(TestCase):
+    def setUp(self):
+        self.student = User(username='test')
+        self.student.set_password('test')
+        self.student.save()
+        self.client = Client()
+
+    def test_login_with_correct_info(self):
+        response = self.client.post('/student/signin/',
+                                    {'username': 'test', 'password': 'test'})
+        self.assertRedirects(response, '/student/dashboard/')
+
+    def test_login_with_incorrect_info(self):
+        response = self.client.post('/student/signin/',
+                                    {'username': 'wrong', 'password': '1'})
+        self.assertRedirects(response, '/student/')
+
+    def test_login_and_logout(self):
+        self.client.login(username='test', password='test')
+        response = self.client.get('/student/signout/')
+        self.assertRedirects(response, '/student/')
+
+
+@override_settings(AUTHENTICATION_BACKENDS=
+                   ('django.contrib.auth.backends.ModelBackend',))
+class StudentProfileTest(TestCase):
+    def setUp(self):
+        self.student = User(username='test')
+        self.student.set_password('test')
+        self.student.save()
+        self.client = Client()
+        self.client.login(username='test', password='test')
+
+    def test_profile_exist(self):
+        self.assertTrue(self.student.profile)
+        self.assertEqual(self.student.profile.school_id, '')
+        self.assertEqual(self.student.profile.grade, '')
+        self.assertEqual(self.student.profile.class_num, '')
+        self.assertEqual(self.student.profile.phone_num, '')
+        self.assertEqual(self.student.profile.major, '')
+
+    def test_modified_profile(self):
+        response = self.client.post('/student/profile/update/',
+                                    {'school_id': 'school_id',
+                                     'grade': 'grade',
+                                     'major': 'major',
+                                     'class_num': 'class_num',
+                                     'phone_num': ''})
+        self.assertRedirects(response, '/student/profile/')
+        self.assertEqual(self.student.profile.school_id, 'school_id')
+        self.assertEqual(self.student.profile.grade, 'grade')
+        self.assertEqual(self.student.profile.major, 'major')
+        self.assertEqual(self.student.profile.class_num, 'class_num')
+        self.assertEqual(self.student.profile.phone_num, '')
+
+
+    def test_modified_profile_illegally(self):
+        response = self.client.post('/student/profile/update/',
+                                    {'school_id': 'school_id',
+                                     'grade': 'grade',
+                                     'major': 'major',
+                                     'class_num': '',
+                                     'phone_num': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, 'fail')
+        self.assertEqual(self.student.profile.school_id, '')
+        self.assertEqual(self.student.profile.grade, '')
+        self.assertEqual(self.student.profile.major, '')
+        self.assertEqual(self.student.profile.class_num, '')
+        self.assertEqual(self.student.profile.phone_num, '')

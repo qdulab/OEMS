@@ -104,6 +104,7 @@ def update_profile(request):
         if form.is_valid():
             form.save()
             return redirect('student_profile')
+    return HttpResponse('fail')
 
 
 @login_required(login_url='student_index')
