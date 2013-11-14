@@ -24,7 +24,7 @@ def experiment_information(request, experiment_id):
     return render(request, 'student/experiment_info.html',
                   {'experiment': experiment,
                    'experiment_report': experiment_report})
-    
+
 
 @login_required(login_url='student_index')
 def dashboard(request):
@@ -169,19 +169,12 @@ def experiment_list_for_picked_lesson(request):
 @login_required(login_url='student_index')
 @is_student()
 def search_lesson(request):
+    lesson_name = request.GET.get('lesson_name', '')
+    if lesson_name:
+        lesson_list = Lesson.objects.filter(name__contains=lesson_name)
+        return render(request, 'student/search_lesson_result.html',
+                      {'lesson_list':lesson_list})
     return render(request, 'student/search_lesson.html', {})
-
-
-@login_required(login_url='student_index')
-@is_student()
-def search_lesson_result(request):
-    lesson_list = {}
-    if request.method == 'POST':
-        lesson_name = request.POST.get('lesson_name', '')
-        if lesson_name:
-            lesson_list = Lesson.objects.filter(name__contains=lesson_name)
-    return render(request, 'student/search_lesson_result.html',
-                  {'lesson_list':lesson_list})
 
 
 @login_required(login_url='student_index')
