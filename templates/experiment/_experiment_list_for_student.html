@@ -1,3 +1,4 @@
+{% load experiment_extra %}
 <table class="table table-hover" id="experimentlist">
     {% if experiment_list %}
     <thead class="align-center">
@@ -11,7 +12,14 @@
         <tr>
             <td><a href="{% url 'student_experiment_info' experiment.id %}">{{ experiment.name }}</a></td>
             <td><!-- TODO 需要添加学生是否提交过报告的标记 --></td>
-            <td>{{ experiment.score|default:"<span class='red'>未得分</span>" }}</td>
+                <td>
+                    {% get_experiment_score_for_student experiment user %}
+                </td>
+
+                {% comment %}
+            <td>{{ experiment|score: user|default:"<span class='red'>未得分</span>" }}</td>
+                {% endcomment %}
+
             <td>{{ experiment.deadline|date:"Y-m-d"|default:'<span style="color:red">未设置</span>' }}</td>
          </tr>
         {% endfor %}
