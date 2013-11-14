@@ -106,27 +106,16 @@ def update_profile(request):
 
 @login_required(login_url='student_index')
 @is_student()
-def can_pick_lesson_list(request):
+def subscribe_lesson(request):
     student = request.user
     lesson_list = Lesson.objects.filter(status=True)
-    can_pick_lesson_list = lesson_list.exclude(students=student)
-    return render(request, 'student/pick_lesson.html',
-                  {'can_pick_lesson_list':can_pick_lesson_list})
-
+    subscribe_lesson_list = lesson_list.exclude(students=student)
+    return render(request, 'student/subscribe_lesson.html',
+                  {'subscribe_lesson_list':subscribe_lesson_list})
 
 @login_required(login_url='student_index')
 @is_student()
-def can_drop_lesson_list(request):
-    student = request.user
-    lesson_list = Lesson.objects.filter(status=True)
-    can_drop_lesson_list = lesson_list.filter(students=student)
-    return render(request, 'student/drop_lesson.html',
-                  {'can_drop_lesson_list':can_drop_lesson_list})
-
-
-@login_required(login_url='student_index')
-@is_student()
-def pick_lesson(request, lesson_id):
+def subscribe_lesson_handle(request, lesson_id):
     student = request.user
     try:
         lesson = Lesson.objects.get(id=lesson_id)
@@ -138,7 +127,17 @@ def pick_lesson(request, lesson_id):
 
 @login_required(login_url='student_index')
 @is_student()
-def drop_lesson(request, lesson_id):
+def unsubscribe_lesson(request):
+    student = request.user
+    lesson_list = Lesson.objects.filter(status=True)
+    unsubscribe_lesson_list = lesson_list.filter(students=student)
+    return render(request, 'student/unsubscribe_lesson.html',
+                  {'unsubscribe_lesson_list':unsubscribe_lesson_list})
+
+
+@login_required(login_url='student_index')
+@is_student()
+def unsubscribe_lesson_handle(request, lesson_id):
     student = request.user
     try:
         lesson = Lesson.objects.get(id=lesson_id)
