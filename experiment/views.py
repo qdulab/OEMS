@@ -135,7 +135,6 @@ def lesson_category_list(request):
     def _get_count(Category):
         count = Lesson.objects.filter(category=Category,
                                       teacher=request.user).count()
-        setattr(Category, 'lesson_count', count)
         return count
     category_list = sorted(category_list, key=_get_count, reverse=True)
     return render(request, 'teacher/lesson_category_list.html',
