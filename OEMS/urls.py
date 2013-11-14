@@ -85,10 +85,10 @@ urlpatterns = patterns(
         name='teacher_profile'),
 
     #Teacher Lesson Category Related
-    url(r'^teacher/create_lesson_category/$',
+    url(r'^teacher/category/create/$',
         'experiment.views.create_lesson_category',
         name='create_lesson_category'),
-    url(r'^teacher/lesson_category_list/$',
+    url(r'^teacher/category/list/$',
         'experiment.views.lesson_category_list', name="category_list"),
 
     #Teacher Lesson Related
@@ -96,7 +96,7 @@ urlpatterns = patterns(
         name='create_lesson'),
     url(r'^teacher/lesson/(?P<lesson_id>\d+)/$',
         'experiment.views.lesson_information', name="lesson_info"),
-    url(r'^teacher/update_lesson/(?P<lesson_id>\d+)/$',
+    url(r'^teacher/lesson/(?P<lesson_id>\d+)/update$',
         'experiment.views.update_lesson', name='update_lesson'),
     url(r'^teacher/lesson/(?P<lesson_id>\d+)/delete/$',
         'experiment.views.delete_lesson', name='delete_lesson'),
