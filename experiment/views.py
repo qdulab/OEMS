@@ -172,7 +172,7 @@ def lesson_list(request, category_id):
 
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
-def lesson_list_all(request):
+def list_all_lesson(request):
     lesson_list = Lesson.objects.filter(teacher=request.user)
     return render(request, 'teacher/lesson_list.html',
                   {'lesson_list': lesson_list})
