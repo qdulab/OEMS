@@ -102,8 +102,8 @@ urlpatterns = patterns(
         'experiment.views.update_lesson', name='update_lesson'),
     url(r'^teacher/lesson/(?P<lesson_id>\d+)/delete/$',
         'experiment.views.delete_lesson', name='delete_lesson'),
-    url(r'^teacher/lesson_list/$', 'experiment.views.lesson_list_all',
-        name="teacher_lesson_list_all"),
+    url(r'^teacher/lesson/all/$', 'experiment.views.list_all_lesson',
+        name="teacher_list_all_lesson"),
     url(r'^teacher/lesson_list/(?P<category_id>\d+)/$',
         'experiment.views.lesson_list', name="teacher_lesson_list"),
 
