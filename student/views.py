@@ -186,19 +186,6 @@ def search_lesson_result(request):
 
 @login_required(login_url='student_index')
 @is_student()
-def experiment_information(request, experiment_id):
-    try:
-        experiment = Experiment.objects.get(id=experiment_id)
-    except Experiment.DoesNotExist:
-        raise Http404
-    if experiment.lesson.status:
-        return render(request, 'student/experiment_info.html',
-                      {'experiment':experiment})
-    raise Http404
-
-
-@login_required(login_url='student_index')
-@is_student()
 def lesson_information(request, lesson_id):
     try:
         lesson = Lesson.objects.get(id=lesson_id, status=True)
