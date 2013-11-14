@@ -191,7 +191,6 @@ def lesson_information(request, lesson_id):
                                                  student=request.user).score
         except ExperimentReport.DoesNotExist:
             score = None
-        setattr(experiment, 'score', score )
         return score
     experiment_list = sorted(experiment_list, key=_get_score, reverse=True)
     return render(request, 'student/lesson_information.html',
