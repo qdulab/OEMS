@@ -17,9 +17,11 @@ def dashboard(request):
 
 def index(request):
     try:
-        isinstance(request.user, Teacher)
+        if isinstance(request.user, Teacher):
+            return redirect('teacher_dashboard')
     except AttributeError:
-        return redirect('teacher_dashboard')
+        return render(request, 'teacher/index.html')
+    logout(request)
     return render(request, 'teacher/index.html')
 
 

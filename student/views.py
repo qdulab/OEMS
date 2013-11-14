@@ -33,11 +33,13 @@ def dashboard(request):
 
 def index(request):
     try:
-        isinstance(request.user, User)
+        if isinstance(request.user, User):
+            return redirect('student_dashboard')
     except AttributeError:
-        return redirect('student_dashboard')
+        return render(request, 'student/index.html')
+    #Teacher will auto lougot
+    logout(request)
     return render(request, 'student/index.html')
-
 
 @login_required(login_url='student_index')
 @is_student()
