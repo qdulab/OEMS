@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
 from django.test.utils import override_settings
-from django.core.urlresolvers import reverse
 
 
 @override_settings(AUTHENTICATION_BACKENDS=

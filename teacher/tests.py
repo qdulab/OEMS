@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
 from django.test.utils import override_settings
@@ -14,19 +15,19 @@ class TeacherLoginLogoutTest(TestCase):
         self.client = Client()
 
     def test_login_with_correct_info(self):
-        response = self.client.post('/teacher/signin/',
+        response = self.client.post(reverse('teacher_signin'),
                                     {'username': 'test', 'password': 'test'})
-        self.assertRedirects(response, '/teacher/dashboard/')
+        self.assertRedirects(response, reverse('teacher_dashboard'))
 
     def test_login_with_incorrect_info(self):
-        response = self.client.post('/teacher/signin/',
+        response = self.client.post(reverse('teacher_signin'),
                                     {'username': 'wrong', 'password': '1'})
-        self.assertRedirects(response, '/teacher/')
+        self.assertRedirects(response, reverse('teacher_index'))
 
     def test_login_and_logout(self):
         self.client.login(username='test', password='test')
-        response = self.client.get('/teacher/signout/')
-        self.assertRedirects(response, '/teacher/')
+        response = self.client.get(reverse('teacher_signout'))
+        self.assertRedirects(response, reverse('teacher_index'))
 
 
 @override_settings(AUTHENTICATION_BACKENDS=
@@ -47,7 +48,7 @@ class TeacherProfileTest(TestCase):
         self.assertEqual(self.teacher.profile.blog, '')
 
     def test_modified_profile(self):
-        response = self.client.post('/teacher/profile/',
+        response = self.client.post(reverse('teacher_profile'),
                                     {'address': 'address',
                                      'QQ': 'qq',
                                      'mobile': 'mobile',
@@ -60,7 +61,7 @@ class TeacherProfileTest(TestCase):
         self.assertEqual(self.teacher.profile.blog, '')
 
     def test_modified_profile_illegally(self):
-        response = self.client.post('/teacher/profile/',
+        response = self.client.post(reverse('teacher_profile'),
                                     {'address': 'address',
                                      'QQ': 'qq',
                                      'mobile': 'mobile',
