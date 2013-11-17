@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.client import Client
@@ -17,13 +18,13 @@ class LessonCategoryTest(TestCase):
         self.category.save()
 
     def test_create_lesson_category(self):
-        response = self.client.post('/teacher/category/create/',
+        response = self.client.post(reverse('create_lesson_category'),
                                     {'name': "test"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "success")
 
     def test_create_existed_category(self):
-        response = self.client.post('/teacher/category/create/',
+        response = self.client.post(reverse('create_lesson_category'),
                                     {'name': "existed"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content,
