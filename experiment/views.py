@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 
@@ -15,7 +16,10 @@ def create_lesson_category(request):
         form = LessonCategoryForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            LessonCategory.objects.create(name=name)
+            try:
+                LessonCategory.objects.create(name=name)
+            except IntegrityError:
+                return HttpResponse("Category has already existed")
         return HttpResponse("success")
     return render(request, 'teacher/create_lesson_category.html',)
 
