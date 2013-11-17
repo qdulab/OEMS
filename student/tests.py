@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
 from django.test.utils import override_settings
+from django.core.urlresolvers import reverse
 
 
 @override_settings(AUTHENTICATION_BACKENDS=
@@ -14,19 +15,19 @@ class StudentLoginLogoutTest(TestCase):
         self.client = Client()
 
     def test_login_with_correct_info(self):
-        response = self.client.post('/student/signin/',
+        response = self.client.post(reverse('student_signin'),
                                     {'username': 'test', 'password': 'test'})
-        self.assertRedirects(response, '/student/dashboard/')
+        self.assertRedirects(response, reverse('student_dashboard'))
 
     def test_login_with_incorrect_info(self):
-        response = self.client.post('/student/signin/',
+        response = self.client.post(reverse('student_signin'),
                                     {'username': 'wrong', 'password': '1'})
-        self.assertRedirects(response, '/student/')
+        self.assertRedirects(response, reverse('student_index'))
 
     def test_login_and_logout(self):
         self.client.login(username='test', password='test')
-        response = self.client.get('/student/signout/')
-        self.assertRedirects(response, '/student/')
+        response = self.client.get(reverse('student_signout'))
+        self.assertRedirects(response, reverse('student_index'))
 
 
 @override_settings(AUTHENTICATION_BACKENDS=
@@ -48,13 +49,13 @@ class StudentProfileTest(TestCase):
         self.assertEqual(self.student.profile.major, '')
 
     def test_modified_profile(self):
-        response = self.client.post('/student/profile/update/',
+        response = self.client.post(reverse('update_student_profile'),
                                     {'school_id': 'school_id',
                                      'grade': 'grade',
                                      'major': 'major',
                                      'class_num': 'class_num',
                                      'phone_num': ''})
-        self.assertRedirects(response, '/student/profile/')
+        self.assertRedirects(response, reverse('student_profile'))
         self.assertEqual(self.student.profile.school_id, 'school_id')
         self.assertEqual(self.student.profile.grade, 'grade')
         self.assertEqual(self.student.profile.major, 'major')
@@ -63,7 +64,7 @@ class StudentProfileTest(TestCase):
 
 
     def test_modified_profile_illegally(self):
-        response = self.client.post('/student/profile/update/',
+        response = self.client.post(reverse('update_student_profile'),
                                     {'school_id': 'school_id',
                                      'grade': 'grade',
                                      'major': 'major',
