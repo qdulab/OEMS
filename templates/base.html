@@ -8,8 +8,17 @@
         </title>
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/bootstrap.css'/>
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/two_columns.css'/>
+		<link rel='stylesheet' href='{{ STATIC_URL }}css/messenger.css'/>
+		<link rel='stylesheet' href='{{ STATIC_URL }}css/messenger-theme-flat.css'/>
         <script src='{{ STATIC_URL }}js/jquery.js'></script>
+        <script src='{{ STATIC_URL }}js/messenger.min.js'></script>
 		<script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.js'></script>
+		<script type='text/javascript'>
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        }
+        </script>
 	</head>
 	<body class='{% block body_class %} {% endblock %}'>
 		{% block body %}
