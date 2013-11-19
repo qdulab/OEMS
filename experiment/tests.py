@@ -32,18 +32,6 @@ class LessonCategoryTest(TestCase):
         self.assertEqual(response.content,
                          "Category has already existed")
 
-'''
-@override_settings(AUTHENTICATION_BACKENDS=
-                   ('django.contrib.auth.backends.ModelBackend',))
-class StudentExperimentTest(TestCase):
-    def setUp(self):
-        self.student = User(username='test')
-        self.student.set_password('test')
-        self.student.save()
-        self.client = Client()
-        self.client.login(username='test', password='test')
-'''
-
 
 @override_settings(AUTHENTICATION_BACKENDS=
                    ('teacher.backends.TeacherBackend', ))
@@ -78,15 +66,33 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(experiment.remark, 'remark')
         self.assertEqual(experiment.weight, 1)
 
+    def test_create_experiment_not_mine(self):
+        teacher = Teacher(username='jokerT')
+        teacher.set_password('jokerT')
+        teacher.save()
+        category = LessonCategory(name='jokerLC')
+        category.save()
+        lesson = Lesson(name='jokerL', category=category, teacher=teacher)
+        lesson.save()
+        response = self.client.post(
+            reverse('create_experiment', args=(lesson.id, )),
+            {'name': 'name',
+             'content': 'content',
+             'lesson': lesson,
+             'deadline': '',
+             'remark': 'remark',
+             'weight': 1})
+        #self.assertRedirects(response, 'base.html')
+
     def test_modified_experiment(self):
         self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
         self.experiment.save()
         response = self.client.post(
             reverse('experiment_modify', args=(self.experiment.id, )),
             {'name': 'new_name',
-             'content':'new_content',
-             'deadline':'',
-             'remark':'new_remark',
+             'content': 'new_content',
+             'deadline': '',
+             'remark': 'new_remark',
              'weight': 2})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "success")
@@ -98,7 +104,6 @@ class TeacherExperimentTest(TestCase):
 
     def test_delete_experiment(self):
         self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
-        self.experiment.lesson.teacher = self.teacher
         self.experiment.save()
         response = self.client.post(
             reverse('delete_experiment', args=(self.experiment.id, )))
@@ -106,29 +111,33 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(response.content, "success")
         experiment = Experiment.objects.filter(id=self.experiment.id)
         self.assertFalse(experiment)
-
-
 '''
-    def test__exist(self):
-        self.assertTrue(self.student.profile)
-        self.assertEqual(self.student.profile.school_id, '')
-        self.assertEqual(self.student.profile.grade, '')
-        self.assertEqual(self.student.profile.class_num, '')
-        self.assertEqual(self.student.profile.phone_num, '')
-        self.assertEqual(self.student.profile.major, '')
+    def test_delete_experiment_not_mine(self):
+        teacher = Teacher(username='jokerT')
+        teacher.set_password('jokerT')
+        teacher.save()
+        category = LessonCategory(name='jokerLC')
+        category.save()
+        lesson = Lesson(name='jokerL', category=category, teacher=teacher)
+        lesson.save()
+        experiment = Experiment(name='jokerE', lesson=lesson, weight=1)
+        experiment.save()
+        response = self.client.post(
+            reverse('delete_experiment', args=(experiment.id, )))
+        self.assertEqual(response.status_code, 404)
 
-    def test_modified_experiment_illegally(self):
-    response = self.client.post(reverse('update_student_profile'),
-                                    {'school_id': 'school_id',
-                                     'grade': 'grade',
-                                     'major': 'major',
-                                     'class_num': '',
-                                     'phone_num': ''})
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, 'fail')
-        self.assertEqual(self.student.profile.school_id, '')
-        self.assertEqual(self.student.profile.grade, '')
-        self.assertEqual(self.student.profile.major, '')
-        self.assertEqual(self.student.profile.class_num, '')
-        self.assertEqual(self.student.profile.phone_num, '')
+  def test_modified_profile_illegally(self):
+        self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
+        self.experiment.save()
+        response = self.client.post(
+            reverse('experiment_modify', args=(self.experiment.id, )),
+            {'name': 'abcabcabcabcabcabcabcabcabcabcabc\
+                     bcabcabcabcabcabcabcabcabcabcabcab\
+                     cabcabcabcabcabcabcabcabcabcabcabc\
+                     abcabcabcabcabcabcabcabcabcabcabca',
+             'content': '',
+             'deadline': '',
+             'remark': 'new_remark',
+             'weight': 2})
+        self.assertEqual(response.status_code, 404)
 '''
