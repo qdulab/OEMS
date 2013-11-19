@@ -61,7 +61,7 @@ class TeacherExperimentTest(TestCase):
         experiment = Experiment.objects.get(name='name')
         self.assertEqual(experiment.content, 'content')
         self.assertEqual(experiment.lesson, self.lesson)
-        #self.assertEqual(experiment.deadline, '')
+        self.assertIsNone(experiment.deadline)
         self.assertEqual(experiment.remark, 'remark')
         self.assertEqual(experiment.weight, 1)
 
@@ -97,7 +97,7 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(response.content, "success")
         experiment = Experiment.objects.get(name='new_name')
         self.assertEqual(experiment.content, 'new_content')
-        #self.assertEqual(experiment.deadline, '')
+        self.assertIsNone(experiment.deadline)
         self.assertEqual(experiment.remark, 'new_remark')
         self.assertEqual(experiment.weight, 2)
 
