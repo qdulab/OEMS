@@ -41,11 +41,10 @@ class TeacherExperimentTest(TestCase):
         self.teacher.save()
         self.client = Client()
         self.client.login(username='test', password='test')
-        self.category = LessonCategory(name='category')
-        self.category.save()
-        self.lesson = Lesson(name='lesson', category=self.category,
-                             teacher=self.teacher, status=True)
-        self.lesson.save()
+        self.category = LessonCategory.objects.create(name='category')
+        self.lesson = Lesson.objects.create(name='lesson',
+                                            category=self.category,
+                                            teacher=self.teacher, status=True)
 
     def test_create_experiment(self):
         response = self.client.post(
@@ -69,10 +68,9 @@ class TeacherExperimentTest(TestCase):
         teacher = Teacher(username='jokerT')
         teacher.set_password('jokerT')
         teacher.save()
-        category = LessonCategory(name='jokerLC')
-        category.save()
-        lesson = Lesson(name='jokerL', category=category, teacher=teacher)
-        lesson.save()
+        category = LessonCategory.objects.create(name='jokerLC')
+        lesson = Lesson.objects.create(
+            name='jokerL', category=category, teacher=teacher)
         response = self.client.post(
             reverse('create_experiment', args=(lesson.id, )),
             {'name': 'name',
@@ -84,8 +82,8 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_modified_experiment(self):
-        self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
-        self.experiment.save()
+        self.experiment = Experiment.objects.create(
+            name='name', lesson=self.lesson, weight=1)
         response = self.client.post(
             reverse('experiment_modify', args=(self.experiment.id, )),
             {'name': 'new_name',
@@ -102,7 +100,8 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(experiment.weight, 2)
 
     def test_modified_profile_illegally(self):
-        self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
+        self.experiment = Experiment.objects.create(
+            name='name', lesson=self.lesson, weight=1)
         self.experiment.save()
         response = self.client.post(
             reverse('experiment_modify', args=(self.experiment.id, )),
@@ -118,8 +117,8 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(response.content, "fail")
 
     def test_delete_experiment(self):
-        self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
-        self.experiment.save()
+        self.experiment = Experiment.objects.create(
+            name='name', lesson=self.lesson, weight=1)
         response = self.client.post(
             reverse('delete_experiment', args=(self.experiment.id, )))
         self.assertEqual(response.status_code, 200)
@@ -131,12 +130,11 @@ class TeacherExperimentTest(TestCase):
         teacher = Teacher(username='jokerT')
         teacher.set_password('jokerT')
         teacher.save()
-        category = LessonCategory(name='jokerLC')
-        category.save()
-        lesson = Lesson(name='jokerL', category=category, teacher=teacher)
-        lesson.save()
-        experiment = Experiment(name='jokerE', lesson=lesson, weight=1)
-        experiment.save()
+        category = LessonCategory.objects.create(name='jokerLC')
+        lesson = Lesson.objects.create(
+            name='jokerL', category=category, teacher=teacher)
+        experiment = Experiment.objects.create(
+            name='jokerE', lesson=lesson, weight=1)
         response = self.client.post(
             reverse('delete_experiment', args=(experiment.id, )))
         self.assertEqual(response.status_code, 404)
