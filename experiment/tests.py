@@ -114,8 +114,8 @@ class TeacherExperimentTest(TestCase):
              'deadline': '',
              'remark': 'new_remark',
              'weight': 2})
-    self.assertEqual(response.status_code, 200)
-    self.assertEqual(response.content, "fail")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, "fail")
 
     def test_delete_experiment(self):
         self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
