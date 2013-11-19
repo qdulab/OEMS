@@ -78,12 +78,11 @@ class LessonTestForTeacher(TestCase):
         teacher = Teacher(username="new_teacher")
         teacher.set_password("123")
         teacher.save()
-        category = LessonCategory(name="new_LessonCategory")
-        category.save()
-        lesson = Lesson(name="new_lesson")
-        lesson.category = category
-        lesson.teacher = teacher
-        lesson.save()
+        category = LessonCategory.objects.create(name="new_LessonCategory")
+        lesson = Lesson.objects.create(
+            name="new_lesson",
+            category=category,
+            teacher=teacher)
         response = self.client.post(
             reverse('update_lesson', args=(lesson.id, )),
             {"name": "new_lesson",
@@ -103,12 +102,11 @@ class LessonTestForTeacher(TestCase):
         teacher = Teacher(username="new_teacher")
         teacher.set_password("123")
         teacher.save()
-        category = LessonCategory(name="new_LessonCategory")
-        category.save()
-        lesson = Lesson(name="new_lesson")
-        lesson.category = category
-        lesson.teacher = teacher
-        lesson.save()
+        category = LessonCategory.objects.create(name="new_LessonCategory")
+        lesson = Lesson.objects.create(
+            name="new_lesson",
+            category=category,
+            teacher=teacher)
         response = self.client.post(
             reverse('delete_lesson', args=(lesson.id, )))
         self.assertEqual(response.status_code, 404)
@@ -122,12 +120,11 @@ class LessonTestForStudent(TestCase):
         self.teacher = Teacher(username="teacher")
         self.teacher.set_password("123")
         self.teacher.save()
-        self.category = LessonCategory(name="LessonCategory")
-        self.category.save()
-        self.lesson = Lesson(name="lesson", status=True)
-        self.lesson.category = self.category
-        self.lesson.teacher = self.teacher
-        self.lesson.save()
+        self.category = LessonCategory.objects.create(name="LessonCategory")
+        self.lesson = Lesson.objects.create(
+            name="lesson",
+            category=self.category,
+            teacher=self.teacher)
         self.student = User(username="student")
         self.student.set_password("123")
         self.student.save()
