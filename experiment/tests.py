@@ -38,19 +38,17 @@ class LessonCategoryTest(TestCase):
 
 @override_settings(AUTHENTICATION_BACKENDS=
                    ('teacher.backends.TeacherBackend', ))
-class LessonTest_teacher(TestCase):
+class LessonTestForTeacher(TestCase):
 
     def setUp(self):
         self.teacher = Teacher(username="teacher")
         self.teacher.set_password("123")
         self.teacher.save()
-        self.category = LessonCategory(name="LessonCategory")
-        self.category.save()
-        self.lesson = Lesson(name="lesson")
-        self.lesson.category = self.category
-        self.lesson.teacher = self.teacher
-        self.lesson.save()
-        self.clint = Client()
+        self.category = LessonCategory.objects.create(name="LessonCategory")
+        self.lesson = Lesson.objects.create(
+            name="lesson",
+            category=self.category,
+            teacher=self.teacher)
         self.client.login(username="teacher", password="123")
 
     def test_create_lesson(self):
@@ -76,7 +74,7 @@ class LessonTest_teacher(TestCase):
         self.assertEqual(lesson.category, self.category)
         self.assertEqual(lesson.info, "123")
 
-    def test_update_lesson_not_my(self):
+    def test_update_other_teacher_lesson(self):
         teacher = Teacher(username="new_teacher")
         teacher.set_password("123")
         teacher.save()
@@ -101,7 +99,7 @@ class LessonTest_teacher(TestCase):
         lesson = Lesson.objects.filter(name="lesson")
         self.assertFalse(lesson)
 
-    def test_delete_lesson_not_my(self):
+    def test_delete_other_teacher_lesson(self):
         teacher = Teacher(username="new_teacher")
         teacher.set_password("123")
         teacher.save()
@@ -118,7 +116,7 @@ class LessonTest_teacher(TestCase):
 
 @override_settings(AUTHENTICATION_BACKENDS=
                    ('django.contrib.auth.backends.ModelBackend',))
-class LessonTest_student(TestCase):
+class LessonTestForStudent(TestCase):
 
     def setUp(self):
         self.teacher = Teacher(username="teacher")
@@ -133,7 +131,6 @@ class LessonTest_student(TestCase):
         self.student = User(username="student")
         self.student.set_password("123")
         self.student.save()
-        self.clint = Client()
         self.client.login(username="student", password="123")
 
     def test_subscribe_lesson(self):
@@ -141,8 +138,7 @@ class LessonTest_student(TestCase):
             reverse('student_subscribe_handle', args=(self.lesson.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, 'success')
-        lesson = Lesson.objects.get(id=self.lesson.id)
-        lesson.students.get(id=self.student.id)
+        Lesson.objects.get(id=self.lesson.id).students.get(id=self.student.id)
 
     def test_subscribe_lesson_does_not_exist(self):
         response = self.client.post(
@@ -166,8 +162,9 @@ class LessonTest_student(TestCase):
             reverse('student_unsubscribe_handle', args=(self.lesson.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "success")
-        lesson = Lesson.objects.get(id=self.lesson.id)
-        student = lesson.students.filter(id=self.student.id)
+        student = Lesson.objects.get(
+            id=self.lesson.id).students.filter(
+            id=self.student.id)
         self.assertFalse(student)
 
     def test_unsubscribe_lesson_does_not_subscribe(self):
