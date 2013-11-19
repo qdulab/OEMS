@@ -52,11 +52,11 @@ def create_experiment(request, lesson_id):
             try:
                 lesson = Lesson.objects.get(id=lesson_id, teacher=request.user)
             except Lesson.DoesNotExist:
-                return render(request, "base.html")
+                raise Http404
             form.save(lesson)
             return HttpResponse("success")
         else:
-            render(request, "base.html")
+            return HttpResponse("fail")
     else:
         return render(request, 'teacher/create_experiment.html',
                       {"lesson_list": lesson_list})
