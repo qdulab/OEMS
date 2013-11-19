@@ -9,8 +9,6 @@ from experiment.models import LessonCategory, Lesson, Experiment
 from teacher.models import Teacher
 
 
-@override_settings(AUTHENTICATION_BACKENDS=
-                   ('teacher.backends.TeacherBackend', ))
 class LessonCategoryTest(TestCase):
     def setUp(self):
         self.teacher = Teacher(username='nihaoma')
@@ -99,11 +97,18 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(experiment.remark, 'new_remark')
         self.assertEqual(experiment.weight, 2)
 
-
-
-
+    def test_delete_experiment(self):
+        self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
+        self.experiment.lesson.teacher = self.teacher
+        self.experiment.save()
+        response = self.client.post(
+            reverse('delete_experiment', args=(self.experiment.id, )))
+        experiment = Experiment.objects.filter(id=self.experiment.id)
+        self.assertFalse(experiment)
 
 '''
+   def test_show_experiment_information(self):
+
     def test__exist(self):
         self.assertTrue(self.student.profile)
         self.assertEqual(self.student.profile.school_id, '')
@@ -113,9 +118,6 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(self.student.profile.major, '')
 
     def test_show_experiment_information(self):
-
-
-    def test_delete_experiment(self):
 
     def test_modified_experiment_illegally(self):
     response = self.client.post(reverse('update_student_profile'),
@@ -131,4 +133,4 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(self.student.profile.major, '')
         self.assertEqual(self.student.profile.class_num, '')
         self.assertEqual(self.student.profile.phone_num, '')
-'''
+        '''
