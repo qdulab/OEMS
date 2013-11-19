@@ -126,7 +126,7 @@ class LessonTest_student(TestCase):
         self.teacher.save()
         self.category = LessonCategory(name="LessonCategory")
         self.category.save()
-        self.lesson = Lesson(name="lesson")
+        self.lesson = Lesson(name="lesson", status=True)
         self.lesson.category = self.category
         self.lesson.teacher = self.teacher
         self.lesson.save()
