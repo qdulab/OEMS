@@ -73,7 +73,7 @@ def delete_experiment(request, experiment_id):
         experiment.delete()
         return HttpResponse("success")
     else:
-        return Http404
+        raise Http404
 
 
 @login_required(login_url='teacher')
