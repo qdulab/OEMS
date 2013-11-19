@@ -124,7 +124,7 @@ def experiment_modify(request, experiment_id):
             experiment.save()
             return HttpResponse("success")
         else:
-            raise Http404
+            return HttpResponse("fail")
     else:
         return render(request,
                       'teacher/experiment_modify.html',
