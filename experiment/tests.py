@@ -4,7 +4,6 @@ from django.test import TestCase
 from django.test.client import Client
 from django.test.utils import override_settings
 
-from datetime import datetime
 from experiment.models import LessonCategory, Lesson, Experiment
 from teacher.models import Teacher
 
@@ -82,7 +81,7 @@ class TeacherExperimentTest(TestCase):
              'deadline': '',
              'remark': 'remark',
              'weight': 1})
-        #self.assertRedirects(response, 'base.html')
+        self.assertEqual(response.status_code, 404)
 
     def test_modified_experiment(self):
         self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
@@ -102,6 +101,22 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(experiment.remark, 'new_remark')
         self.assertEqual(experiment.weight, 2)
 
+    def test_modified_profile_illegally(self):
+        self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
+        self.experiment.save()
+        response = self.client.post(
+            reverse('experiment_modify', args=(self.experiment.id, )),
+            {'name': 'abcabcabcabcabcabcabcabcabcabcabc\
+                     bcabcabcabcabcabcabcabcabcabcabcab\
+                     cabcabcabcabcabcabcabcabcabcabcabc\
+                     abcabcabcabcabcabcabcabcabcabcabca',
+             'content': '',
+             'deadline': '',
+             'remark': 'new_remark',
+             'weight': 2})
+    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.content, "fail")
+
     def test_delete_experiment(self):
         self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
         self.experiment.save()
@@ -111,7 +126,7 @@ class TeacherExperimentTest(TestCase):
         self.assertEqual(response.content, "success")
         experiment = Experiment.objects.filter(id=self.experiment.id)
         self.assertFalse(experiment)
-'''
+
     def test_delete_experiment_not_mine(self):
         teacher = Teacher(username='jokerT')
         teacher.set_password('jokerT')
@@ -125,19 +140,3 @@ class TeacherExperimentTest(TestCase):
         response = self.client.post(
             reverse('delete_experiment', args=(experiment.id, )))
         self.assertEqual(response.status_code, 404)
-
-  def test_modified_profile_illegally(self):
-        self.experiment = Experiment(name='name', lesson=self.lesson, weight=1)
-        self.experiment.save()
-        response = self.client.post(
-            reverse('experiment_modify', args=(self.experiment.id, )),
-            {'name': 'abcabcabcabcabcabcabcabcabcabcabc\
-                     bcabcabcabcabcabcabcabcabcabcabcab\
-                     cabcabcabcabcabcabcabcabcabcabcabc\
-                     abcabcabcabcabcabcabcabcabcabcabca',
-             'content': '',
-             'deadline': '',
-             'remark': 'new_remark',
-             'weight': 2})
-        self.assertEqual(response.status_code, 404)
-'''
