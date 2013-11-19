@@ -124,8 +124,10 @@ def subscribe_lesson_handle(request, lesson_id):
         lesson = Lesson.objects.get(id=lesson_id)
     except Lesson.DoesNotExist:
         raise Http404
-    lesson.students.add(student)
-    return HttpResponse("success")
+    if lesson.status and student not in lesson.students.all():
+        lesson.students.add(student)
+        return HttpResponse("success")
+    raise Http404
 
 
 @login_required(login_url='student_index')
@@ -146,8 +148,10 @@ def unsubscribe_lesson_handle(request, lesson_id):
         lesson = Lesson.objects.get(id=lesson_id)
     except Lesson.DoesNotExist:
         raise Http404
-    lesson.students.remove(student)
-    return HttpResponse("success")
+    if lesson.status and student in lesson.students.all():
+        lesson.students.remove(student)
+        return HttpResponse("success")
+    raise Http404
 
 
 @login_required(login_url='student_index')
