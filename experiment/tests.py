@@ -7,6 +7,8 @@ from experiment.models import LessonCategory, Lesson
 from teacher.models import Teacher
 
 
+@override_settings(AUTHENTICATION_BACKENDS=
+                   ('teacher.backends.TeacherBackend', ))
 class LessonCategoryTest(TestCase):
     def setUp(self):
         self.teacher = Teacher(username='nihaoma')
