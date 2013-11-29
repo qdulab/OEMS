@@ -1,11 +1,30 @@
 {% extends "teacher/dashboard.html" %}
-
+{% block cssblock %}
+<style type="text/css">
+    label
+    {
+        font-size:15px;
+    }
+</style>
+{% endblock %}
+{% block javascriptblock %}
+<script src="{{ STATIC_URL }}js/lesson_category_list.js"></script>
+{% endblock %}
 {% block title %}科目列表{% endblock %}
 
 {% block right %}
 <h1>
     <small>科目列表</small>
-    <a href="{% url 'create_lesson_category' %}" class="btn btn-primary pull-right" role="bottom">创建科目</a>
+    <form method="post" id='create_lesson_category' class="form-inline pull-right" role="form">
+        {% csrf_token %}
+        <label for="lesson_category_name">创建科目</label> 
+        <div class="form-group">
+            <input id="lesson_category_name" class="form-control" type="text"/> 
+        </div>
+        <div class="form-group">
+        <button class="btn btn-primary" role="bottom" id="create_button">创建</button>
+        </div>    
+    </form>
 </h1>
 {% include "experiment/_lesson_category_list.html" %}
 {% endblock %}
