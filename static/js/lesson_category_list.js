@@ -1,12 +1,15 @@
 $(document).ready(function (){
+    create_lesson_category()
+})
+
+function create_lesson_category(){
     $("button").click(function (){
-        alert("he")
         $.post('/teacher/category/create/',
                {name:$('#lesson_category_name').val()},
-               function (){
-                   alert("创建成功")
+               function (data){
+                   alert("创建成功"+data.id)
+                   $("tbody").prepend("<tr><td><a href='/teacher/lesson_list/"+data.id+"/'>"+$('#lesson_category_name').val()+"</a></td><td>0</td><td></td></tr>")
                })
-        alert("hehe")
         return false;
     })
-})
+}

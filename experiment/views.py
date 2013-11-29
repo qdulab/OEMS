@@ -17,10 +17,10 @@ def create_lesson_category(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             try:
-                LessonCategory.objects.create(name=name)
+                category = LessonCategory.objects.create(name=name)
             except IntegrityError:
                 return HttpResponse("Category has already existed")
-        return HttpResponse("success")
+        return HttpResponse('{"id":"1", "time":123'+ '}')
     return render(request, 'teacher/create_lesson_category.html',)
 
 
