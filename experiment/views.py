@@ -30,8 +30,7 @@ def create_lesson(request):
     if request.method == 'POST':
         form = LessonForm(data=request.POST)
         if form.is_valid():
-            teacher = request.user
-            form.save(teacher=teacher)
+            form.save(teacher=request.user)
             return HttpResponse("success")
         else:
             return render(request,
@@ -81,7 +80,7 @@ def delete_experiment(request, experiment_id):
 def delete_lesson(request, lesson_id):
     try:
         Lesson.objects.get(id=lesson_id, teacher=request.user).delete()
-    except Experiment.DoesNotExist:
+    except Lesson.DoesNotExist:
         raise Http404
     return HttpResponse("success")
 

@@ -26,9 +26,9 @@ class Lesson(models.Model):
     status, info, students, create_at
     """
     category = models.ForeignKey(LessonCategory)
-    name = models.CharField(null=False, blank=False, max_length=64)
+    name = models.CharField(max_length=64)
     teacher = models.ForeignKey(Teacher)
-    status = models.BooleanField(blank=False)
+    status = models.BooleanField(default=True)
     info = models.TextField(null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
     students = models.ManyToManyField(User)
