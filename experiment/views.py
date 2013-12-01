@@ -1,7 +1,9 @@
+import datetime
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
+from django.utils import simplejson
 
 from experiment.models import Experiment, ExperimentReport, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
@@ -19,8 +21,21 @@ def create_lesson_category(request):
             try:
                 category = LessonCategory.objects.create(name=name)
             except IntegrityError:
-                return HttpResponse("Category has already existed")
-        return HttpResponse('{"id":"1", "time":123'+ '}')
+                json={"status":0}
+                return HttpResponse(simplejson.dumps(json))
+        category.created_at += datetime.timedelta(hours=8)
+        json = {"id": category.id,
+                "date": {
+                    "y": category.created_at.year,
+                    "m": category.created_at.strftime('%m'),
+                    "d": category.created_at.strftime('%d')},
+                "time": "%s:%s:%s %s" %
+                (category.created_at.strftime('%I'),
+                 category.created_at.strftime('%M'),
+                 category.created_at.strftime('%S'),
+                 category.created_at.strftime('%p')), 
+                "status": 1}
+        return HttpResponse(simplejson.dumps(json))
     return render(request, 'teacher/create_lesson_category.html',)
 
 
