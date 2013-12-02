@@ -16,10 +16,14 @@ function create_lesson_category(){
                                formatetime = $.format.date(datetime, "yyyy年MM月dd日 hh:mm:ss a");
                                var str = "<tr><td><a href='/teacher/lesson_list/"+response.id+"/'>"+input_name+"</a></td><td>0</td><td>"+formatetime+"</td></tr>";
                                $("tbody").prepend(str);
-                               alert("创建成功！");
+                               Messenger().post("创建成功！")
+                               $('#lesson_category_name').val("");
                            }
                            else if(response.status == 0){
-                               alert("科目已经存在！");
+                               Messenger().post({
+                                     message: "科目已经存在,请重新输入",
+                                       type: "error"
+                               })
                            }
                        })
         }
@@ -27,7 +31,6 @@ function create_lesson_category(){
             alert("科目名长度超过60个字符！请重新输入！");       
         else 
             alert("请输入科目名称！");
-        $('#lesson_category_name').val("");
         return false;
     })
 }
