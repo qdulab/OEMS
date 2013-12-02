@@ -1,4 +1,4 @@
-import datetime
+import datetime, time
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse
@@ -25,6 +25,7 @@ def create_lesson_category(request):
                 return HttpResponse(simplejson.dumps(json))
         category.created_at += datetime.timedelta(hours=8)
         json = {"id": category.id,
+                "datetime": time.mktime(category.created_at.timetuple()),
                 "date": {
                     "y": category.created_at.year,
                     "m": category.created_at.strftime('%m'),
