@@ -13,7 +13,7 @@ function create_lesson_category(){
                 data: form.serialize(),
                 success:function (data){
                     var response = JSON.parse(data);
-                    if (response.status == 1){
+                    if (response.status == "OK"){
                         datetime = new Date(response.datetime * 1000);
                         formatetime = $.format.date(datetime, "yyyy年MM月dd日 hh:mm:ss a");
                         var str = "<tr><td><a href='/teacher/lesson_list/"+response.id+"/'>"+input_name+"</a></td><td>0</td><td>"+formatetime+"</td></tr>";
@@ -21,7 +21,7 @@ function create_lesson_category(){
                         Messenger().post("创建成功！")
                         $('#lesson_category_name').val("");
                     }
-                    else if(response.status == 0){
+                    else if(response.content == "existed"){
                         Messenger().post({
                             message: "科目已经存在,请重新输入",
                             type: "error"

@@ -23,15 +23,18 @@ def create_lesson_category(request):
             try:
                 category = LessonCategory.objects.create(name=name)
             except IntegrityError:
-                response = {"status": 0}
+                response = {"status": "fail",
+                            "content": "existed"}
                 return HttpResponse(simplejson.dumps(response))
             category.created_at += datetime.timedelta(hours=8)
             response = {"id": category.id,
                         "datetime": time.mktime(category.created_at.timetuple()),
-                        "status": 1}
+                        "status": "OK"}
             return HttpResponse(simplejson.dumps(response))
         else:
-            response = {"status":-1}
+            response = {"status":"fail",
+                        "content": "not valid"}
+
             return HttpResponse(simplejson.dumps(response))
     return render(request, 'teacher/create_lesson_category.html',)
 
