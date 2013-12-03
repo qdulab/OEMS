@@ -143,13 +143,8 @@ def experiment_modify(request, experiment_id):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def lesson_category_list(request):
-    category_list = LessonCategory.objects.all()
+    category_list = LessonCategory.objects.all().order_by('-created_at')
 
-    def _get_count(Category):
-        count = Lesson.objects.filter(category=Category,
-                                      teacher=request.user).count()
-        return count
-    category_list = sorted(category_list, key=_get_count, reverse=True)
     return render(request, 'teacher/lesson_category_list.html',
                   {'category_list': category_list})
 
