@@ -1,6 +1,10 @@
 {% extends "teacher/dashboard.html" %}
 
 
+{% block javascriptblock %}
+<script src="{{ STATIC_URL }}js/teacher_profile.js"></script>
+{% endblock %}
+
 {% block title %}教师信息{% endblock %}
 
 {% block right %}
