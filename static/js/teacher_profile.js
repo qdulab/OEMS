@@ -4,20 +4,23 @@ $(document).ready(function (){
 
 function modify_profile(){
     $("#modify_profile").click(function (){
-        form = $("teacher_profile");
+        form = $("form#teacher_profile");
 
         $.ajax({
-            address: form.attr('address'),
-            mobile: form.attr('mobile'),
-            QQ: form.attr('QQ'),
-            blog: form.attr('blog'),
-            data: frm.serialize(),
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
             success: function (data) {
                 var response = JSON.parse(data);
-                if(response.status == 1)
-                    Messenger().post("修改成功！")
+                if(response.status == "ok")
+                    Messenger().post("修改成功！");
+                else if(response.status == "fail")
+                    Messenger().post({
+                        message: "修改失败！",
+                        type: "error"
+                    })
             },
-        })
+        });
         return false;
     })
 }
