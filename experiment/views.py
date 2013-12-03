@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import datetime, time
+import datetime
+import time
+
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse
@@ -28,11 +30,12 @@ def create_lesson_category(request):
                 return HttpResponse(simplejson.dumps(response))
             category.created_at += datetime.timedelta(hours=8)
             response = {"id": category.id,
-                        "datetime": time.mktime(category.created_at.timetuple()),
+                        "datetime":
+                        time.mktime(category.created_at.timetuple()),
                         "status": "OK"}
             return HttpResponse(simplejson.dumps(response))
         else:
-            response = {"status":"fail",
+            response = {"status": "fail",
                         "content": "not valid"}
 
             return HttpResponse(simplejson.dumps(response))
