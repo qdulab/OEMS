@@ -16,14 +16,14 @@
 {% block right %}
 <h1>
     <small>科目列表</small>
-    <form method="post" id='create_lesson_category' class="form-inline pull-right" role="form">
+    <form method="POST" id='create_lesson_category' class="form-inline pull-right" role="form" action="{% url 'create_lesson_category' %}">
         {% csrf_token %}
         <label for="lesson_category_name">创建科目</label> 
         <div class="form-group">
-            <input id="lesson_category_name" class="form-control" type="text"/> 
+            <input id="lesson_category_name" name="name" class="form-control" type="text"/> 
         </div>
         <div class="form-group">
-        <button class="btn btn-primary" role="bottom" id="create_button">创建</button>
+            <button class="btn btn-primary" role="bottom" id="create_button">创建</button>
         </div>    
     </form>
 </h1>

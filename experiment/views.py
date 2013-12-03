@@ -21,22 +21,16 @@ def create_lesson_category(request):
             try:
                 category = LessonCategory.objects.create(name=name)
             except IntegrityError:
-                json={"status":0}
+                json = {"status": 0}
                 return HttpResponse(simplejson.dumps(json))
-        category.created_at += datetime.timedelta(hours=8)
-        json = {"id": category.id,
-                "datetime": time.mktime(category.created_at.timetuple()),
-                "date": {
-                    "y": category.created_at.year,
-                    "m": category.created_at.strftime('%m'),
-                    "d": category.created_at.strftime('%d')},
-                "time": "%s:%s:%s %s" %
-                (category.created_at.strftime('%I'),
-                 category.created_at.strftime('%M'),
-                 category.created_at.strftime('%S'),
-                 category.created_at.strftime('%p')), 
-                "status": 1}
-        return HttpResponse(simplejson.dumps(json))
+            category.created_at += datetime.timedelta(hours=8)
+            json = {"id": category.id,
+                    "datetime": time.mktime(category.created_at.timetuple()),
+                    "status": 1}
+            return HttpResponse(simplejson.dumps(json))
+        else:
+            json = {"status":-1}
+            return HttpResponse(simplejson.dumps(json))
     return render(request, 'teacher/create_lesson_category.html',)
 
 
