@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
+from django.utils import simplejson
 
 from student.forms import ReportSubmitForm, UserProfileForm
 from student.utils import is_student
@@ -103,7 +104,8 @@ def update_profile(request):
                                instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('student_profile')
+            response = {'status': 1}
+            return HttpResponse(simplejson.dumps(response))
     return HttpResponse('fail')
 
 
