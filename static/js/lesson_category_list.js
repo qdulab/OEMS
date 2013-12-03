@@ -5,7 +5,7 @@ $(document).ready(function (){
 function create_lesson_category(){
     $("#create_button").click(function (){
         var input_name = $('#lesson_category_name').val();
-        form = $("#create_lesson_category");
+        form = $("form#create_lesson_category");
         if(input_name.length <= 60 && input_name.length > 0){
             $.ajax({
                 type: form.attr("method"),

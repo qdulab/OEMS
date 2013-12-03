@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import datetime, time
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -21,16 +23,16 @@ def create_lesson_category(request):
             try:
                 category = LessonCategory.objects.create(name=name)
             except IntegrityError:
-                json = {"status": 0}
-                return HttpResponse(simplejson.dumps(json))
+                response = {"status": 0}
+                return HttpResponse(simplejson.dumps(response))
             category.created_at += datetime.timedelta(hours=8)
-            json = {"id": category.id,
-                    "datetime": time.mktime(category.created_at.timetuple()),
-                    "status": 1}
-            return HttpResponse(simplejson.dumps(json))
+            response = {"id": category.id,
+                        "datetime": time.mktime(category.created_at.timetuple()),
+                        "status": 1}
+            return HttpResponse(simplejson.dumps(response))
         else:
-            json = {"status":-1}
-            return HttpResponse(simplejson.dumps(json))
+            response = {"status":-1}
+            return HttpResponse(simplejson.dumps(response))
     return render(request, 'teacher/create_lesson_category.html',)
 
 
