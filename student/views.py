@@ -104,7 +104,16 @@ def update_profile(request):
                                instance=request.user.profile)
         if form.is_valid():
             form.save()
-            response = {'status': 1}
+            response = {"status_phrase": "ok",
+                        "school_id": form.cleaned_data['school_id'],
+                        "grade": form.cleaned_data['grade'],
+                        "major": form.cleaned_data['major'],
+                        "class_num": form.cleaned_data['class_num'],
+                        "phone_num": form.cleaned_data['phone_num']
+                        }
+            return HttpResponse(simplejson.dumps(response))
+        else:
+            response = {"status_phrase": "fail"}
             return HttpResponse(simplejson.dumps(response))
     return HttpResponse('fail')
 
