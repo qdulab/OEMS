@@ -1,19 +1,17 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import datetime
 import time
 
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
-from django.utils import simplejson, timezone
+from django.utils import simplejson
 
 from experiment.models import Experiment, ExperimentReport, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
-from utils import get_naive_datetime
 
 
 @login_required(login_url='teacher')
@@ -24,16 +22,12 @@ def create_lesson_category(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             try:
-                category = LessonCategory.objects.create(name=name)
+                LessonCategory.objects.create(name=name)
             except IntegrityError:
                 response = {"status": "fail",
                             "content": "existed"}
                 return HttpResponse(simplejson.dumps(response))
-            category.created_at = get_naive_datetime(category.created_at)
-            response = {"id": category.id,
-                        "datetime":
-                        time.mktime(category.created_at.timetuple()),
-                        "status": "OK"}
+            response = {"status": "OK"}
             return HttpResponse(simplejson.dumps(response))
         else:
             response = {"status": "fail",

@@ -6,7 +6,7 @@
         <th class="align-center">课程数量</th>
         <th class="align-center">创建时间</th>
     </thead>
-    <tbody class="align-center">
+    <tbody class="align-center" id="list_tbody">
         {% for category in category_list %}
         <tr>
             <td><a href="{% url 'teacher_lesson_list' category.id %}">{{ category.name }}</a></td>
