@@ -13,6 +13,7 @@ from experiment.models import Experiment, ExperimentReport, LessonCategory, Less
 from experiment.forms import ExperimentForm, LessonCategoryForm
 from experiment.forms import LessonForm
 from teacher.utils import is_teacher
+from utils import get_naive_datetime
 
 
 @login_required(login_url='teacher')
@@ -28,9 +29,7 @@ def create_lesson_category(request):
                 response = {"status": "fail",
                             "content": "existed"}
                 return HttpResponse(simplejson.dumps(response))
-            category.created_at = timezone.make_naive(
-                category.created_at,
-                timezone.get_current_timezone())
+            category.created_at = get_naive_datetime(category.created_at)
             response = {"id": category.id,
                         "datetime":
                         time.mktime(category.created_at.timetuple()),
