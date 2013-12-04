@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
-from django.utils import simplejson
+from django.utils import simplejson, timezone
 
 from experiment.models import Experiment, ExperimentReport, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
@@ -28,7 +28,9 @@ def create_lesson_category(request):
                 response = {"status": "fail",
                             "content": "existed"}
                 return HttpResponse(simplejson.dumps(response))
-            category.created_at += datetime.timedelta(hours=8)
+            category.created_at = timezone.make_naive(
+                category.created_at,
+                timezone.get_current_timezone())
             response = {"id": category.id,
                         "datetime":
                         time.mktime(category.created_at.timetuple()),
