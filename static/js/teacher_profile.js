@@ -5,6 +5,7 @@ $(document).ready(function (){
 function modify_profile(){
     $("#modify_profile").click(function (){
         form = $("form#teacher_profile");
+        messenger = Messenger();
 
         $.ajax({
             type: form.attr('method'),
@@ -13,11 +14,12 @@ function modify_profile(){
             success: function (data) {
                 var response = JSON.parse(data);
                 if(response.status == "ok")
-                    Messenger().post({
+                    messenger.post({
                         message: "修改成功！",
+                        type: "success"
                     })
                 else if(response.status == "fail")
-                    Messenger().post({
+                    messenger.post({
                         message: "修改失败！",
                         type: "error"
                     })
