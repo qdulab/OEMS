@@ -13,7 +13,9 @@ function modify_profile(){
             success: function (data) {
                 var response = JSON.parse(data);
                 if(response.status == "ok")
-                    Messenger().post("修改成功！");
+                    Messenger().post({
+                        message: "修改成功！",
+                    })
                 else if(response.status == "fail")
                     Messenger().post({
                         message: "修改失败！",

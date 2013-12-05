@@ -76,11 +76,7 @@ def teacher_profile(request):
         form = TeacherProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            json = {"status" : "ok",
-                    "address" : form.cleaned_data['address'],
-                    "mobile" : form.cleaned_data['mobile'],
-                    "QQ" : form.cleaned_data['QQ'],
-                    "blog" : form.cleaned_data['blog']}
+            json = {"status" : "ok"}
             return HttpResponse(simplejson.dumps(json))
         else:
             json = {"status" : "fail"}
