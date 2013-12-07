@@ -67,10 +67,10 @@ def create_experiment(request, lesson_id):
             except Lesson.DoesNotExist:
                 raise Http404
             form.save(lesson)
-            response = {"status": "ok"}
+            response = {"status_phrase": "ok"}
             return HttpResponse(simplejson.dumps(response))
         else:
-            response = {"status": "fail"}
+            response = {"status_phrase": "fail"}
             return HttpResponse(simplejson.dumps(response))
     else:
         return render(request, 'teacher/create_experiment.html',
