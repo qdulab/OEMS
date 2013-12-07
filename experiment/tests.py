@@ -71,7 +71,8 @@ class TeacherExperimentTest(TestCase):
              'remark': 'remark',
              'weight': 1})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "ok")
         experiment = Experiment.objects.get(name='name')
         self.assertEqual(experiment.content, 'content')
         self.assertEqual(experiment.lesson, self.lesson)
