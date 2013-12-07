@@ -27,7 +27,7 @@ function update_student_profile(){
                         type: "success",
                         message: "更新成功"
                     })
-                    $("form#student_profile").load("/ #student_proifile");
+                    $("form#student_profile").load("./ #student_profile");
                 }
                 else if(response.status_phrase == "fail"){
                     messenger.post({
