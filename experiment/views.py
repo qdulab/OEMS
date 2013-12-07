@@ -1,7 +1,12 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+import time
+
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
+from django.utils import simplejson
 
 from experiment.models import Experiment, ExperimentReport, LessonCategory, Lesson
 from experiment.forms import ExperimentForm, LessonCategoryForm
@@ -19,8 +24,16 @@ def create_lesson_category(request):
             try:
                 LessonCategory.objects.create(name=name)
             except IntegrityError:
-                return HttpResponse("Category has already existed")
-        return HttpResponse("success")
+                response = {"status": "fail",
+                            "content": "existed"}
+                return HttpResponse(simplejson.dumps(response))
+            response = {"status": "OK"}
+            return HttpResponse(simplejson.dumps(response))
+        else:
+            response = {"status": "fail",
+                        "content": "not valid"}
+
+            return HttpResponse(simplejson.dumps(response))
     return render(request, 'teacher/create_lesson_category.html',)
 
 
@@ -133,13 +146,8 @@ def experiment_modify(request, experiment_id):
 @login_required(login_url='teacher')
 @is_teacher(redirect_url='')
 def lesson_category_list(request):
-    category_list = LessonCategory.objects.all()
+    category_list = LessonCategory.objects.all().order_by('-created_at')
 
-    def _get_count(Category):
-        count = Lesson.objects.filter(category=Category,
-                                      teacher=request.user).count()
-        return count
-    category_list = sorted(category_list, key=_get_count, reverse=True)
     return render(request, 'teacher/lesson_category_list.html',
                   {'category_list': category_list})
 

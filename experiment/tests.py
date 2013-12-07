@@ -6,9 +6,12 @@ from django.test.client import Client
 from django.test.utils import override_settings
 
 from experiment.models import LessonCategory, Lesson, Experiment
+import json
 from teacher.models import Teacher
 
 
+@override_settings(AUTHENTICATION_BACKENDS=
+                   ('teacher.backends.TeacherBackend', ))
 class LessonCategoryTest(TestCase):
 
     def setUp(self):
@@ -24,14 +27,24 @@ class LessonCategoryTest(TestCase):
         response = self.client.post(reverse('create_lesson_category'),
                                     {'name': "test"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_content = json.loads(response.content)
+        self.assertEqual(json_content["status"], "OK")
+        LessonCategory.objects.get(name="test")
 
     def test_create_existed_category(self):
         response = self.client.post(reverse('create_lesson_category'),
                                     {'name': "existed"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content,
-                         "Category has already existed")
+        json_content = json.loads(response.content)
+        self.assertEqual(json_content["status"], "fail")
+        self.assertEqual(json_content["content"], "existed")
+
+    def test_create_not_valid_category(self):
+        response = self.client.post(reverse('create_lesson_category'))
+        self.assertEqual(response.status_code, 200)
+        json_content = json.loads(response.content)
+        self.assertEqual(json_content["status"], "fail")
+        self.assertEqual(json_content["content"], "not valid")
 
 
 @override_settings(AUTHENTICATION_BACKENDS=
