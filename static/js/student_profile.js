@@ -22,16 +22,12 @@ function update_student_profile(){
             success:function(data){
                 var response = JSON.parse(data);
                 if(response.status_phrase == "ok"){
-                    $("input#school_id").val(response.school_id);
-                    $("input#grade").val(response.grade);
-                    $("input#major").val(response.major);
-                    $("input#class_num").val(response.class_num);
-                    $("input#phone_num").val(response.phone_num);
                     messenger.post({
                         id: "update_status",
                         type: "success",
                         message: "更新成功"
                     })
+                    $("form#student_profile").load("/ #student_proifile");
                 }
                 else if(response.status_phrase == "fail"){
                     messenger.post({
