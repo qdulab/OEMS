@@ -44,10 +44,11 @@ def create_lesson(request):
         form = LessonForm(data=request.POST)
         if form.is_valid():
             form.save(teacher=request.user)
-            return HttpResponse("success")
+            response = {"status_phrase": "ok"}
+            return HttpResponse(simplejson.dumps(response))
         else:
-            return render(request,
-                          'teacher/create_lesson.html', {})
+            response = {"status_phrase": "fail"}
+            return HttpResponse(simplejson.dumps(response))
     else:
         categories = LessonCategory.objects.all()
         return render(request, 'teacher/create_lesson.html',

@@ -6,7 +6,7 @@
         <th class="align-center">课程信息</th>
         <th class="align-center">创建时间</th>
     </thead>
-    <tbody class="align-center">
+    <tbody class="align-center" id="lesson_list">
         {% for lesson in lesson_list %}
         <tr>
             <td><a href="{% url 'lesson_info' lesson.id %}">{{ lesson.name }}</a></td>
