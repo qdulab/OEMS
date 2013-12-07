@@ -55,10 +55,7 @@ class StudentProfileTest(TestCase):
                                      'major': 'major',
                                      'class_num': 'class_num',
                                      'phone_num': ''})
-        self.assertEqual(response.content,
-                         '{"major": "major", "phone_num": "", "grade": "grade'\
-                         '", "status_phrase": "ok", "class_num": "class_num"'\
-                         ', "school_id": "school_id"}')
+        self.assertEqual(response.content, '{"status_phrase": "ok"}')
         self.assertEqual(self.student.profile.school_id, 'school_id')
         self.assertEqual(self.student.profile.grade, 'grade')
         self.assertEqual(self.student.profile.major, 'major')
