@@ -11,13 +11,15 @@ function modify_profile(){
             type: form.attr('method'),
             url: form.attr('action'),
             data: form.serialize(),
-            success: function (data) {
+            success: function (data){
                 var response = JSON.parse(data);
-                if(response.status == "ok")
+                if(response.status == "ok"){
                     messenger.post({
                         message: "修改成功！",
                         type: "success"
                     })
+                    $("form#teacher_profile").load("./ #teacher_profile");
+                }
                 else if(response.status == "fail")
                     messenger.post({
                         message: "修改失败！",
