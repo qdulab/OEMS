@@ -86,7 +86,8 @@ def delete_experiment(request, experiment_id):
         raise Http404
     if experiment.lesson.teacher == request.user:
         experiment.delete()
-        return HttpResponse("success")
+        response = {"status_phrase": "ok", "lesson_id": experiment.lesson_id}
+        return HttpResponse(simplejson.dumps(response))
     else:
         raise Http404
 
@@ -98,7 +99,8 @@ def delete_lesson(request, lesson_id):
         Lesson.objects.get(id=lesson_id, teacher=request.user).delete()
     except Lesson.DoesNotExist:
         raise Http404
-    return HttpResponse("success")
+    response = {"status_phrase": "ok"}
+    return HttpResponse(simplejson.dumps(response))
 
 
 @login_required(login_url='teacher')

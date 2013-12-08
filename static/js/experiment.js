@@ -1,5 +1,6 @@
 $(document).ready(function(){
     create_experiment();
+    delete_experiment();
 })
 
 function create_experiment(){
@@ -39,6 +40,26 @@ function create_experiment(){
                 }
             }
         })
-    return false;
+        return false;
+    })
+}
+
+function delete_experiment(){
+    $("button#delete_experiment").click(function(){
+        $.ajax({
+            type: "get",
+            url: $("a#delete_experiment").attr("href"),
+            success: function(data){
+                var response = JSON.parse(data);
+                window.location.href = "/teacher/lesson/" + response.lesson_id;
+                if(response.status_phrase == "ok"){
+                    Messenger().post({
+                        type: "success",
+                        message: "删除成功"
+                    })
+                }
+            }
+        })
+        return false;
     })
 }

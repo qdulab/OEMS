@@ -2,6 +2,9 @@
 
 
 {% block title %}查看课程信息{% endblock %}
+{% block javascriptblock %}
+<script src="{{ STATIC_URL }}js/lesson.js"></script>
+{% endblock %}
 {% block right %}
 <div class="row">
     <div class="col-md-6">
@@ -10,7 +13,7 @@
     <div class="pull-right">
         <a href= "{% url 'create_experiment' lesson.id %}"><button type="button" class="btn btn-primary">创建实验</button></a>
         <a href="{% url 'update_lesson' lesson.id %}"><button type="button" class="btn btn-info">编辑课程</button></a>
-        <a href= "{% url 'delete_lesson' lesson.id %}" ><button type="button" class="btn btn-danger">删除课程</button></a>
+        <a href= "{% url 'delete_lesson' lesson.id %}" id="delete_lesson"><button type="button" id="delete_lesson" class="btn btn-danger">删除课程</button></a>
     </div>
 </div>
 {% include "experiment/_lesson_info_page.html" %}

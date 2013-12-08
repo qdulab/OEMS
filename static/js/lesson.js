@@ -1,5 +1,6 @@
 $(document).ready(function(){
     create_lesson();
+    delete_lesson();
 })
 
 function create_lesson(){
@@ -34,5 +35,19 @@ function create_lesson(){
             }
         })
     return false;
+    })
+}
+
+function delete_lesson(){
+    $("button#delete_lesson").click(function(){
+        $.ajax({
+            type: "get",
+            url: $("a#delete_lesson").attr("href"),
+            success: function(data){
+                var response = JSON.parse(data);
+                window.location.href = document.referrer;
+            }
+        })
+        return false;
     })
 }
