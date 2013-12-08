@@ -24,7 +24,7 @@ function create_experiment(){
                         type: "success",
                         message: "创建成功"
                     })
-                    $("form#create_experiment_form").load("./ #create_experiment_form");
+                    $("form#create_experiment_form").load("./ #create_experiment_form", function(){create_experiment()});
                 }
                 else if(response.status_phrase == "fail"){
                     Messenger().post({
@@ -74,7 +74,7 @@ function modify_experiment(){
                         type: "success",
                         message: "修改成功"
                     })
-                    $("form#modify_experiment_form").load("./ #modify_experiment_form");
+                    $("form#modify_experiment_form").load("./ #modify_experiment_form", function(){modify_experiment()});
                 }
                 else if(response.status_phrase == "fail"){
                     Messenger().post({

@@ -24,7 +24,7 @@ function create_lesson(){
                         type: "success",
                         message: "创建成功"
                     })
-                    $("form#create_lesson_form").load("./ #create_lesson_form");
+                    $("form#create_lesson_form").load("./ #create_lesson_form", function(){create_lesson();});
                 }
                 else if(response.status_phrase == "fail"){
                     Messenger().post({
@@ -70,6 +70,7 @@ function update_lesson(){
                         type: "success",
                         message: "更新成功"
                     })
+                    $("form#update_lesson").load("./ #update_lesson", function(){update_lesson();});
                 }
                 else if(response.status_phrase == "fail"){
                     Messenger().post({
