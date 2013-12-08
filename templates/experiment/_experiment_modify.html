@@ -1,4 +1,4 @@
-<form role="form" action="" method="POST">
+<form role="form" action="" method="POST" id="modify_experiment_form">
     {% csrf_token %}
     <div class="form-group">
         <label for="name">实验名称</label>
@@ -20,7 +20,7 @@
         <label for="weight">权重</label>
         <input type="textarea" class="form-control" id="weight" placeholder="设定本次实验所占比重" name="weight" required="required" value="{{ experiment.weight }}"/>
     </div>
-    <button type="submit" class="btn btn-primary btn-md" name="submit">修改</button>
+    <button type="submit" id="submit_modified_experiment" class="btn btn-primary btn-md" name="submit">修改</button>
     <button type="reset" class="btn btn-info btn-md" name="reset">重置</button>
     <button type="reset" class="btn btn-default btn-md" name="reset">返回</button>
 </form>

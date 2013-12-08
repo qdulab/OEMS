@@ -1,6 +1,9 @@
 {% extends 'teacher/dashboard.html'%}
 
 
+{% block javascriptblock %}
+<script src="{{ STATIC_URL }}js/experiment.js"></script>
+{% endblock %}
 {% block right %}
 {% include 'experiment/_experiment_modify.html'%}
 {% endblock %}
