@@ -190,7 +190,8 @@ class LessonTestForTeacher(TestCase):
              "category": self.category.id,
              "info": "123"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "ok")
         lesson = Lesson.objects.get(name="new_lesson")
         self.assertEqual(lesson.category, self.category)
         self.assertEqual(lesson.info, "123")
