@@ -1,6 +1,7 @@
 $(document).ready(function(){
     create_lesson();
     delete_lesson();
+    update_lesson();
 })
 
 function create_lesson(){
@@ -40,12 +41,43 @@ function create_lesson(){
 
 function delete_lesson(){
     $("button#delete_lesson").click(function(){
+        var url = $("a#delete_lesson");
+
         $.ajax({
             type: "get",
-            url: $("a#delete_lesson").attr("href"),
+            url: url.attr("href"),
             success: function(data){
                 var response = JSON.parse(data);
                 window.location.href = document.referrer;
+            }
+        })
+        return false;
+    })
+}
+
+function update_lesson(){
+    $("button#submit_updated_lesson").click(function(){
+        var form = $("form#update_lesson");
+        $.ajax({
+            type: form.attr("method"),
+            url: form.attr("action"),
+            data: form.serialize(),
+            success: function(data){
+                var response = JSON.parse(data);
+                if(response.status_phrase == "ok"){
+                    Messenger().post({
+                        id: "update_lesson",
+                        type: "success",
+                        message: "更新成功"
+                    })
+                }
+                else if(response.status_phrase == "fail"){
+                    Messenger().post({
+                        id: "update_lesson",
+                        type: "error",
+                        message: "更新失败"
+                    })
+                }
             }
         })
         return false;

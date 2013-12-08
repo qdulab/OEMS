@@ -1,5 +1,5 @@
 <div class="form-group" id="form-container">
-    <form class="form-horizontal" role="form" method="post" id="update_lesson">
+    <form class="form-horizontal" role="form" action="" method="post" id="update_lesson">
         {% csrf_token %}
         <div class="form-group" >
             <label for="category">课程类别</label>
@@ -21,7 +21,7 @@
             <label for="info">备注</label>
             <textarea class="form-control" id="info" name="info" placeholder="请输入课程相关备注">{{ lesson.info }}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg" name="submit">保存修改</button>
+        <button type="submit" class="btn btn-primary btn-lg" id="submit_updated_lesson" name="submit">保存修改</button>
         <a href="{% url 'lesson_info' lesson.id %}">
             <button type="button" class="btn btn-primary btn-lg">取消</button>
         </a>

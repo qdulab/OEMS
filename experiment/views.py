@@ -210,7 +210,11 @@ def update_lesson(request, lesson_id):
             lesson.category = updated_form.cleaned_data['category']
             lesson.info = updated_form.cleaned_data['info']
             lesson.save()
-            return HttpResponse("success")
+            response = {"status_phrase": "ok"}
+            return HttpResponse(simplejson.dumps(response))
+        else:
+            response = {"status_phrase": "fail"}
+            return HttpResponse(simplejson.dumps(response))
     else:
         categories = LessonCategory.objects.all()
         return render(request, 'teacher/update_lesson.html',

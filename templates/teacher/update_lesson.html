@@ -1,6 +1,10 @@
 {% extends "teacher/dashboard.html" %}
 
 {% block title %} 修改课程信息 {% endblock %}
+
+{% block javascriptblock %}
+<script src="{{ STATIC_URL }}js/lesson.js"></script>
+{% endblock %}
 {% block right %}
 {% include "experiment/_update_lesson.html" %}
 {% endblock %}
