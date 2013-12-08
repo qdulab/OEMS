@@ -18,7 +18,8 @@ function modify_profile(){
                         message: "修改成功！",
                         type: "success"
                     })
-                    $("form#teacher_profile").load("./ #teacher_profile");
+                    $("form#teacher_profile").load("./ #teacher_profile",
+                        function(){modify_profile();});
                 }
                 else if(response.status == "fail")
                     messenger.post({
