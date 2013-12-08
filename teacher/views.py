@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
+from django.utils import simplejson
 
 from experiment.models import ExperimentReport
 from teacher.forms import ReportEvaluateForm, TeacherForm, TeacherProfileForm
@@ -52,7 +53,8 @@ def experiment_report_evaluate(request, experiment_report_id):
             experiment_report.score = form.cleaned_data['score']
             experiment_report.comment = form.cleaned_data['comment']
             experiment_report.save()
-            return HttpResponse("success")
+            response = {"status_phrase": "ok"}
+            return HttpResponse(simplejson.dumps(response))
         else:
             # TO DO:form error tip
             raise Http404

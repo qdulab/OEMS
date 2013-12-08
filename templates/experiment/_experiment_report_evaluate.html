@@ -9,7 +9,7 @@
             </a>
         </div>
         <div class="panel-body panel-collapse collapse" id="panel-body">
-            <form method="POST" >
+            <form method="POST" action="" id="evaluate_experiment_report">
                 {% csrf_token %}
                 <div class="panel-body">
                     <label for="score">得分</label><br/>
@@ -19,7 +19,7 @@
                         <textarea name="comment" id="comment" class="form-control">{{ experiment_report.comment }}</textarea>
                     </div>
                     <div style="margin-top:10px">
-                        <button title="submit" class="btn btn-info">提交</button>
+                        <button title="submit" id="submit_evaluation" class="btn btn-info">提交</button>
                     </div>
                 </div>
             </form>
