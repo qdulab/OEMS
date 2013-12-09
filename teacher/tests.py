@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
@@ -54,7 +56,7 @@ class TeacherProfileTest(TestCase):
                                      'mobile': 'mobile',
                                      'blog': ''})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, 'success')
+        self.assertEqual(response.content, '{"status": "ok"}')
         self.assertEqual(self.teacher.profile.address, 'address')
         self.assertEqual(self.teacher.profile.QQ, 'qq')
         self.assertEqual(self.teacher.profile.mobile, 'mobile')
@@ -67,7 +69,7 @@ class TeacherProfileTest(TestCase):
                                      'mobile': 'mobile',
                                      'blog': 'aaaa'})
         self.assertEqual(response.status_code, 200)
-        self.assertNotEqual(response.content, 'success')
+        self.assertEqual(response.content, '{"status": "fail"}')
         self.assertEqual(self.teacher.profile.address, '')
         self.assertEqual(self.teacher.profile.QQ, '')
         self.assertEqual(self.teacher.profile.mobile, '')

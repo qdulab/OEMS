@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
+from django.utils import simplejson
 
 from experiment.models import ExperimentReport
 from teacher.forms import ReportEvaluateForm, TeacherForm, TeacherProfileForm
@@ -75,7 +76,11 @@ def teacher_profile(request):
         form = TeacherProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponse('success')
+            json = {"status" : "ok"}
+            return HttpResponse(simplejson.dumps(json))
+        else:
+            json = {"status" : "fail"}
+            return HttpResponse(simplejson.dumps(json))
     else:
         form = TeacherProfileForm(instance=request.user.profile)
     return render(request, 'teacher/profile.html', {'form': form})
