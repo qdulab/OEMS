@@ -71,7 +71,8 @@ class TeacherExperimentTest(TestCase):
              'remark': 'remark',
              'weight': 1})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "ok")
         experiment = Experiment.objects.get(name='name')
         self.assertEqual(experiment.content, 'content')
         self.assertEqual(experiment.lesson, self.lesson)
@@ -107,14 +108,15 @@ class TeacherExperimentTest(TestCase):
              'remark': 'new_remark',
              'weight': 2})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "ok")
         experiment = Experiment.objects.get(name='new_name')
         self.assertEqual(experiment.content, 'new_content')
         self.assertIsNone(experiment.deadline)
         self.assertEqual(experiment.remark, 'new_remark')
         self.assertEqual(experiment.weight, 2)
 
-    def test_modified_profile_illegally(self):
+    def test_modified_experiment_illegally(self):
         self.experiment = Experiment.objects.create(
             name='name', lesson=self.lesson, weight=1)
         self.experiment.save()
@@ -129,7 +131,8 @@ class TeacherExperimentTest(TestCase):
              'remark': 'new_remark',
              'weight': 2})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "fail")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "fail")
 
     def test_delete_experiment(self):
         self.experiment = Experiment.objects.create(
@@ -137,7 +140,8 @@ class TeacherExperimentTest(TestCase):
         response = self.client.post(
             reverse('delete_experiment', args=(self.experiment.id, )))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "ok")
         experiment = Experiment.objects.filter(id=self.experiment.id)
         self.assertFalse(experiment)
 
@@ -173,7 +177,8 @@ class LessonTestForTeacher(TestCase):
                                      'category': self.category.id,
                                      'info': 123})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_content = json.loads(response.content)
+        self.assertEqual(json_content["status_phrase"], "ok")
         lesson = Lesson.objects.get(name="new_lesson")
         self.assertEqual(lesson.category, self.category)
         self.assertEqual(lesson.info, "123")
@@ -185,7 +190,8 @@ class LessonTestForTeacher(TestCase):
              "category": self.category.id,
              "info": "123"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "ok")
         lesson = Lesson.objects.get(name="new_lesson")
         self.assertEqual(lesson.category, self.category)
         self.assertEqual(lesson.info, "123")
@@ -210,7 +216,8 @@ class LessonTestForTeacher(TestCase):
         response = self.client.post(
             reverse('delete_lesson', args=(self.lesson.id, )))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "success")
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status_phrase"], "ok")
         lesson = Lesson.objects.filter(name="lesson")
         self.assertFalse(lesson)
 

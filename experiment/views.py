@@ -44,10 +44,11 @@ def create_lesson(request):
         form = LessonForm(data=request.POST)
         if form.is_valid():
             form.save(teacher=request.user)
-            return HttpResponse("success")
+            response = {"status_phrase": "ok"}
+            return HttpResponse(simplejson.dumps(response))
         else:
-            return render(request,
-                          'teacher/create_lesson.html', {})
+            response = {"status_phrase": "fail"}
+            return HttpResponse(simplejson.dumps(response))
     else:
         categories = LessonCategory.objects.all()
         return render(request, 'teacher/create_lesson.html',
@@ -66,9 +67,11 @@ def create_experiment(request, lesson_id):
             except Lesson.DoesNotExist:
                 raise Http404
             form.save(lesson)
-            return HttpResponse("success")
+            response = {"status_phrase": "ok"}
+            return HttpResponse(simplejson.dumps(response))
         else:
-            return HttpResponse("fail")
+            response = {"status_phrase": "fail"}
+            return HttpResponse(simplejson.dumps(response))
     else:
         return render(request, 'teacher/create_experiment.html',
                       {"lesson_list": lesson_list})
@@ -83,7 +86,8 @@ def delete_experiment(request, experiment_id):
         raise Http404
     if experiment.lesson.teacher == request.user:
         experiment.delete()
-        return HttpResponse("success")
+        response = {"status_phrase": "ok", "lesson_id": experiment.lesson_id}
+        return HttpResponse(simplejson.dumps(response))
     else:
         raise Http404
 
@@ -95,7 +99,8 @@ def delete_lesson(request, lesson_id):
         Lesson.objects.get(id=lesson_id, teacher=request.user).delete()
     except Lesson.DoesNotExist:
         raise Http404
-    return HttpResponse("success")
+    response = {"status_phrase": "ok"}
+    return HttpResponse(simplejson.dumps(response))
 
 
 @login_required(login_url='teacher')
@@ -134,9 +139,11 @@ def experiment_modify(request, experiment_id):
             experiment.remark = form.cleaned_data['remark']
             experiment.weight = form.cleaned_data['weight']
             experiment.save()
-            return HttpResponse("success")
+            response = {"status_phrase": "ok"}
+            return HttpResponse(simplejson.dumps(response))
         else:
-            return HttpResponse("fail")
+            response = {"status_phrase": "fail"}
+            return HttpResponse(simplejson.dumps(response))
     else:
         return render(request,
                       'teacher/experiment_modify.html',
@@ -203,7 +210,11 @@ def update_lesson(request, lesson_id):
             lesson.category = updated_form.cleaned_data['category']
             lesson.info = updated_form.cleaned_data['info']
             lesson.save()
-            return HttpResponse("success")
+            response = {"status_phrase": "ok"}
+            return HttpResponse(simplejson.dumps(response))
+        else:
+            response = {"status_phrase": "fail"}
+            return HttpResponse(simplejson.dumps(response))
     else:
         categories = LessonCategory.objects.all()
         return render(request, 'teacher/update_lesson.html',
