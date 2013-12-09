@@ -16,9 +16,6 @@ function update_student_profile(){
             type: form.attr("method"),
             url: form.attr("action"),
             data: form.serialize(),
-            error: function(){
-                alert("fail");
-            },
             success:function(data){
                 var response = JSON.parse(data);
                 if(response.status_phrase == "ok"){
