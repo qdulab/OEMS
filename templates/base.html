@@ -10,6 +10,8 @@
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/two_columns.css'/>
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/messenger.css'/>
 		<link rel='stylesheet' href='{{ STATIC_URL }}css/messenger-theme-flat.css'/>
+        {% block cssblock %}
+        {% endblock %}
         <script src='{{ STATIC_URL }}js/jquery.js'></script>
         <script src='{{ STATIC_URL }}js/messenger.min.js'></script>
 		<script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.js'></script>
@@ -19,7 +21,9 @@
             theme: 'flat'
         }
         </script>
-	</head>
+        {% block javascriptblock %}
+        {% endblock %}
+    </head>
 	<body class='{% block body_class %} {% endblock %}'>
 		{% block body %}
 		{% endblock %}
