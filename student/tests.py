@@ -55,7 +55,7 @@ class StudentProfileTest(TestCase):
                                      'major': 'major',
                                      'class_num': 'class_num',
                                      'phone_num': ''})
-        self.assertRedirects(response, reverse('student_profile'))
+        self.assertEqual(response.content, '{"status_phrase": "ok"}')
         self.assertEqual(self.student.profile.school_id, 'school_id')
         self.assertEqual(self.student.profile.grade, 'grade')
         self.assertEqual(self.student.profile.major, 'major')
@@ -71,7 +71,7 @@ class StudentProfileTest(TestCase):
                                      'class_num': '',
                                      'phone_num': ''})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, 'fail')
+        self.assertEqual(response.content, '{"status_phrase": "fail"}')
         self.assertEqual(self.student.profile.school_id, '')
         self.assertEqual(self.student.profile.grade, '')
         self.assertEqual(self.student.profile.major, '')
