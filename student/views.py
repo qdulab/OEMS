@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -71,6 +73,7 @@ def sign_out(request):
 def submit_report(request, experiment_id):
     try:
         experiment = Experiment.objects.get(id=experiment_id)
+        #验证学生提交实验所在的课程是否为学生已经选择的课程
         Lesson.objects.get(experiment=experiment, students=request.user)
         experiment_report = ExperimentReport.objects.get(experiment=experiment,
                                                          student=request.user)

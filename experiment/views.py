@@ -1,7 +1,5 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import time
-
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse
@@ -81,15 +79,13 @@ def create_experiment(request, lesson_id):
 @is_teacher(redirect_url='')
 def delete_experiment(request, experiment_id):
     try:
-        experiment = Experiment.objects.get(id=experiment_id)
+        experiment = Experiment.objects.get(id=experiment_id, 
+                                            lesson__teacher=request.user)
     except Experiment.DoesNotExist:
         raise Http404
-    if experiment.lesson.teacher == request.user:
-        experiment.delete()
-        response = {"status_phrase": "ok", "lesson_id": experiment.lesson_id}
-        return HttpResponse(simplejson.dumps(response))
-    else:
-        raise Http404
+    experiment.delete()
+    response = {"status_phrase": "ok", "lesson_id": experiment.lesson_id}
+    return HttpResponse(simplejson.dumps(response))
 
 
 @login_required(login_url='teacher')
@@ -107,18 +103,15 @@ def delete_lesson(request, lesson_id):
 @is_teacher(redirect_url='')
 def experiment_information(request, experiment_id):
     try:
-        experiment = Experiment.objects.get(id=experiment_id)
+        experiment = Experiment.objects.get(id=experiment_id, lesson__teacher=request.user)
     except Experiment.DoesNotExist:
         raise Http404
-    if experiment.lesson.teacher == request.user:
-        experiment_report_list = ExperimentReport.objects.filter(
-            experiment=experiment)
-        return render(request, 'teacher/experiment_information.html',
-                      {'experiment_report_list': experiment_report_list,
-                       'experiment': experiment,
-                       })
-    else:
-        raise Http404
+    experiment_report_list = ExperimentReport.objects.filter(
+        experiment=experiment)
+    return render(request, 'teacher/experiment_information.html',
+                  {'experiment_report_list': experiment_report_list,
+                   'experiment': experiment,
+                  })
 
 
 @login_required(login_url='teacher')
@@ -199,8 +192,7 @@ def list_all_lesson(request):
 @is_teacher(redirect_url='')
 def update_lesson(request, lesson_id):
     try:
-        lesson = Lesson.objects.get(id=lesson_id,
-                                    teacher=request.user)
+        lesson = Lesson.objects.get(id=lesson_id,teacher=request.user)
     except Lesson.DoesNotExist:
         raise Http404
     if request.method == 'POST':
