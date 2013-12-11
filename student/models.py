@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import now
 
 
 class UserProfile(models.Model):
@@ -11,7 +12,7 @@ class UserProfile(models.Model):
     class_num = models.CharField(max_length=10, null=False, blank=False)
     phone_num = models.CharField(max_length=12, null=False,
                                  blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=now)
 
     class Meta:
         verbose_name = _('UserProfile')

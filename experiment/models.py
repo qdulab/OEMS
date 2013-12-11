@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import now
 
 from teacher.models import Teacher
 
@@ -9,7 +10,7 @@ class LessonCategory(models.Model):
     OMES LessonCategory have attributes name and created_at
     """
     name = models.CharField(max_length=60, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=now)
 
     class Meta:
         verbose_name = _('Lesson Category')
@@ -30,7 +31,7 @@ class Lesson(models.Model):
     teacher = models.ForeignKey(Teacher)
     status = models.BooleanField(default=True)
     info = models.TextField(null=True, blank=True)
-    create_at = models.DateTimeField(auto_now_add=True)
+    create_at = models.DateTimeField(default=now)
     students = models.ManyToManyField(User)
 
     class Meta:
@@ -43,7 +44,7 @@ class Lesson(models.Model):
 
 class Experiment(models.Model):
     name = models.CharField(max_length=128)
-    create_at = models.DateTimeField(auto_now_add=True)
+    create_at = models.DateTimeField(default=now)
     content = models.TextField(blank=True)
     lesson = models.ForeignKey(Lesson)
     deadline = models.DateTimeField(blank=True, null=True)
@@ -65,10 +66,10 @@ class Experiment(models.Model):
 
 class ExperimentReport(models.Model):
     title = models.CharField(max_length=60)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=now)
     experiment = models.ForeignKey(Experiment)
     content = models.TextField(blank=True)
-    update_at = models.DateTimeField(auto_now=True)
+    update_at = models.DateTimeField(default=now, blank=True)
     score = models.PositiveSmallIntegerField(null=True, blank=True)
     student = models.ForeignKey(User)
     comment = models.TextField(blank=True)
@@ -80,3 +81,6 @@ class ExperimentReport(models.Model):
     def __unicode__(self):
         return u"Experiment_report: %s" % self.title
 
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        return super(ExperimentReport, self).save(*args, **kwargs)
